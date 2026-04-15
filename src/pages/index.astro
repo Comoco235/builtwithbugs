@@ -1,49 +1,308 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<html lang="fr">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <nav>
+      <a href="/" class="logo">built<span>with</span>bugs<span>.com</span></a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-content">
+        <div class="hero-badge">● BUILD IN PUBLIC</div>
+        <h1>
+          Hacker sa visibilité<br>
+          <span class="gradient">avec la tech et l'IA</span>
+        </h1>
+        <p class="hero-sub">
+          Dev, marketing digital et automatisation — construits en public, bugs inclus.
+          Chaque article est un projet réel, chaque erreur est du contenu.
+        </p>
+        <div class="hero-tags">
+          <span class="tag">🐍 Python</span>
+          <span class="tag">🤖 IA & LLM</span>
+          <span class="tag">📈 Marketing</span>
+          <span class="tag">🖥️ VPS & Dev</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="section-header">
+        <span class="section-label">// DERNIERS ARTICLES</span>
+      </div>
+      <ul class="post-grid">
+        {posts.map((post) => (
+          <li>
+            <a href={`/blog/${post.id.replace('.md', '')}/`} class="post-card">
+              {post.data.heroImage && (
+                <img src={post.data.heroImage} alt={post.data.title} class="post-img" />
+              )}
+              <div class="post-content">
+                <div class="post-date">
+                  {post.data.pubDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </div>
+                <h2 class="post-title">{post.data.title}</h2>
+                <p class="post-desc">{post.data.description}</p>
+                <span class="post-cta">Lire l'article →</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </main>
+
+    <footer>
+      <span>builtwithbugs.com</span> · Hacker sa visibilité avec la tech et l'IA
+    </footer>
+
+    <style>
+      nav {
+        background: rgba(10,13,20,0.9);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav a.logo {
+        font-family: var(--mono);
+        font-size: 14px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      nav a.logo span { color: var(--text3); }
+
+      nav .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      nav .nav-links a {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--text3);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      nav .nav-links a:hover { color: var(--accent); }
+
+      .hero {
+        position: relative;
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 6rem 2rem 4rem;
+        overflow: hidden;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 80% 60% at 60% 20%, rgba(0,212,255,0.07) 0%, transparent 60%),
+          radial-gradient(ellipse 50% 40% at 10% 80%, rgba(124,58,237,0.08) 0%, transparent 50%);
+      }
+
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: linear-gradient(180deg, transparent, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.5) 70%, transparent);
+      }
+
+      .hero-content {
+        position: relative;
+        max-width: 860px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(0,212,255,0.08);
+        border: 1px solid rgba(0,212,255,0.2);
+        border-radius: 100px;
+        padding: 6px 16px;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        margin-bottom: 2rem;
+        letter-spacing: 0.05em;
+      }
+
+      .hero h1 {
+        font-family: var(--display);
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin-bottom: 1.5rem;
+      }
+
+      .gradient {
+        background: linear-gradient(135deg, var(--accent) 0%, #60a5fa 50%, var(--accent2) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-sub {
+        font-size: 1.15rem;
+        color: var(--text2);
+        max-width: 600px;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+        font-weight: 300;
+      }
+
+      .hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .tag {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 6px 14px;
+        font-size: 13px;
+        color: var(--text2);
+        font-family: var(--mono);
+      }
+
+      main {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 4rem 2rem 6rem;
+      }
+
+      .section-label {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        letter-spacing: 0.1em;
+        display: block;
+        margin-bottom: 2rem;
+      }
+
+      .post-grid {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .post-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+      .post-card:hover {
+        border-color: rgba(0,212,255,0.3);
+        transform: translateY(-2px);
+        text-decoration: none;
+      }
+
+      .post-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .post-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+      .post-date {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text3);
+        letter-spacing: 0.05em;
+      }
+
+      .post-title {
+        font-family: var(--display);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+      }
+
+      .post-desc {
+        font-size: 14px;
+        color: var(--text2);
+        font-weight: 300;
+        line-height: 1.6;
+        flex: 1;
+      }
+
+      .post-cta {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        letter-spacing: 0.05em;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem;
+        text-align: center;
+        color: var(--text3);
+        font-size: 13px;
+        font-family: var(--mono);
+      }
+
+      footer span { color: var(--accent); }
+
+      @media (max-width: 600px) {
+        .post-card { grid-template-columns: 1fr; }
+        .post-img { height: 180px; }
+        .post-content { padding: 1rem; }
+      }
+    </style>
+  </body>
 </html>

@@ -1,86 +1,230 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
-	</head>
+<!doctype html>
+<html lang="fr">
+  <head>
+    <BaseHead title={title} description={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg: #0a0d14;
+        --bg2: #0f1420;
+        --surface: #1a2235;
+        --border: #2a3650;
+        --accent: #00d4ff;
+        --accent2: #7c3aed;
+        --accent3: #10b981;
+        --text: #e2e8f0;
+        --text2: #94a3b8;
+        --text3: #64748b;
+        --mono: 'JetBrains Mono', monospace;
+        --display: 'Syne', sans-serif;
+        --body: 'DM Sans', sans-serif;
+      }
 
-	<body>
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
-					</div>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<Footer />
-	</body>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .article-header {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 4rem 2rem 2rem;
+      }
+
+      .article-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(0,212,255,0.08);
+        border: 1px solid rgba(0,212,255,0.2);
+        border-radius: 100px;
+        padding: 6px 16px;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+      }
+
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--text) 0%, var(--text2) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .article-meta {
+        display: flex;
+        gap: 1rem;
+        color: var(--text3);
+        font-family: var(--mono);
+        font-size: 13px;
+        margin-bottom: 2rem;
+      }
+
+      .article-body {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 2rem 6rem;
+      }
+
+      .article-body h1, .article-body h2, .article-body h3 {
+        font-family: var(--display);
+        font-weight: 700;
+        color: var(--text);
+        margin: 2rem 0 1rem;
+        letter-spacing: -0.02em;
+      }
+
+      .article-body h1 { font-size: 2rem; }
+      .article-body h2 { font-size: 1.5rem; color: var(--accent); }
+      .article-body h3 { font-size: 1.2rem; }
+
+      .article-body p {
+        color: var(--text2);
+        margin-bottom: 1.2rem;
+        font-weight: 300;
+      }
+
+      .article-body pre {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-family: var(--mono);
+        font-size: 13px;
+      }
+
+      .article-body code {
+        font-family: var(--mono);
+        font-size: 13px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 2px 8px;
+        color: var(--accent);
+      }
+
+      .article-body pre code {
+        background: none;
+        border: none;
+        padding: 0;
+        color: var(--text);
+      }
+
+      .article-body a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0,212,255,0.3);
+      }
+
+      .article-body strong { color: var(--text); font-weight: 500; }
+
+      .divider {
+        height: 1px;
+        background: linear-gradient(90deg, var(--border), transparent);
+        margin: 2rem 0;
+      }
+
+      nav {
+        background: rgba(10,13,20,0.9);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav a.logo {
+        font-family: var(--mono);
+        font-size: 14px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      nav a.logo span { color: var(--text3); }
+
+      nav .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      nav .nav-links a {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--text3);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      nav .nav-links a:hover { color: var(--accent); }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem;
+        text-align: center;
+        color: var(--text3);
+        font-size: 13px;
+        font-family: var(--mono);
+      }
+
+      footer span { color: var(--accent); }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <a href="/" class="logo">built<span>with</span>bugs<span>.com</span></a>
+      <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+      </div>
+    </nav>
+
+    <div class="article-header">
+      <div class="article-badge">● ARTICLE</div>
+      <h1 class="article-title">{title}</h1>
+      <div class="article-meta">
+        <span><FormattedDate date={pubDate} /></span>
+        {updatedDate && <span>Mis à jour : <FormattedDate date={updatedDate} /></span>}
+      </div>
+      <div class="divider"></div>
+    </div>
+
+    <div class="article-body">
+      <slot />
+    </div>
+
+    <footer>
+      <span>builtwithbugs.com</span> · Hacker sa visibilité avec la tech et l'IA
+    </footer>
+  </body>
 </html>
