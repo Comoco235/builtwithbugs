@@ -41,7 +41,7 @@ Pour trouver le bon nom de modèle, j'ai listé les modèles disponibles directe
 curl "https://generativelanguage.googleapis.com/v1beta/models?key=MA_CLE" | jq '.models[].name' | grep flash
 ```
 
-Résultat : `gemini-2.5-flash-lite` — sans le suffixe de date.
+Résultat : `gemini-2.5-flash-lite` sans le suffixe de date.
 
 Ensuite j'ai écrit un script Python qui appelle Gemini et envoie le résultat dans Notion :
 
