@@ -83,11 +83,14 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         margin-bottom: 2rem;
       }
 
-      .article-body {
-        max-width: 860px;
-        margin: 0 auto;
-        padding: 0 2rem 6rem;
-      }
+      .article-body img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
 
       .article-body h1, .article-body h2, .article-body h3 {
         font-family: var(--display);
