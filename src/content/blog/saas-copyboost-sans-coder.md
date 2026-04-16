@@ -1,0 +1,86 @@
+---
+title: "J'ai lancé un SaaS en 6 mois pendant ma formation Google — sans savoir coder"
+description: "Comment j'ai buildé Copyboost, un outil d'analyse de textes marketing par IA, sans background technique et avec moins de 25€/mois de coûts fixes."
+pubDate: 2026-04-15
+slug: "saas-copyboost-sans-coder"
+---
+
+Je suis étudiant en marketing digital chez Google. Pas développeur. Pas ingénieur. Juste quelqu'un qui cherchait un outil qui n'existait pas encore.
+
+Voilà comment Copyboost est né.
+
+## Le problème que personne ne résolvait vraiment
+
+En formation, on apprend les fondamentaux du marketing digital. Les frameworks, les tunnels de conversion, la rédaction persuasive. Mais entre la théorie et la pratique, il y a un gouffre.
+
+Quand j'écrivais mes premiers textes marketing, je ne savais pas s'ils étaient bons. Je publiais, j'attendais, je regardais les résultats. Et si ça ne marchait pas, je recommençais à l'instinct.
+
+J'ai cherché un outil qui m'aide vraiment. Pas un correcteur orthographique. Pas un générateur de texte. Quelque chose qui me dise pourquoi mon texte ne convertissait pas — et comment le corriger.
+
+Je n'ai pas trouvé. Alors j'ai décidé de le construire.
+
+## Le problème : je ne savais pas coder
+
+Zéro ligne de code écrite de ma vie. Zéro expérience technique. Juste une idée et la conviction que c'était utile.
+
+Ce qui a tout changé, c'est d'utiliser l'IA comme co-développeur. Pas comme un assistant qui génère des extraits de code — comme un vrai associé technique à qui je décris le problème et qui trouve la solution.
+
+Le workflow était simple :
+- Je décrivais la fonctionnalité en français, en termes business
+- L'IA construisait le code
+- Je testais, je donnais le feedback
+- On itérait
+
+6 mois. Des dizaines de bugs. Des nuits à déboguer des webhooks Stripe qui ne fonctionnaient pas, des emails de confirmation qui pointaient vers localhost, des crashs silencieux qui rendaient l'app blanche sans explication.
+
+Chaque bug était frustrant. Chaque bug apprenait quelque chose.
+
+## Ce que Copyboost fait aujourd'hui
+
+Copyboost analyse n'importe quel texte marketing en 10 secondes.
+
+Pas juste "c'est bien" ou "c'est nul". Un diagnostic précis :
+
+- Le framework persuasif utilisé (AIDA, PAS, FAB...) et à quel pourcentage il est appliqué
+- Les biais cognitifs présents et manquants avec des suggestions concrètes
+- L'analyse du hook — les 3 premières lignes qui font tout
+- L'arc émotionnel du texte
+- Un score sur 100
+
+Et une version finale optimisée, prête à publier, qui corrige tout en une passe.
+
+Le premier texte que j'ai analysé avec l'outil terminé : score 28/100. Après optimisation : 86/100.
+
+C'est là que j'ai compris que ça marchait vraiment.
+
+## Ce qui m'a le plus surpris
+
+L'efficacité. Vraiment.
+
+Quand j'ai commencé à tester Copyboost sur de vrais textes — des emails de prospection, des fiches produit e-commerce, des accroches LinkedIn — les diagnostics étaient précis. Pas génériques. Chirurgicaux.
+
+Un email qui commençait par des félicitations excessives ? Détecté comme condescendant avec explication précise de pourquoi ça réduit le taux de réponse. Un texte luxe analysé avec une grille conversion standard ? L'outil détecte le secteur et adapte automatiquement ses critères.
+
+Ce niveau d'analyse, avant Copyboost, il fallait payer un copywriter senior ou passer des heures à construire des prompts complexes.
+
+Maintenant c'est 10 secondes.
+
+## Ce que j'ai appris sur le lancement d'un SaaS sans budget
+
+Construire c'est la partie facile. La partie difficile c'est trouver les premiers clients.
+
+Quelques vérités que personne ne dit vraiment :
+
+**Le produit n'a jamais besoin d'être parfait pour lancer.** Le mien avait des bugs en production le jour du lancement. Les premiers utilisateurs les ont trouvés. C'est comme ça que les vrais problèmes se découvrent.
+
+**Le coût est dérisoire si tu choisis les bons outils.** Vercel gratuit, Supabase gratuit, API IA à moins de 0,01€ par analyse. J'ai lancé un SaaS pour moins de 25€/mois de coûts fixes.
+
+**La distribution est le vrai défi.** Pas la technique. Pas le produit. Trouver les personnes qui ont le problème que tu résous et leur faire découvrir ta solution — c'est là que tout se joue.
+
+## La suite
+
+Copyboost est en ligne sur copyboost.io avec un plan gratuit — 3 analyses par jour, sans carte bancaire.
+
+Si tu fais du marketing, du copywriting ou de l'e-commerce et que tu veux savoir pourquoi tes textes ne convertissent pas autant qu'ils le devraient — teste-le.
+
+Et si tu as des retours, je lis tout.
