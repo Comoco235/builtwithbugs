@@ -12,7 +12,6 @@ Voilà comment Copyboost est né.
 ## Le problème que personne ne résolvait vraiment
 
 
-
 En formation, on apprend les fondamentaux du marketing digital. Les frameworks, les tunnels de conversion, la rédaction persuasive. Mais entre la théorie et la pratique, il y a un gouffre.
 
 Quand j'écrivais mes premiers textes marketing, je ne savais pas s'ils étaient bons. Je publiais, j'attendais, je regardais les résultats. Et si ça ne marchait pas, je recommençais à l'instinct.
@@ -28,6 +27,7 @@ Zéro ligne de code écrite de ma vie. Zéro expérience technique. Juste une id
 Ce qui a tout changé, c'est d'utiliser l'IA comme co-développeur. Pas comme un assistant qui génère des extraits de code — comme un vrai associé technique à qui je décris le problème et qui trouve la solution.
 
 Le workflow était simple :
+
 - Je décrivais la fonctionnalité en français, en termes business
 - L'IA construisait le code
 - Je testais, je donnais le feedback
