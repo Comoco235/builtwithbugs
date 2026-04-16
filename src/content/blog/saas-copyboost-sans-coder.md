@@ -11,7 +11,7 @@ Voilà comment Copyboost est né.
 
 ## Le problème que personne ne résolvait vraiment
 
-![Copyboost — Votre texte perd des ventes](/images/copyboost-dashboard.png)
+
 
 En formation, on apprend les fondamentaux du marketing digital. Les frameworks, les tunnels de conversion, la rédaction persuasive. Mais entre la théorie et la pratique, il y a un gouffre.
 
@@ -39,7 +39,7 @@ Chaque bug était frustrant. Chaque bug apprenait quelque chose.
 
 ## Ce que Copyboost fait aujourd'hui
 
-![Analyse détaillée du texte avec score et framework](/images/copyboost-score.png)
+
 
 Copyboost analyse n'importe quel texte marketing en 10 secondes.
 
@@ -59,7 +59,6 @@ C'est là que j'ai compris que ça marchait vraiment.
 
 ## Ce qui m'a le plus surpris
 
-![Avant/Après : 34/100 → 81/100 en 10 secondes](/images/copyboost-analyse.png)
 
 L'efficacité. Vraiment.
 
