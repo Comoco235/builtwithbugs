@@ -1,5 +1,5 @@
 ---
-title: "J'ai lancé un SaaS en 6 mois pendant ma formation Google — sans savoir coder"
+title: "J'ai lancé un SaaS en 6 mois pendant ma formation Google sans savoir coder"
 description: "Comment j'ai buildé Copyboost, un outil d'analyse de textes marketing par IA, sans background technique et avec moins de 25€/mois de coûts fixes."
 pubDate: 2026-04-15
 slug: "saas-copyboost-sans-coder"
@@ -10,6 +10,8 @@ Je suis étudiant en marketing digital chez Google. Pas développeur. Pas ingén
 Voilà comment Copyboost est né.
 
 ## Le problème que personne ne résolvait vraiment
+
+![Copyboost — Votre texte perd des ventes](/images/copyboost-dashboard.png)
 
 En formation, on apprend les fondamentaux du marketing digital. Les frameworks, les tunnels de conversion, la rédaction persuasive. Mais entre la théorie et la pratique, il y a un gouffre.
 
@@ -37,6 +39,8 @@ Chaque bug était frustrant. Chaque bug apprenait quelque chose.
 
 ## Ce que Copyboost fait aujourd'hui
 
+![Analyse détaillée du texte avec score et framework](/images/copyboost-score.png)
+
 Copyboost analyse n'importe quel texte marketing en 10 secondes.
 
 Pas juste "c'est bien" ou "c'est nul". Un diagnostic précis :
@@ -55,9 +59,11 @@ C'est là que j'ai compris que ça marchait vraiment.
 
 ## Ce qui m'a le plus surpris
 
+![Avant/Après : 34/100 → 81/100 en 10 secondes](/images/copyboost-analyse.png)
+
 L'efficacité. Vraiment.
 
-Quand j'ai commencé à tester Copyboost sur de vrais textes — des emails de prospection, des fiches produit e-commerce, des accroches LinkedIn — les diagnostics étaient précis. Pas génériques. Chirurgicaux.
+Quand j'ai commencé à tester Copyboost sur de vrais textes, des emails de prospection, des fiches produit e-commerce, des accroches LinkedIn, les diagnostics étaient précis. Pas génériques. Chirurgicaux.
 
 Un email qui commençait par des félicitations excessives ? Détecté comme condescendant avec explication précise de pourquoi ça réduit le taux de réponse. Un texte luxe analysé avec une grille conversion standard ? L'outil détecte le secteur et adapte automatiquement ses critères.
 
@@ -75,12 +81,12 @@ Quelques vérités que personne ne dit vraiment :
 
 **Le coût est dérisoire si tu choisis les bons outils.** Vercel gratuit, Supabase gratuit, API IA à moins de 0,01€ par analyse. J'ai lancé un SaaS pour moins de 25€/mois de coûts fixes.
 
-**La distribution est le vrai défi.** Pas la technique. Pas le produit. Trouver les personnes qui ont le problème que tu résous et leur faire découvrir ta solution — c'est là que tout se joue.
+**La distribution est le vrai défi.** Pas la technique. Pas le produit. Trouver les personnes qui ont le problème que tu résous et leur faire découvrir ta solution c'est là que tout se joue.
 
 ## La suite
 
-Copyboost est en ligne sur copyboost.io avec un plan gratuit — 3 analyses par jour, sans carte bancaire.
+Copyboost est en ligne sur copyboost.io avec un plan gratuit - 3 analyses par jour, sans carte bancaire.
 
-Si tu fais du marketing, du copywriting ou de l'e-commerce et que tu veux savoir pourquoi tes textes ne convertissent pas autant qu'ils le devraient — teste-le.
+Si tu fais du marketing, du copywriting ou de l'e-commerce et que tu veux savoir pourquoi tes textes ne convertissent pas autant qu'ils le devraient, teste-le.
 
 Et si tu as des retours, je lis tout.
