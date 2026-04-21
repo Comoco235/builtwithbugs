@@ -1,6 +1,6 @@
 ---
 title: "Comment j'ai configuré mon VPS pour automatiser ma création de contenu"
-description: "6h de debug, deux installations en conflit, un modèle Gemini inexistant — voici comment j'ai finalement buildé un pipeline de contenu automatisé sur VPS."
+description: "6h de debug, deux installations en conflit, un modèle Gemini inexistant - voici comment j'ai finalement buildé un pipeline de contenu automatisé sur VPS."
 pubDate: 2026-04-15
 slug: "comment-jai-configure-mon-vps"
 ---
@@ -19,9 +19,9 @@ Stack cible : **VPS Hetzner**, **OpenClaw**, **Gemini 2.5 Flash-Lite** via **API
 
 ## Le problème concret : Erreur EADDRINUSE et conflits de modèles IA
 
-Dès le début, le service plantait en boucle avec cette erreur : 
+Dès le début, le service plantait en boucle avec cette erreur :
 `EADDRINUSE port 18789`
-Cause : j'avais deux installations en conflit — une en `root`, une en utilisateur normal. Deux fichiers de config différents, deux services qui se battaient sur le même port.
+Cause : j'avais deux installations en conflit, une en `root`, une en utilisateur normal. Deux fichiers de config différents, deux services qui se battaient sur le même port.
 
 Le bug le plus vicieux : j'avais configuré le modèle Gemini avec le nom `gemini-2.5-flash-lite-preview-06-17`. Sauf qu'on est en avril, pas en juin. Ce modèle n'existait pas encore.
 

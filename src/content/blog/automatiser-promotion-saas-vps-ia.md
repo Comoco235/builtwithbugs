@@ -5,6 +5,7 @@ pubDate: 2026-04-21
 slug: "automatiser-promotion-saas-vps-ia"
 ---
 
+<!-- markdownlint-disable MD033 -->
 <img src="/images/builtwithbusg_article.webp" alt="Pipeline automatisation IA et VPS" style="width:100%; border-radius:12px; margin:1.5rem 0;" />
 
 Je venais de lancer Copyboost sans savoir coder et mon infrastructure automatisée de contenu tournait enfin sur mon serveur. La prochaine étape logique ? Relier les deux.
