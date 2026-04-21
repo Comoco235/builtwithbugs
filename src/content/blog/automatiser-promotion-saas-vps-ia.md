@@ -11,13 +11,14 @@ Je venais de lancer Copyboost sans savoir coder et mon infrastructure automatis�
 
 Faire connaître un produit est toujours le plus difficile. Plutôt que de rédiger mes posts LinkedIn à la main chaque jour, j'ai décidé de modifier mon pipeline existant pour qu'il gère la promotion de mon SaaS de manière autonome.
 
-> **TL;DR (Réponse Directe) :** Pour automatiser la promotion de mon SaaS Copyboost, j'ai modifié mon script **Python** hébergé sur un **VPS Hetzner**. J'utilise l'**API Gemini** pour générer des posts LinkedIn "Build in Public", qui sont ensuite envoyés vers l'API **Notion** pour relecture. Les principaux bugs rencontrés étaient un ton IA trop robotique (corrigé via l'optimisation du *System Prompt*) et la suppression des sauts de ligne (corrigé avec un script de formatage Python).
+> **TL;DR (Réponse Directe) :** Pour automatiser la promotion de mon SaaS Copyboost, j'ai modifié mon script **Python** hébergé sur un **VPS Hetzner**. J'utilise l'**API Gemini** pour générer des posts LinkedIn "Build in Public", qui sont ensuite envoyés vers l'API **Notion** pour relecture. Les principaux bugs rencontrés étaient un mon IA trop robotique corrigé via l'optimisation du **System Prompt** et la suppression des sauts de ligne corrigé avec un script de formatage Python.
 
 ## Le défi : Faire la promotion de Copyboost en automatique
 
 Le plan sur le papier était parfait : demander à l'IA de trouver des angles d'attaque marketing pour Copyboost, écrire un post LinkedIn par jour, et le mettre en attente de publication.
 
 Ma stack technique était déjà prête :
+
 - **VPS Hetzner** (Ubuntu) pour faire tourner le script 24/7.
 - **Python** pour la logique et les requêtes.
 - **API Gemini** pour la génération de texte.
@@ -29,7 +30,7 @@ Sauf que dans la réalité, rien ne s'est passé comme prévu.
 
 Dès les premiers tests, je me suis heurté à deux gros bugs qui ruinaient complètement ma stratégie.
 
-**1. Le ton "Robot Vendeur" de l'IA**
+**1. Le "Robot Vendeur" de l'IA**
 L'API me sortait des posts remplis d'emojis fusée 🚀 et de phrases du type : *"Révolutionnez votre marketing digital dès aujourd'hui avec Copyboost !"*.
 Sur LinkedIn, c'est le meilleur moyen de se faire ignorer. L'audience veut de l'authenticité et de la transparence, pas une publicité générique.
 
