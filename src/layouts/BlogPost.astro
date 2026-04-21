@@ -8,26 +8,41 @@ import FormattedDate from '../components/FormattedDate.astro';
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+
+const articleSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "image": heroImage ? new URL(heroImage.src, Astro.url).toString() : undefined,
+  "datePublished": pubDate.toISOString(),
+  "dateModified": updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": "Samwane"
+  }
+});
 ---
 
 <!doctype html>
 <html lang="fr">
   <head>
     <BaseHead title={title} description={description} />
+    <script type="application/ld+json" set:html={articleSchema} />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
       :root {
-        --bg: #0a0d14;
-        --bg2: #0f1420;
-        --surface: #1a2235;
-        --border: #2a3650;
-        --accent: #00d4ff;
+        --bg: #ffffff;
+        --bg2: #f8f9fa;
+        --surface: #f1f3f5;
+        --border: #e9ecef;
+        --accent: #0088cc;
         --accent2: #7c3aed;
         --accent3: #10b981;
-        --text: #e2e8f0;
-        --text2: #94a3b8;
-        --text3: #64748b;
+        --text: #212529;
+        --text2: #495057;
+        --text3: #6c757d;
         --mono: 'JetBrains Mono', monospace;
         --display: 'Syne', sans-serif;
         --body: 'DM Sans', sans-serif;
@@ -150,7 +165,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       }
 
       nav {
-        background: rgba(10,13,20,0.9);
+        background: rgba(255,255,255,0.9);
         border-bottom: 1px solid var(--border);
         padding: 1rem 2rem;
         display: flex;
@@ -211,19 +226,23 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 </div>
     </nav>
 
-    <div class="article-header">
-      <div class="article-badge">● ARTICLE</div>
-      <h1 class="article-title">{title}</h1>
-      <div class="article-meta">
-        <span><FormattedDate date={pubDate} /></span>
-        {updatedDate && <span>Mis à jour : <FormattedDate date={updatedDate} /></span>}
-      </div>
-      <div class="divider"></div>
-    </div>
+    <main>
+      <article>
+        <header class="article-header">
+          <div class="article-badge">● ARTICLE</div>
+          <h1 class="article-title">{title}</h1>
+          <div class="article-meta">
+            <span><FormattedDate date={pubDate} /></span>
+            {updatedDate && <span>Mis à jour : <FormattedDate date={updatedDate} /></span>}
+          </div>
+          <div class="divider"></div>
+        </header>
 
-    <div class="article-body">
-      <slot />
-    </div>
+        <div class="article-body">
+          <slot />
+        </div>
+      </article>
+    </main>
 
     <footer>
   <span>builtwithbugs.com</span> · Hacker sa visibilité avec la tech et l'IA

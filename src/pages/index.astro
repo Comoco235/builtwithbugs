@@ -6,12 +6,25 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const websiteSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": SITE_TITLE,
+  "url": Astro.site,
+  "description": SITE_DESCRIPTION,
+  "author": {
+    "@type": "Person",
+    "name": "Samwane"
+  }
+});
 ---
 
 <!doctype html>
 <html lang="fr">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <script type="application/ld+json" set:html={websiteSchema} />
   </head>
   <body>
     <nav>
@@ -48,24 +61,39 @@ const posts = (await getCollection('blog')).sort(
 
     <main>
       <div class="section-header">
+        <span class="section-label">// AUDIT COPY</span>
+      </div>
+      <div class="audit-teaser">
+        <div class="badge-row">
+          <span class="badge">● Audit Copy</span>
+          <span class="badge gray">97€ · 72h</span>
+        </div>
+        <h2 class="audit-title">Tes ventes stagnent.<br/><em>Ton produit n'est probablement pas le problème.</em></h2>
+        <p class="audit-desc">En 72h, je diagnostique ce qui bloque dans ta copy (fiches, hooks, emails) et je te montre quoi corriger pour relancer tes conversions.</p>
+        <a href="/audit" class="cta-btn">→ Découvrir l'audit</a>
+      </div>
+
+      <div class="section-header" style="margin-top: 4rem;">
         <span class="section-label">// DERNIERS ARTICLES</span>
       </div>
       <ul class="post-grid">
         {posts.map((post) => (
           <li>
-            <a href={`/blog/${post.id.replace('.md', '')}/`} class="post-card">
-              {post.data.heroImage && (
-                <img src={post.data.heroImage} alt={post.data.title} class="post-img" />
-              )}
-              <div class="post-content">
-                <div class="post-date">
-                  {post.data.pubDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+            <article>
+              <a href={`/blog/${post.id.replace('.md', '')}/`} class="post-card">
+                {post.data.heroImage && (
+                  <img src={post.data.heroImage.src} alt={post.data.title} class="post-img" />
+                )}
+                <div class="post-content">
+                  <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+                    {post.data.pubDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </time>
+                  <h3 class="post-title">{post.data.title}</h3>
+                  <p class="post-desc">{post.data.description}</p>
+                  <span class="post-cta">Lire l'article →</span>
                 </div>
-                <h2 class="post-title">{post.data.title}</h2>
-                <p class="post-desc">{post.data.description}</p>
-                <span class="post-cta">Lire l'article →</span>
-              </div>
-            </a>
+              </a>
+            </article>
           </li>
         ))}
       </ul>
@@ -83,7 +111,7 @@ const posts = (await getCollection('blog')).sort(
 
     <style>
       nav {
-        background: rgba(10,13,20,0.9);
+        background: rgba(255,255,255,0.9);
         border-bottom: 1px solid var(--border);
         padding: 1rem 2rem;
         display: flex;
@@ -216,6 +244,22 @@ const posts = (await getCollection('blog')).sort(
         margin: 0 auto;
         padding: 4rem 2rem 6rem;
       }
+
+      .audit-teaser {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+      .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+      .badge { display: inline-flex; align-items: center; background: rgba(0,136,204,0.08); border: 1px solid rgba(0,136,204,0.2); border-radius: 100px; padding: 5px 14px; font-family: var(--mono); font-size: 12px; color: var(--accent); }
+      .badge.gray { background: rgba(108,117,125,0.1); border-color: rgba(108,117,125,0.3); color: var(--text3); }
+      .audit-title { font-family: var(--display); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 1rem; background: linear-gradient(135deg, var(--text) 0%, var(--text2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .audit-title em { font-style: normal; background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .audit-desc { font-size: 1rem; color: var(--text2); font-weight: 300; margin-bottom: 1.5rem; line-height: 1.6; }
+      .cta-btn { display: inline-block; background: var(--accent); color: #fff; font-family: var(--mono); font-size: 14px; font-weight: 700; padding: 0.85rem 1.75rem; border-radius: 8px; text-decoration: none; transition: opacity 0.2s, transform 0.15s; }
+      .cta-btn:hover { opacity: 0.88; transform: translateY(-2px); text-decoration: none; }
 
       .section-label {
         font-family: var(--mono);
