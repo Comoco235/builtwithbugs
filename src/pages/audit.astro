@@ -5,6 +5,8 @@ const title = "Audit Copy — Copyboost";
 const description = "Audit complet de ta copy marketing en 72h. 5 fiches produits, 3 hooks, 1 email. Loom 15min + call 30min. 97€. Garanti 7 jours.";
 const stripeUrl = "https://buy.stripe.com/9B67sN3WRffYd6Y0aEd7q00";
 const linkedinUrl = "https://www.linkedin.com/in/samwane-abdallah-837844119";
+const teardown1Url = "https://www.linkedin.com/posts/samwane-abdallah-837844119_respire-copyboost-copywriting-activity-7452358116110716928-ET0R";
+const teardown2Url = linkedinUrl;
 const canonicalUrl = "https://builtwithbugs.com/audit";
 
 const jsonLd = JSON.stringify({
@@ -318,9 +320,9 @@ const jsonLd = JSON.stringify({
       <a href="/" class="logo">built<span>with</span>bugs.com</a>
       <div class="nav-links">
         <a href="/">Home</a>
+        <a href="/audit">Audit</a>
         <a href="/blog">Blog</a>
         <a href="/about">About</a>
-        <a href="/audit">Audit</a>
       </div>
     </nav>
 
@@ -363,17 +365,17 @@ const jsonLd = JSON.stringify({
           <div class="teardown-item">
             <span class="d-num">[01]</span>
             <div class="d-body">
-              <h3>Teardown #1 — Respire (cosmétique naturelle FR)</h3>
+              <h3>Teardown #1 : Respire (cosmétique naturelle FR)</h3>
               <p>Hook trop descriptif (61/100), agitation absente sur les fiches (68/100), social proof mal placé (72/100). Score moyen : 67/100.</p>
-              <a href={linkedinUrl} target="_blank" rel="noopener">Voir l'analyse complète ↗</a>
+              <a href={teardown1Url} target="_blank" rel="noopener">Voir l'analyse complète ↗</a>
             </div>
           </div>
           <div class="teardown-item">
             <span class="d-num">[02]</span>
             <div class="d-body">
-              <h3>Teardown #2 — Mode dropshipping FR</h3>
+              <h3>Teardown #2 : Mode dropshipping FR</h3>
               <p>Titre issu du catalogue fournisseur (58/100), preuve sociale générique (64/100), bouton CTA passif (61/100). Score moyen : 61/100.</p>
-              <a href={linkedinUrl} target="_blank" rel="noopener">Voir l'analyse complète ↗</a>
+              <a href={teardown2Url} target="_blank" rel="noopener">Voir l'analyse complète ↗</a>
             </div>
           </div>
         </div>
