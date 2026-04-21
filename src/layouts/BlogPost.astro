@@ -7,7 +7,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, h1, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 const articleSchema = JSON.stringify({
   "@context": "https://schema.org",
@@ -230,7 +230,7 @@ const articleSchema = JSON.stringify({
       <article>
         <header class="article-header">
           <div class="article-badge">● ARTICLE</div>
-          <h1 class="article-title">{title}</h1>
+          <h1 class="article-title">{h1 || title}</h1>
           <div class="article-meta">
             <span><FormattedDate date={pubDate} /></span>
             {updatedDate && <span>Mis à jour : <FormattedDate date={updatedDate} /></span>}
