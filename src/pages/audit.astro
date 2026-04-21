@@ -7,28 +7,14 @@ const stripeUrl = "https://buy.stripe.com/9B67sN3WRffYd6Y0aEd7q00";
 const linkedinUrl = "https://www.linkedin.com/in/samwane-abdallah-837844119";
 const canonicalUrl = "https://builtwithbugs.com/audit";
 
-const jsonLd = JSON.stringify([
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Audit Copy Copyboost",
-    "description": "Audit complet de ta copy marketing en 72h",
-    "provider": { "@type": "Person", "name": "Samwane" },
-    "offers": { "@type": "Offer", "price": "97", "priceCurrency": "EUR" }
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      { "@type": "Question", "name": "Tu analyses mon produit ou ma copy ?", "acceptedAnswer": { "@type": "Answer", "text": "Ta copy uniquement. Si ton produit n'a pas de marché, aucun hook ne sauvera tes ventes. L'audit identifie ce que ta copy raconte mal." } },
-      { "@type": "Question", "name": "Ma boutique est en plusieurs langues ?", "acceptedAnswer": { "@type": "Answer", "text": "L'audit est FR uniquement. On audite la version française." } },
-      { "@type": "Question", "name": "Combien de temps ça me prend ?", "acceptedAnswer": { "@type": "Answer", "text": "15 minutes pour le formulaire. 30 minutes pour le call. C'est tout." } },
-      { "@type": "Question", "name": "Tu délivres le week-end ?", "acceptedAnswer": { "@type": "Answer", "text": "72h en jours ouvrés. Paiement vendredi = livraison mercredi max." } },
-      { "@type": "Question", "name": "Je peux payer en plusieurs fois ?", "acceptedAnswer": { "@type": "Answer", "text": "Non. À 97€, ça ne vaut pas la complexité." } },
-      { "@type": "Question", "name": "Et si je veux que tu réécrives tout ?", "acceptedAnswer": { "@type": "Answer", "text": "Ce n'est pas le format. Pour de la rédaction complète, contacte-moi directement." } }
-    ]
-  }
-]);
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Audit Copy Copyboost",
+  "description": "Audit complet de ta copy marketing en 72h",
+  "provider": { "@type": "Person", "name": "Samwane" },
+  "offers": { "@type": "Offer", "price": "97", "priceCurrency": "EUR" }
+});
 ---
 
 <!doctype html>
@@ -40,7 +26,7 @@ const jsonLd = JSON.stringify([
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <script type="application/ld+json" set:html={jsonLd} />
@@ -48,97 +34,312 @@ const jsonLd = JSON.stringify([
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <style>
       :root {
-        --bg: #ffffff; --bg2: #f8f9fa; --surface: #f1f3f5; --border: #e9ecef;
-        --accent: #0088cc; --accent2: #7c3aed; --accent3: #10b981;
-        --text: #212529; --text2: #495057; --text3: #6c757d;
-        --mono: 'JetBrains Mono', monospace; --display: 'Syne', sans-serif; --body: 'DM Sans', sans-serif;
+        --bg: #ffffff;
+        --bg2: #f8fafc;
+        --surface: #f1f5f9;
+        --border: #e2e8f0;
+        --accent: #0ea5e9;
+        --accent2: #8b5cf6;
+        --accent3: #10b981;
+        --text: #0f172a;
+        --text2: #475569;
+        --text3: #94a3b8;
+        --mono: 'JetBrains Mono', monospace;
+        --display: 'Syne', sans-serif;
+        --body: 'DM Sans', sans-serif;
       }
+
       * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.7; }
-      nav { background: rgba(255,255,255,0.9); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
-      nav a.logo { font-family: var(--mono); font-size: 14px; color: var(--accent); text-decoration: none; font-weight: 700; }
-      nav a.logo span { color: var(--text3); }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      /* Gradient hero background like the site */
+      .page-hero-bg {
+        background: linear-gradient(135deg, rgba(14,165,233,0.06) 0%, rgba(139,92,246,0.06) 50%, rgba(255,255,255,0) 100%);
+      }
+
+      /* NAV */
+      nav {
+        background: rgba(255,255,255,0.9);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      nav a.logo {
+        font-family: var(--mono);
+        font-size: 14px;
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      nav a.logo span { color: var(--accent); }
       nav .nav-links { display: flex; gap: 1.5rem; }
-      nav .nav-links a { font-family: var(--mono); font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+      nav .nav-links a {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--text2);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
       nav .nav-links a:hover { color: var(--accent); }
-      footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; color: var(--text3); font-size: 13px; font-family: var(--mono); }
+
+      /* FOOTER */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem;
+        text-align: center;
+        color: var(--text3);
+        font-size: 13px;
+        font-family: var(--mono);
+      }
       footer span { color: var(--accent); }
       .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem; }
       .footer-links a { color: var(--text3); text-decoration: none; transition: color 0.2s; }
       .footer-links a:hover { color: var(--accent); }
+
+      /* LAYOUT */
       .wrap { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
-      .hero { padding: 4rem 0 3rem; border-bottom: 1px solid var(--border); }
+
+      /* HERO */
+      .hero { padding: 5rem 0 3.5rem; border-bottom: 1px solid var(--border); }
+
       .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-      .badge { display: inline-flex; align-items: center; background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2); border-radius: 100px; padding: 5px 14px; font-family: var(--mono); font-size: 12px; color: var(--accent); }
-      .badge.gray { background: rgba(100,116,139,0.1); border-color: rgba(100,116,139,0.3); color: var(--text3); }
-      h1 { font-family: var(--display); font-size: clamp(1.75rem, 4vw, 2.6rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 1.25rem; background: linear-gradient(135deg, var(--text) 0%, var(--text2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-      h1 em { font-style: normal; background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-      .hero-sub { font-size: 1.05rem; color: var(--text2); font-weight: 300; max-width: 600px; margin-bottom: 2rem; }
-      .cta-btn { display: inline-block; background: var(--accent); color: #000; font-family: var(--mono); font-size: 14px; font-weight: 700; padding: 0.85rem 1.75rem; border-radius: 8px; text-decoration: none; transition: opacity 0.2s, transform 0.15s; }
-      .cta-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+      .badge {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.25);
+        border-radius: 100px; padding: 5px 14px;
+        font-family: var(--mono); font-size: 12px; color: var(--accent);
+      }
+      .badge.gray {
+        background: var(--surface); border-color: var(--border);
+        color: var(--text2);
+      }
+
+      h1 {
+        font-family: var(--display);
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: var(--text);
+        margin-bottom: 1.25rem;
+      }
+      h1 em {
+        font-style: normal;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-sub {
+        font-size: 1.1rem;
+        color: var(--text2);
+        font-weight: 300;
+        max-width: 600px;
+        margin-bottom: 2rem;
+      }
+
+      .cta-btn {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+        color: #fff;
+        font-family: var(--mono);
+        font-size: 14px;
+        font-weight: 700;
+        padding: 0.9rem 1.75rem;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: opacity 0.2s, transform 0.15s;
+        box-shadow: 0 4px 20px rgba(14,165,233,0.25);
+      }
+      .cta-btn:hover { opacity: 0.9; transform: translateY(-2px); }
       .cta-note { display: block; font-family: var(--mono); font-size: 12px; color: var(--text3); margin-top: 0.6rem; }
-      section { padding: 3rem 0; border-bottom: 1px solid var(--border); }
-      h2 { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.25rem; }
-      h3 { font-family: var(--display); font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+
+      /* SECTIONS */
+      section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
+
+      h2 {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+
+      h3 {
+        font-family: var(--display);
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.3rem;
+        letter-spacing: -0.01em;
+      }
+
       p { color: var(--text2); font-weight: 300; margin-bottom: 0.9rem; }
       p:last-child { margin-bottom: 0; }
       strong { color: var(--text); font-weight: 500; }
-      a.inline { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(0,212,255,0.3); }
+      a.inline { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(14,165,233,0.3); }
+
+      /* PAIN LIST */
       .pain-list { list-style: none; margin: 1.25rem 0; }
-      .pain-list li { padding: 0.65rem 0 0.65rem 1.5rem; color: var(--text2); font-weight: 300; border-bottom: 1px solid var(--border); position: relative; font-size: 0.95rem; }
+      .pain-list li {
+        padding: 0.65rem 0 0.65rem 1.5rem;
+        color: var(--text2); font-weight: 300;
+        border-bottom: 1px solid var(--border);
+        position: relative; font-size: 0.95rem;
+      }
       .pain-list li:last-child { border-bottom: none; }
-      .pain-list li::before { content: '//'; position: absolute; left: 0; color: #ef4444; font-family: var(--mono); font-size: 10px; top: 50%; transform: translateY(-50%); }
-      .divider { height: 1px; background: linear-gradient(90deg, var(--border), transparent); margin: 2rem 0; }
-      .deliverables { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 1.25rem 0; }
-      .deliverable { background: var(--bg2); padding: 1.25rem 1.5rem; display: grid; grid-template-columns: 2.5rem 1fr; gap: 0.75rem; align-items: start; }
+      .pain-list li::before {
+        content: '//'; position: absolute; left: 0;
+        color: #ef4444; font-family: var(--mono); font-size: 10px;
+        top: 50%; transform: translateY(-50%);
+      }
+
+      .divider { height: 1px; background: var(--border); margin: 2rem 0; }
+
+      /* DELIVERABLES */
+      .deliverables {
+        display: grid; gap: 1px;
+        background: var(--border); border: 1px solid var(--border);
+        border-radius: 14px; overflow: hidden; margin: 1.25rem 0;
+      }
+      .deliverable {
+        background: var(--bg2); padding: 1.25rem 1.5rem;
+        display: grid; grid-template-columns: 2.5rem 1fr;
+        gap: 0.75rem; align-items: start;
+      }
       .d-num { font-family: var(--mono); font-size: 11px; color: var(--accent); padding-top: 0.2rem; }
       .d-body p { font-size: 0.875rem; margin: 0.2rem 0 0; }
+
+      /* STEPS */
       .steps { list-style: none; counter-reset: step; margin: 1.25rem 0; }
-      .steps li { counter-increment: step; padding: 0.75rem 0 0.75rem 3rem; border-bottom: 1px solid var(--border); position: relative; color: var(--text2); font-weight: 300; font-size: 0.95rem; }
+      .steps li {
+        counter-increment: step;
+        padding: 0.75rem 0 0.75rem 3rem;
+        border-bottom: 1px solid var(--border);
+        position: relative; color: var(--text2); font-weight: 300; font-size: 0.95rem;
+      }
       .steps li:last-child { border-bottom: none; }
-      .steps li::before { content: counter(step); position: absolute; left: 0; top: 0.85rem; font-family: var(--mono); font-size: 11px; color: var(--accent); background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); width: 1.75rem; height: 1.75rem; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
-      .box { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin: 1.25rem 0; }
+      .steps li::before {
+        content: counter(step); position: absolute; left: 0; top: 0.85rem;
+        font-family: var(--mono); font-size: 11px; color: var(--accent);
+        background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.2);
+        width: 1.75rem; height: 1.75rem; border-radius: 6px;
+        display: flex; align-items: center; justify-content: center;
+      }
+
+      /* BOX */
+      .box {
+        background: var(--bg2); border: 1px solid var(--border);
+        border-radius: 14px; padding: 1.5rem; margin: 1.25rem 0;
+      }
       .box a { color: var(--accent); font-family: var(--mono); font-size: 13px; text-decoration: none; }
       .box a:hover { text-decoration: underline; }
-      .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 1.25rem 0; }
+
+      /* TEARDOWN EXAMPLES */
+      .teardown-item {
+        background: var(--bg2); padding: 1.25rem 1.5rem;
+        display: grid; grid-template-columns: 2.5rem 1fr;
+        gap: 0.75rem; align-items: start;
+      }
+      .teardown-item .d-body a {
+        color: var(--accent); font-family: var(--mono); font-size: 12px;
+        text-decoration: none; margin-top: 0.4rem; display: inline-block;
+      }
+      .teardown-item .d-body a:hover { text-decoration: underline; }
+
+      /* WHO GRID */
+      .who-grid {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+        background: var(--border); border: 1px solid var(--border);
+        border-radius: 14px; overflow: hidden; margin: 1.25rem 0;
+      }
       .who-col { background: var(--bg2); padding: 1.25rem 1.5rem; }
-      .who-col h4 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
+      .who-col h4 {
+        font-family: var(--mono); font-size: 11px;
+        letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;
+      }
       .who-col.yes h4 { color: var(--accent3); }
       .who-col.no h4 { color: #ef4444; }
       .who-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
       .who-col ul li { font-size: 0.875rem; color: var(--text2); font-weight: 300; }
-      .guarantee { background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.25); border-radius: 12px; padding: 1.5rem; margin: 1.25rem 0; }
+
+      /* GUARANTEE */
+      .guarantee {
+        background: rgba(14,165,233,0.04); border: 1px solid rgba(14,165,233,0.2);
+        border-radius: 14px; padding: 1.5rem; margin: 1.25rem 0;
+      }
       .guarantee p { color: var(--text); }
+
+      /* FAQ */
       .faq-item { padding: 1.1rem 0; border-bottom: 1px solid var(--border); }
       .faq-item:last-child { border-bottom: none; }
       .faq-q { font-weight: 500; color: var(--text); font-size: 0.95rem; margin-bottom: 0.35rem; }
       .faq-a { font-size: 0.9rem; font-weight: 300; margin: 0; }
-      .cta-final { padding: 4rem 0; text-align: center; }
-      .price { font-family: var(--mono); font-size: 3.5rem; font-weight: 700; color: var(--accent); margin-bottom: 0.25rem; }
-      .price-meta { font-family: var(--mono); font-size: 12px; color: var(--text3); letter-spacing: 0.08em; margin-bottom: 2rem; }
-      @media (max-width: 600px) { .who-grid { grid-template-columns: 1fr; } h1 { font-size: 1.75rem; } .wrap { padding: 0 1.25rem; } }
+
+      /* CTA FINAL */
+      .cta-final { padding: 5rem 0; text-align: center; }
+      .price {
+        font-family: var(--mono); font-size: 4rem; font-weight: 700;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text; margin-bottom: 0.25rem;
+      }
+      .price-meta {
+        font-family: var(--mono); font-size: 12px; color: var(--text3);
+        letter-spacing: 0.08em; margin-bottom: 2rem;
+      }
+
+      @media (max-width: 600px) {
+        .who-grid { grid-template-columns: 1fr; }
+        h1 { font-size: 2rem; }
+        .wrap { padding: 0 1.25rem; }
+        .price { font-size: 3rem; }
+      }
     </style>
   </head>
+
   <body>
     <nav>
-      <a href="/" class="logo">built<span>with</span>bugs<span>.com</span></a>
+      <a href="/" class="logo">built<span>with</span>bugs.com</a>
       <div class="nav-links">
         <a href="/">Home</a>
         <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+        <a href="/audit">Audit</a>
       </div>
     </nav>
 
-    <main class="wrap">
-      <div class="hero">
-        <div class="badge-row">
-          <span class="badge">● Audit Copy</span>
-          <span class="badge gray">97€ · 72h · Garanti 7 jours</span>
+    <div class="page-hero-bg">
+      <div class="wrap">
+        <div class="hero">
+          <div class="badge-row">
+            <span class="badge">● Audit Copy</span>
+            <span class="badge gray">97€ · 72h · Garanti 7 jours</span>
+          </div>
+          <h1>Tes ventes stagnent.<br/><em>Ton produit n'est probablement pas le problème.</em></h1>
+          <p class="hero-sub">En 72h, je diagnostique ce qui bloque dans ta copy fiches produits, hooks ads, emails et je te montre quoi corriger pour relancer tes conversions.</p>
+          <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn">Réserver mon audit — 97€</a>
+          <span class="cta-note">Paiement sécurisé Stripe · Satisfait ou remboursé 7 jours</span>
         </div>
-        <h1>Tes ventes stagnent.<br/><em>Ton produit n'est probablement pas le problème.</em></h1>
-        <p class="hero-sub">En 72h, je diagnostique ce qui bloque dans ta copy fiches produits, hooks ads, emails et je te montre quoi corriger pour relancer tes conversions.</p>
-        <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn">→ Réserver mon audit - 97€</a>
-        <span class="cta-note">Paiement sécurisé Stripe · Satisfait ou remboursé 7 jours</span>
       </div>
+    </div>
+
+    <div class="wrap">
 
       <section>
         <h2>// Le problème</h2>
@@ -152,14 +353,29 @@ const jsonLd = JSON.stringify([
         </ul>
         <p>Un pixel bien configuré ne sauvera pas une copy qui rebute.</p>
         <div class="divider"></div>
-        <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn">→ Je veux savoir ce qui cloche</a>
+        <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn">Je veux savoir ce qui cloche</a>
       </section>
 
       <section>
         <h2>// Exemples publics</h2>
-        <div class="box">
-          <p style="color: var(--text); margin-bottom: 0.75rem;">Avant de payer, lis mes teardowns LinkedIn, je décortique publiquement des boutiques FR chaque semaine avec la même grille que j'applique aux audits payants.</p>
-          <a href={linkedinUrl} target="_blank" rel="noopener">→ Voir les teardowns sur LinkedIn ↗</a>
+        <p>Avant de payer, regarde ce que je publie chaque semaine sur LinkedIn. Des boutiques FR décortiquées avec la même grille que j'applique aux audits payants.</p>
+        <div class="deliverables" style="margin: 1.25rem 0;">
+          <div class="teardown-item">
+            <span class="d-num">[01]</span>
+            <div class="d-body">
+              <h3>Teardown #1 — Respire (cosmétique naturelle FR)</h3>
+              <p>Hook trop descriptif (61/100), agitation absente sur les fiches (68/100), social proof mal placé (72/100). Score moyen : 67/100.</p>
+              <a href={linkedinUrl} target="_blank" rel="noopener">Voir l'analyse complète ↗</a>
+            </div>
+          </div>
+          <div class="teardown-item">
+            <span class="d-num">[02]</span>
+            <div class="d-body">
+              <h3>Teardown #2 — Mode dropshipping FR</h3>
+              <p>Titre issu du catalogue fournisseur (58/100), preuve sociale générique (64/100), bouton CTA passif (61/100). Score moyen : 61/100.</p>
+              <a href={linkedinUrl} target="_blank" rel="noopener">Voir l'analyse complète ↗</a>
+            </div>
+          </div>
         </div>
         <p>Si ce niveau d'analyse te parle, l'audit payant va plus profond : 5 fiches, 3 hooks, 1 email, un Loom complet et un call.</p>
       </section>
@@ -244,7 +460,7 @@ const jsonLd = JSON.stringify([
         <h2>// FAQ</h2>
         <div class="faq-item">
           <p class="faq-q">Tu analyses mon produit ou ma copy ?</p>
-          <p class="faq-a">Ta copy uniquement. Si ton produit n'a pas de marché, aucun hook ne sauvera tes ventes. L'audit identifie ce que ta copy raconte mal.</p>
+          <p class="faq-a">Ta copy uniquement. L'audit identifie ce que ta copy raconte mal, pas si ton offre est bonne.</p>
         </div>
         <div class="faq-item">
           <p class="faq-q">Ma boutique est en plusieurs langues ?</p>
@@ -271,10 +487,11 @@ const jsonLd = JSON.stringify([
       <div class="cta-final">
         <div class="price">97€</div>
         <p class="price-meta">ONE-SHOT · 72H · GARANTI 7 JOURS</p>
-        <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn">→ Réserver mon audit maintenant</a>
-        <span class="cta-note">samwane@copyboost.io · Questions avant d'acheter ?</span>
+        <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn">Réserver mon audit maintenant</a>
+        <span class="cta-note">Questions avant d'acheter ? . samwane@copyboost.io</span>
       </div>
-    </main>
+
+    </div>
 
     <footer>
       <span>builtwithbugs.com</span> · Audit propulsé par <a href="https://copyboost.io" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">Copyboost</a>
