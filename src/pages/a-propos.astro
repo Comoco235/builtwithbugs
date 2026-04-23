@@ -1,13 +1,12 @@
 ---
-import Layout from '../layouts/BlogPostLayout.astro';
+import MainLayout from '../layouts/MainLayout.astro';
 ---
 
-<Layout
+<MainLayout
   title="À propos"
   description="Qui est derrière builtwithbugs.com ?"
-  pubDate={new Date('2026-04-15')}
-  author="Samwane ABDALLAH"
 >
+  <h1>À propos</h1>
   <p>
     Bienvenue sur <strong>builtwithbugs.com</strong> un blog construit en public, bugs inclus.
   </p>
@@ -33,4 +32,14 @@ import Layout from '../layouts/BlogPostLayout.astro';
   <p>
     Tu veux échanger sur un projet ou une collaboration ? Retrouve-moi sur LinkedIn.
   </p>
-</Layout>
+</MainLayout>
+
+<style>
+  h1 {
+    margin-bottom: 2rem;
+  }
+  h2 {
+    margin: 2.5rem 0 1rem;
+    font-size: 1.5rem;
+  }
+</style>

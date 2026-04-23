@@ -1,5 +1,5 @@
 ---
-layout: '../layouts/PageLayout.astro'
+layout: '../layouts/MainLayout.astro'
 title: 'Politique de Confidentialité'
 description: 'Politique de confidentialité minimaliste du site Built With Bugs.'
 ---

@@ -3,6 +3,9 @@ import BaseHead from '../components/BaseHead.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -28,15 +31,7 @@ const websiteSchema = JSON.stringify({
     <script is:inline type="application/ld+json" set:html={websiteSchema} />
   </head>
   <body>
-    <nav>
-      <a href="/" class="logo">built<span>with</span>bugs<span>.com</span></a>
-      <div class="nav-links">
-  <a href="/">Home</a>
-  <a href="/blog">Blog</a>
-  <a href="/about">About</a>
-  <a href="/audit">Audit</a>
-</div>
-    </nav>
+    <Header />
 
     <header class="hero">
       <div class="hero-bg"></div>
@@ -97,54 +92,10 @@ const websiteSchema = JSON.stringify({
       </ul>
     </main>
 
-    <footer>
-  <span>builtwithbugs.com</span> · Hacker sa visibilité avec la tech et l'IA
-  <div class="footer-links">
-    <a href="https://www.linkedin.com/in/samwane-abdallah-837844119" target="_blank">LinkedIn</a>
-    <a href="https://www.reddit.com/user/samwane/" target="_blank">Reddit</a>
-    <a href="https://x.com/samwanebuild/" target="_blank">X (Twitter)</a>
-    <a href="https://www.instagram.com/copyboost25/" target="_blank">Instagram</a>
-  </div>
-</footer>
+    <Footer />
+    <BackToTop />
 
     <style>
-      nav {
-        background: rgba(255,255,255,0.9);
-        border-bottom: 1px solid var(--border);
-        padding: 1rem 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        backdrop-filter: blur(10px);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-
-      nav a.logo {
-        font-family: var(--mono);
-        font-size: 14px;
-        color: var(--accent);
-        text-decoration: none;
-        font-weight: 700;
-      }
-
-      nav a.logo span { color: var(--text3); }
-
-      nav .nav-links {
-        display: flex;
-        gap: 1.5rem;
-      }
-
-      nav .nav-links a {
-        font-family: var(--mono);
-        font-size: 13px;
-        color: var(--text3);
-        text-decoration: none;
-        transition: color 0.2s;
-      }
-
-      nav .nav-links a:hover { color: var(--accent); }
 
       .hero {
         position: relative;
@@ -337,16 +288,7 @@ const websiteSchema = JSON.stringify({
         letter-spacing: 0.05em;
       }
 
-      footer {
-        border-top: 1px solid var(--border);
-        padding: 2rem;
-        text-align: center;
-        color: var(--text3);
-        font-size: 13px;
-        font-family: var(--mono);
-      }
 
-      footer span { color: var(--accent); }
 
       @media (max-width: 600px) {
         .post-card { grid-template-columns: 1fr; }

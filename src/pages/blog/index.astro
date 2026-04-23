@@ -1,118 +1,39 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import { Image } from 'astro:assets';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
-
-const blogSchema = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "Blog - " + SITE_TITLE,
-  "url": new URL("/blog", Astro.site),
-  "description": "Articles et ressources."
-});
 ---
 
-<!doctype html>
-<html lang="fr">
-  <head>
-    <BaseHead title={`Blog - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
-    <script is:inline type="application/ld+json" set:html={blogSchema} />
-  </head>
-  <body>
-    <nav>
-      <a href="/" class="logo">built<span>with</span>bugs<span>.com</span></a>
-      <div class="nav-links">
-  <a href="/">Home</a>
-  <a href="/blog">Blog</a>
-  <a href="/about">About</a>
-  <a href="/audit">Audit</a>
-</div>
-    </nav>
-
-    <main>
-      <div class="section-header">
+<MainLayout title={`Blog - ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+    <div class="section-header">
         <h1>Blog - Built With Bugs</h1>
         <span class="section-label">// TOUS LES ARTICLES</span>
-      </div>
-      <ul class="post-grid">
+    </div>
+    <ul class="post-grid">
         {posts.map((post) => (
-          <li>
-            <article>
-              <a href={`/blog/${post.id.replace('.md', '')}/`} class="post-card">
-                <div class="post-content">
-                  <div class="post-date">
-                    <FormattedDate date={post.data.pubDate} />
-                  </div>
-                  <h3 class="post-title">{post.data.title}</h3>
-                  <p class="post-desc">{post.data.description}</p>
-                  <span class="post-cta">Lire l'article →</span>
-                </div>
-              </a>
-            </article>
-          </li>
+            <li>
+                <article>
+                    <a href={`/blog/${post.id.replace('.md', '')}/`} class="post-card">
+                        <div class="post-content">
+                            <div class="post-date">
+                                <FormattedDate date={post.data.pubDate} />
+                            </div>
+                            <h3 class="post-title">{post.data.title}</h3>
+                            <p class="post-desc">{post.data.description}</p>
+                            <span class="post-cta">Lire l'article →</span>
+                        </div>
+                    </a>
+                </article>
+            </li>
         ))}
-      </ul>
-    </main>
-
-    <footer>
-  <span>builtwithbugs.com</span> · Hacker sa visibilité avec la tech et l'IA
-  <div class="footer-links">
-    <a href="https://www.linkedin.com/in/samwane-abdallah-837844119" target="_blank">LinkedIn</a>
-    <a href="https://www.reddit.com/user/samwane/" target="_blank">Reddit</a>
-  </div>
-</footer>
+    </ul>
 
     <style>
-      nav {
-        background: rgba(255,255,255,0.9);
-        border-bottom: 1px solid var(--border);
-        padding: 1rem 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        backdrop-filter: blur(10px);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-
-      nav a.logo {
-        font-family: var(--mono);
-        font-size: 14px;
-        color: var(--accent);
-        text-decoration: none;
-        font-weight: 700;
-      }
-
-      nav a.logo span { color: var(--text3); }
-
-      nav .nav-links {
-        display: flex;
-        gap: 1.5rem;
-      }
-
-      nav .nav-links a {
-        font-family: var(--mono);
-        font-size: 13px;
-        color: var(--text3);
-        text-decoration: none;
-        transition: color 0.2s;
-      }
-
-      nav .nav-links a:hover { color: var(--accent); }
-
-      main {
-        max-width: 860px;
-        margin: 0 auto;
-        padding: 4rem 2rem 6rem;
-      }
-
       .section-label {
         font-family: var(--mono);
         font-size: 12px;
@@ -182,17 +103,5 @@ const blogSchema = JSON.stringify({
         color: var(--accent);
         letter-spacing: 0.05em;
       }
-
-      footer {
-        border-top: 1px solid var(--border);
-        padding: 2rem;
-        text-align: center;
-        color: var(--text3);
-        font-size: 13px;
-        font-family: var(--mono);
-      }
-
-      footer span { color: var(--accent); }
     </style>
-  </body>
-</html>
+</MainLayout>

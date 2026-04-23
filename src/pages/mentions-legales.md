@@ -1,5 +1,5 @@
 ---
-layout: '../layouts/PageLayout.astro'
+layout: '../layouts/MainLayout.astro'
 title: 'Mentions Légales'
 description: 'Mentions légales du site Built With Bugs.'
 ---

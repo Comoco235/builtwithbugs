@@ -63,4 +63,5 @@ La séparation root/utilisateur sur un VPS est critique. Tout installer en root 
 Automatiser la recherche de sujets tendance avec un script **Python** qui scrape Hacker News et Reddit chaque matin, et envoie les idées directement dans **Notion**.
 
 ---
+
 *Ce genre de blocage te rappelle que la technique prend du temps. Si tu préfères te concentrer sur tes ventes et que tes textes de vente (copywriting) bloquent, je peux analyser ta landing page en 72h. Jette un œil à mon [Audit Copy](/audit).*
