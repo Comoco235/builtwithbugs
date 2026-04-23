@@ -5,13 +5,18 @@
 <script>
   const backToTop = document.getElementById('back-to-top');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
+  const toggleVisible = () => {
+    const scrolled = window.scrollY || window.pageYOffset;
+    if (scrolled > 300) {
       backToTop?.classList.add('visible');
     } else {
       backToTop?.classList.remove('visible');
     }
-  });
+  };
+
+  window.addEventListener('scroll', toggleVisible);
+  // Initial check in case the page is already scrolled
+  toggleVisible();
 
   backToTop?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -25,8 +30,8 @@
     right: 2rem;
     background: var(--accent);
     color: white;
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -35,9 +40,10 @@
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
-    z-index: 99;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+    z-index: 1000;
+    touch-action: manipulation;
   }
 
   .back-to-top.visible {
@@ -47,15 +53,16 @@
 
   .back-to-top:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 136, 204, 0.4);
+    background: var(--accent2);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     .back-to-top {
       bottom: 1.5rem;
       right: 1.5rem;
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
     }
   }
 </style>
