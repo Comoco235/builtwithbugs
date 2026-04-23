@@ -1,0 +1,30 @@
+---
+// src/layouts/PageLayout.astro
+import BaseHead from '../components/BaseHead.astro';
+
+const { title, description } = Astro.props.frontmatter || Astro.props;
+---
+
+<html lang="fr">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			main {
+				width: calc(100% - 2em);
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 2em 1em;
+				line-height: 1.6;
+			}
+			h1 {
+				margin-bottom: 1.5em;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<slot />
+		</main>
+	</body>
+</html>

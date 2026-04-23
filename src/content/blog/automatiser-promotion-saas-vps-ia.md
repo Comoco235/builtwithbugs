@@ -3,6 +3,7 @@ title: "Comment j'ai automatisé la promotion de mon SaaS depuis mon VPS : la st
 description: "Découvre comment j'ai relié mon VPS Hetzner, Python et l'API Gemini pour automatiser la promotion LinkedIn de mon SaaS Copyboost, et les bugs que j'ai dû corriger."
 pubDate: 2026-04-21
 slug: "automatiser-promotion-saas-vps-ia"
+heroImage: "../../assets/blog-placeholder-2.jpg"
 ---
 
 <!-- markdownlint-disable MD033 -->

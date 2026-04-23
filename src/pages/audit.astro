@@ -1,21 +1,25 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
+import BaseHead from "../components/BaseHead.astro";
 
-const title = "Audit Copy - Copyboost";
-const description = "Audit complet de ta copy marketing en 72h. 5 fiches produits, 3 hooks, 1 email. Loom 15min + call 30min. 97€. Garanti 7 jours.";
+const title = "Audit Copy — Copyboost";
+const description =
+  "Audit complet de ta copy marketing en 72h. 5 fiches produits, 3 hooks, 1 email. Loom 15min + call 30min. 97€. Garanti 7 jours.";
 const stripeUrl = "https://buy.stripe.com/9B67sN3WRffYd6Y0aEd7q00";
-const linkedinUrl = "https://www.linkedin.com/in/samwane-abdallah-837844119";
-const teardown1Url = "https://www.linkedin.com/posts/samwane-abdallah-837844119_respire-copyboost-copywriting-activity-7452358116110716928-ET0R";
-const teardown2Url = linkedinUrl;
 const canonicalUrl = "https://builtwithbugs.com/audit";
+const teardown1Url =
+  "https://www.linkedin.com/posts/samwane-abdallah-837844119_respire-copyboost-copywriting-activity-7452358116110716928-ET0R";
+const teardown2Url =
+  "https://www.linkedin.com/posts/samwane-abdallah-837844119_dropshipping-copyboost-copywriting-activity-7452642432967512064-h858";
+const teardown3Url =
+  "https://www.linkedin.com/posts/samwane-abdallah-837844119_copyboost-copywriting-marketeursabrfr-activity-7453129970706522112-bWUC";
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "Audit Copy Copyboost",
-  "description": "Audit complet de ta copy marketing en 72h",
-  "provider": { "@type": "Person", "name": "Samwane" },
-  "offers": { "@type": "Offer", "price": "97", "priceCurrency": "EUR" }
+  name: "Audit Copy Copyboost",
+  description: "Audit complet de ta copy marketing en 72h",
+  provider: { "@type": "Person", name: "Samwane" },
+  offers: { "@type": "Offer", price: "97", priceCurrency: "EUR" },
 });
 ---
 
@@ -23,6 +27,7 @@ const jsonLd = JSON.stringify({
 <html lang="fr">
   <head>
     <BaseHead title={title} description={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -30,7 +35,8 @@ const jsonLd = JSON.stringify({
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <script type="application/ld+json" set:html={jsonLd} />
+    <script is:inline type="application/ld+json" set:html={jsonLd} />
+
     <style>
       :root {
         --bg: #ffffff;
@@ -40,16 +46,20 @@ const jsonLd = JSON.stringify({
         --accent: #0ea5e9;
         --accent2: #8b5cf6;
         --accent3: #10b981;
+        --danger: #ef4444;
         --text: #0f172a;
         --text2: #475569;
         --text3: #94a3b8;
-        --mono: 'JetBrains Mono', monospace;
-        --display: 'Syne', sans-serif;
-        --body: 'DM Sans', sans-serif;
+        --mono: "JetBrains Mono", monospace;
+        --display: "Syne", sans-serif;
+        --body: "DM Sans", sans-serif;
       }
 
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
       body {
         background: var(--bg);
         color: var(--text);
@@ -58,14 +68,17 @@ const jsonLd = JSON.stringify({
         line-height: 1.7;
       }
 
-      /* Gradient hero background like the site */
-      .page-hero-bg {
-        background: linear-gradient(135deg, rgba(14,165,233,0.06) 0%, rgba(139,92,246,0.06) 50%, rgba(255,255,255,0) 100%);
+      .hero-bg {
+        background: linear-gradient(
+          135deg,
+          rgba(14, 165, 233, 0.06) 0%,
+          rgba(139, 92, 246, 0.06) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
       }
 
-      /* NAV */
       nav {
-        background: rgba(255,255,255,0.9);
+        background: rgba(255, 255, 255, 0.9);
         border-bottom: 1px solid var(--border);
         padding: 1rem 2rem;
         display: flex;
@@ -83,8 +96,13 @@ const jsonLd = JSON.stringify({
         text-decoration: none;
         font-weight: 700;
       }
-      nav a.logo span { color: var(--accent); }
-      nav .nav-links { display: flex; gap: 1.5rem; }
+      nav a.logo span {
+        color: var(--accent);
+      }
+      nav .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
       nav .nav-links a {
         font-family: var(--mono);
         font-size: 13px;
@@ -92,9 +110,10 @@ const jsonLd = JSON.stringify({
         text-decoration: none;
         transition: color 0.2s;
       }
-      nav .nav-links a:hover { color: var(--accent); }
+      nav .nav-links a:hover {
+        color: var(--accent);
+      }
 
-      /* FOOTER */
       footer {
         border-top: 1px solid var(--border);
         padding: 2rem;
@@ -103,26 +122,55 @@ const jsonLd = JSON.stringify({
         font-size: 13px;
         font-family: var(--mono);
       }
-      footer span { color: var(--accent); }
-      .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem; }
-      .footer-links a { color: var(--text3); text-decoration: none; transition: color 0.2s; }
-      .footer-links a:hover { color: var(--accent); }
+      footer span {
+        color: var(--accent);
+      }
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+      }
+      .footer-links a {
+        color: var(--text3);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .footer-links a:hover {
+        color: var(--accent);
+      }
 
-      /* LAYOUT */
-      .wrap { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
 
-      /* HERO */
-      .hero { padding: 5rem 0 3.5rem; border-bottom: 1px solid var(--border); }
-
-      .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+      .hero {
+        padding: 5rem 0 3.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
       .badge {
-        display: inline-flex; align-items: center; gap: 6px;
-        background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.25);
-        border-radius: 100px; padding: 5px 14px;
-        font-family: var(--mono); font-size: 12px; color: var(--accent);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(14, 165, 233, 0.08);
+        border: 1px solid rgba(14, 165, 233, 0.25);
+        border-radius: 100px;
+        padding: 5px 14px;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
       }
       .badge.gray {
-        background: var(--surface); border-color: var(--border);
+        background: var(--surface);
+        border-color: var(--border);
         color: var(--text2);
       }
 
@@ -137,7 +185,11 @@ const jsonLd = JSON.stringify({
       }
       h1 em {
         font-style: normal;
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent2) 100%
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -148,12 +200,22 @@ const jsonLd = JSON.stringify({
         color: var(--text2);
         font-weight: 300;
         max-width: 600px;
+        margin-bottom: 0.75rem;
+      }
+      .hero-proof {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text3);
         margin-bottom: 2rem;
       }
 
       .cta-btn {
         display: inline-block;
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent2) 100%
+        );
         color: #fff;
         font-family: var(--mono);
         font-size: 14px;
@@ -161,15 +223,27 @@ const jsonLd = JSON.stringify({
         padding: 0.9rem 1.75rem;
         border-radius: 10px;
         text-decoration: none;
-        transition: opacity 0.2s, transform 0.15s;
-        box-shadow: 0 4px 20px rgba(14,165,233,0.25);
+        transition:
+          opacity 0.2s,
+          transform 0.15s;
+        box-shadow: 0 4px 20px rgba(14, 165, 233, 0.2);
       }
-      .cta-btn:hover { opacity: 0.9; transform: translateY(-2px); }
-      .cta-note { display: block; font-family: var(--mono); font-size: 12px; color: var(--text3); margin-top: 0.6rem; }
+      .cta-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+      .cta-note {
+        display: block;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text3);
+        margin-top: 0.6rem;
+      }
 
-      /* SECTIONS */
-      section { padding: 3.5rem 0; border-bottom: 1px solid var(--border); }
-
+      section {
+        padding: 3.5rem 0;
+        border-bottom: 1px solid var(--border);
+      }
       h2 {
         font-family: var(--mono);
         font-size: 11px;
@@ -178,136 +252,290 @@ const jsonLd = JSON.stringify({
         text-transform: uppercase;
         margin-bottom: 1.25rem;
       }
-
       h3 {
         font-family: var(--display);
-        font-size: 1.1rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.01em;
+      }
+      h4 {
+        font-family: var(--display);
+        font-size: 1rem;
         font-weight: 700;
         color: var(--text);
         margin-bottom: 0.3rem;
-        letter-spacing: -0.01em;
       }
 
-      p { color: var(--text2); font-weight: 300; margin-bottom: 0.9rem; }
-      p:last-child { margin-bottom: 0; }
-      strong { color: var(--text); font-weight: 500; }
-      a.inline { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(14,165,233,0.3); }
+      p {
+        color: var(--text2);
+        font-weight: 300;
+        margin-bottom: 0.9rem;
+      }
+      p:last-child {
+        margin-bottom: 0;
+      }
+      strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+      a.inline {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(14, 165, 233, 0.3);
+      }
 
-      /* PAIN LIST */
-      .pain-list { list-style: none; margin: 1.25rem 0; }
+      .pain-list {
+        list-style: none;
+        margin: 1.25rem 0;
+      }
       .pain-list li {
         padding: 0.65rem 0 0.65rem 1.5rem;
-        color: var(--text2); font-weight: 300;
+        color: var(--text2);
+        font-weight: 300;
         border-bottom: 1px solid var(--border);
-        position: relative; font-size: 0.95rem;
+        position: relative;
+        font-size: 0.95rem;
       }
-      .pain-list li:last-child { border-bottom: none; }
+      .pain-list li:last-child {
+        border-bottom: none;
+      }
       .pain-list li::before {
-        content: '//'; position: absolute; left: 0;
-        color: #ef4444; font-family: var(--mono); font-size: 10px;
-        top: 50%; transform: translateY(-50%);
+        content: "//";
+        position: absolute;
+        left: 0;
+        color: var(--danger);
+        font-family: var(--mono);
+        font-size: 10px;
+        top: 50%;
+        transform: translateY(-50%);
       }
 
-      .divider { height: 1px; background: var(--border); margin: 2rem 0; }
+      .insight-box {
+        background: var(--bg2);
+        border-left: 3px solid var(--accent);
+        border-radius: 0 10px 10px 0;
+        padding: 1.5rem 1.75rem;
+        margin: 1.25rem 0;
+      }
+      .insight-box p {
+        color: var(--text);
+        font-size: 1.05rem;
+        font-weight: 400;
+        margin: 0;
+      }
 
-      /* DELIVERABLES */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 2rem 0;
+      }
+
       .deliverables {
-        display: grid; gap: 1px;
-        background: var(--border); border: 1px solid var(--border);
-        border-radius: 14px; overflow: hidden; margin: 1.25rem 0;
+        display: grid;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin: 1.25rem 0;
       }
       .deliverable {
-        background: var(--bg2); padding: 1.25rem 1.5rem;
-        display: grid; grid-template-columns: 2.5rem 1fr;
-        gap: 0.75rem; align-items: start;
+        background: var(--bg2);
+        padding: 1.25rem 1.5rem;
+        display: grid;
+        grid-template-columns: 2.5rem 1fr;
+        gap: 0.75rem;
+        align-items: start;
       }
-      .d-num { font-family: var(--mono); font-size: 11px; color: var(--accent); padding-top: 0.2rem; }
-      .d-body p { font-size: 0.875rem; margin: 0.2rem 0 0; }
+      .d-num {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--accent);
+        padding-top: 0.2rem;
+      }
+      .d-body p {
+        font-size: 0.875rem;
+        margin: 0.2rem 0 0;
+      }
+      .d-body .d-sub {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text3);
+        margin: 0.2rem 0 0;
+        display: block;
+      }
 
-      /* STEPS */
-      .steps { list-style: none; counter-reset: step; margin: 1.25rem 0; }
+      .steps {
+        list-style: none;
+        counter-reset: step;
+        margin: 1.25rem 0;
+      }
       .steps li {
         counter-increment: step;
         padding: 0.75rem 0 0.75rem 3rem;
         border-bottom: 1px solid var(--border);
-        position: relative; color: var(--text2); font-weight: 300; font-size: 0.95rem;
+        position: relative;
+        color: var(--text2);
+        font-weight: 300;
+        font-size: 0.95rem;
       }
-      .steps li:last-child { border-bottom: none; }
+      .steps li:last-child {
+        border-bottom: none;
+      }
       .steps li::before {
-        content: counter(step); position: absolute; left: 0; top: 0.85rem;
-        font-family: var(--mono); font-size: 11px; color: var(--accent);
-        background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.2);
-        width: 1.75rem; height: 1.75rem; border-radius: 6px;
-        display: flex; align-items: center; justify-content: center;
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: 0.85rem;
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--accent);
+        background: rgba(14, 165, 233, 0.08);
+        border: 1px solid rgba(14, 165, 233, 0.2);
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      /* BOX */
-      .box {
-        background: var(--bg2); border: 1px solid var(--border);
-        border-radius: 14px; padding: 1.5rem; margin: 1.25rem 0;
-      }
-      .box a { color: var(--accent); font-family: var(--mono); font-size: 13px; text-decoration: none; }
-      .box a:hover { text-decoration: underline; }
-
-      /* TEARDOWN EXAMPLES */
-      .teardown-item {
-        background: var(--bg2); padding: 1.25rem 1.5rem;
-        display: grid; grid-template-columns: 2.5rem 1fr;
-        gap: 0.75rem; align-items: start;
-      }
-      .teardown-item .d-body a {
-        color: var(--accent); font-family: var(--mono); font-size: 12px;
-        text-decoration: none; margin-top: 0.4rem; display: inline-block;
-      }
-      .teardown-item .d-body a:hover { text-decoration: underline; }
-
-      /* WHO GRID */
       .who-grid {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-        background: var(--border); border: 1px solid var(--border);
-        border-radius: 14px; overflow: hidden; margin: 1.25rem 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin: 1.25rem 0;
       }
-      .who-col { background: var(--bg2); padding: 1.25rem 1.5rem; }
+      .who-col {
+        background: var(--bg2);
+        padding: 1.25rem 1.5rem;
+      }
       .who-col h4 {
-        font-family: var(--mono); font-size: 11px;
-        letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
       }
-      .who-col.yes h4 { color: var(--accent3); }
-      .who-col.no h4 { color: #ef4444; }
-      .who-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
-      .who-col ul li { font-size: 0.875rem; color: var(--text2); font-weight: 300; }
+      .who-col.yes h4 {
+        color: var(--accent3);
+      }
+      .who-col.no h4 {
+        color: var(--danger);
+      }
+      .who-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .who-col ul li {
+        font-size: 0.875rem;
+        color: var(--text2);
+        font-weight: 300;
+      }
 
-      /* GUARANTEE */
       .guarantee {
-        background: rgba(14,165,233,0.04); border: 1px solid rgba(14,165,233,0.2);
-        border-radius: 14px; padding: 1.5rem; margin: 1.25rem 0;
+        background: rgba(14, 165, 233, 0.04);
+        border: 1px solid rgba(14, 165, 233, 0.2);
+        border-radius: 14px;
+        padding: 1.5rem;
+        margin: 1.25rem 0;
       }
-      .guarantee p { color: var(--text); }
+      .guarantee p {
+        color: var(--text);
+      }
 
-      /* FAQ */
-      .faq-item { padding: 1.1rem 0; border-bottom: 1px solid var(--border); }
-      .faq-item:last-child { border-bottom: none; }
-      .faq-q { font-weight: 500; color: var(--text); font-size: 0.95rem; margin-bottom: 0.35rem; }
-      .faq-a { font-size: 0.9rem; font-weight: 300; margin: 0; }
+      .faq-item {
+        padding: 1.1rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .faq-item:last-child {
+        border-bottom: none;
+      }
+      .faq-q {
+        font-weight: 500;
+        color: var(--text);
+        font-size: 0.95rem;
+        margin-bottom: 0.35rem;
+      }
+      .faq-a {
+        font-size: 0.9rem;
+        font-weight: 300;
+        margin: 0;
+      }
 
-      /* CTA FINAL */
-      .cta-final { padding: 5rem 0; text-align: center; }
+      .cta-final {
+        padding: 5rem 0;
+        text-align: center;
+      }
+      .cta-final-headline {
+        font-family: var(--display);
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: -0.02em;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+      }
+      .cta-final-headline em {
+        font-style: normal;
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent2) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .price-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 1.5rem 0;
+      }
       .price {
-        font-family: var(--mono); font-size: 4rem; font-weight: 700;
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        background-clip: text; margin-bottom: 0.25rem;
+        font-family: var(--mono);
+        font-size: 3.5rem;
+        font-weight: 700;
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent2) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
       .price-meta {
-        font-family: var(--mono); font-size: 12px; color: var(--text3);
-        letter-spacing: 0.08em; margin-bottom: 2rem;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text3);
+        letter-spacing: 0.08em;
+        margin-bottom: 2rem;
       }
 
       @media (max-width: 600px) {
-        .who-grid { grid-template-columns: 1fr; }
-        h1 { font-size: 2rem; }
-        .wrap { padding: 0 1.25rem; }
-        .price { font-size: 3rem; }
+        .who-grid {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: 2rem;
+        }
+        .wrap {
+          padding: 0 1.25rem;
+        }
+        .price {
+          font-size: 3rem;
+        }
       }
     </style>
   </head>
@@ -317,90 +545,194 @@ const jsonLd = JSON.stringify({
       <a href="/" class="logo">built<span>with</span>bugs.com</a>
       <div class="nav-links">
         <a href="/">Home</a>
-        <a href="/audit">Audit</a>
         <a href="/blog">Blog</a>
         <a href="/about">About</a>
+        <a href="/audit">Audit</a>
       </div>
     </nav>
 
-    <div class="page-hero-bg">
+    <div class="hero-bg">
       <div class="wrap">
         <div class="hero">
           <div class="badge-row">
             <span class="badge">● Audit Copy</span>
             <span class="badge gray">97€ · 72h · Garanti 7 jours</span>
           </div>
-          <h1>Tes ventes stagnent.<br/><em>Ton produit n'est probablement pas le problème.</em></h1>
-          <p class="hero-sub">En 72h, je diagnostique ce qui bloque dans ta copy fiches produits, hooks ads, emails et je te montre quoi corriger pour relancer tes conversions.</p>
-          <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn">Réserver mon audit - 97€</a>
-          <span class="cta-note">Paiement sécurisé Stripe · Satisfait ou remboursé 7 jours</span>
+          <h1>
+            Tu paies du trafic.<br /><em
+              >Mais ta fiche produit fait fuir tes clients.</em
+            >
+          </h1>
+          <p class="hero-sub">
+            J'analyse ta boutique et t'indique exactement ce qui bloque tes
+            conversions, et comment récupérer ce chiffre perdu en 7 jours.
+          </p>
+          <p class="hero-proof">
+            Basé sur des audits e-commerce réels fiches produits, hooks, emails.
+          </p>
+          <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn"
+            >Obtenir mon audit| 7€</a
+          >
+          <span class="cta-note"
+            >Pas d'appel commercial. Résultats concrets en 72h. Garanti 7 jours.</span
+          >
         </div>
       </div>
     </div>
 
     <div class="wrap">
-
       <section>
-        <h2>// Le problème</h2>
-        <p>Ton CPA a pris <strong>+21% en 2025</strong>. Ton ROAS perd <strong>17%</strong>. Tu ajoutes du budget, tu changes de créas, tu testes une nouvelle agence.</p>
-        <p>La vraie cause est souvent plus simple :</p>
+        <h2>// Le problème n'est pas ton acquisition</h2>
+        <h3>
+          La plupart des e-commerces perdent 20 à 40% de leurs conversions après
+          le clic.
+        </h3>
+        <p>
+          Pas à cause du targeting. Pas à cause du budget. Mais à cause de ce
+          que voit le client en arrivant sur ta boutique.
+        </p>
         <ul class="pain-list">
-          <li>Tes fiches parlent de toi, pas du client qui scrolle</li>
-          <li>Tes hooks sont trop génériques pour un feed Meta saturé</li>
-          <li>Tes emails ne créent ni urgence, ni curiosité, ni raison de cliquer</li>
-          <li>Ta promesse se dilue au premier scroll</li>
+          <li>
+            Fiches produits interchangeables avec celles de la concurrence
+          </li>
+          <li>Hooks invisibles dans un feed Meta saturé</li>
+          <li>
+            Aucune tension dans le texte, aucune raison d'acheter maintenant
+          </li>
+          <li>Emails ignorés parce qu'ils ne créent ni urgence ni curiosité</li>
         </ul>
-        <p>Un pixel bien configuré ne sauvera pas une copy qui rebute.</p>
-        <div class="divider"></div>
-        <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn">Je veux savoir ce qui cloche</a>
-      </section>
-
-      <section>
-        <h2>// Exemples publics</h2>
-        <p>Avant de payer, regarde ce que je publie chaque semaine sur LinkedIn. Des boutiques FR décortiquées avec la même grille que j'applique aux audits payants.</p>
-        <div class="deliverables" style="margin: 1.25rem 0;">
-          <div class="teardown-item">
-            <span class="d-num">[01]</span>
-            <div class="d-body">
-              <h3>Teardown #1 : Respire (cosmétique naturelle FR)</h3>
-              <p>Hook trop descriptif (61/100), agitation absente sur les fiches (68/100), social proof mal placé (72/100). Score moyen : 67/100.</p>
-              <a href={teardown1Url} target="_blank" rel="noopener">Voir l'analyse complète ↗</a>
-            </div>
-          </div>
-          <div class="teardown-item">
-            <span class="d-num">[02]</span>
-            <div class="d-body">
-              <h3>Teardown #2 : Mode dropshipping FR</h3>
-              <p>Titre issu du catalogue fournisseur (58/100), preuve sociale générique (64/100), bouton CTA passif (61/100). Score moyen : 61/100.</p>
-              <a href={teardown2Url} target="_blank" rel="noopener">Voir l'analyse complète ↗</a>
-            </div>
-          </div>
+        <div class="insight-box">
+          <p>
+            Un pixel bien configuré ne compense pas une mauvaise copy. Tu peux
+            optimiser tes ads pendant des mois. Si ton message ne convertit pas,
+            tu paies juste plus cher pour le même résultat.
+          </p>
         </div>
-        <p>Si ce niveau d'analyse te parle, l'audit payant va plus profond : 5 fiches, 3 hooks, 1 email, un Loom complet et un call.</p>
       </section>
 
       <section>
-        <h2>// Ce que tu reçois</h2>
-        <div class="deliverables">
+        <h2>// Preuve publique</h2>
+        <p>
+          Chaque semaine, j'analyse des boutiques FR en public avec la même
+          grille que j'applique aux audits payants. Tu peux voir le niveau
+          d'analyse avant de payer.
+        </p>
+        <div class="deliverables" style="margin: 1.25rem 0;">
           <div class="deliverable">
             <span class="d-num">[01]</span>
-            <div class="d-body"><h3>5 fiches produits disséquées</h3><p>Titre, description, bullets, social proof. Ce qui bloque, ce qui doit sauter, ce qu'il manque pour convertir.</p></div>
+            <div class="d-body">
+              <h4>Copyboost Audit #1 Respire (cosmétique naturelle FR)</h4>
+              <p>
+                Axe hook : ancrer la promesse sur la douleur client vs
+                description produit (61/100). Axe tension : agitation absente
+                des fiches (68/100). Axe preuve : social proof mal positionné
+                dans le funnel (72/100).
+              </p>
+              <a
+                class="inline"
+                href={teardown1Url}
+                target="_blank"
+                rel="noopener"
+                style="font-size: 0.85rem; margin-top: 0.4rem; display: inline-block;"
+                >Voir l'analyse complète ↗</a
+              >
+            </div>
           </div>
           <div class="deliverable">
             <span class="d-num">[02]</span>
-            <div class="d-body"><h3>3 hooks analysés</h3><p>Tes meilleures créas Meta ou TikTok. Ouverture, tension, promesse. Pourquoi ils scrollent au lieu de cliquer.</p></div>
+            <div class="d-body">
+              <h4>Copyboost Audit #2 Mode dropshipping FR</h4>
+              <p>
+                Axe hook : titre issu du catalogue fournisseur sans émotion
+                (58/100). Axe preuve : avis génériques sans détail concret
+                (64/100). Axe CTA : bouton passif sans tension d'achat (61/100).
+              </p>
+              <a
+                class="inline"
+                href={teardown2Url}
+                target="_blank"
+                rel="noopener"
+                style="font-size: 0.85rem; margin-top: 0.4rem; display: inline-block;"
+                >Voir l'analyse complète ↗</a
+              >
+            </div>
           </div>
           <div class="deliverable">
             <span class="d-num">[03]</span>
-            <div class="d-body"><h3>1 email au choix</h3><p>Welcome, abandon panier ou promo. Objet, pré-header, structure. Ce qui tue l'ouverture ou le clic.</p></div>
+            <div class="d-body">
+              <h4>Copyboost Audit #3 Skincare premium FR</h4>
+              <p>
+                Axe hook : promesse ancrée sur la formule et non le résultat
+                visible (69/100). Axe tension : ingrédients listés sans lien
+                narratif au bénéfice ressenti (73/100). Axe preuve : reviews
+                présentes mais non spécifiques (71/100).
+              </p>
+              <a
+                class="inline"
+                href={teardown3Url}
+                target="_blank"
+                rel="noopener"
+                style="font-size: 0.85rem; margin-top: 0.4rem; display: inline-block;"
+                >Voir l'analyse complète ↗</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>// Audit conversion e-commerce — actionnable en 72h</h2>
+        <h3>Une grille structurée, pas de l'intuition.</h3>
+        <p>
+          J'analyse ta boutique avec Copyboost pour identifier précisément ce
+          qui bloque tes ventes au niveau du texte, pas du budget ads.
+        </p>
+        <div class="deliverables" style="margin: 1.75rem 0;">
+          <div class="deliverable">
+            <span class="d-num">[01]</span>
+            <div class="d-body">
+              <h4>5 fiches produits disséquées</h4>
+              <span class="d-sub"
+                >Ce qui bloque, ce qui doit sauter, ce qu'il manque pour
+                convertir</span
+              >
+            </div>
+          </div>
+          <div class="deliverable">
+            <span class="d-num">[02]</span>
+            <div class="d-body">
+              <h4>3 hooks analysés</h4>
+              <span class="d-sub"
+                >Pourquoi ils ne stoppent pas le scroll, et comment corriger</span
+              >
+            </div>
+          </div>
+          <div class="deliverable">
+            <span class="d-num">[03]</span>
+            <div class="d-body">
+              <h4>1 email optimisé</h4>
+              <span class="d-sub"
+                >Objet + clic : ce qui casse la performance</span
+              >
+            </div>
           </div>
           <div class="deliverable">
             <span class="d-num">[04]</span>
-            <div class="d-body"><h3>Loom vidéo 15 minutes</h3><p>Commentaire en direct avec screenshots Copyboost. Tu vois le raisonnement, pas juste les conclusions.</p></div>
+            <div class="d-body">
+              <h4>Loom vidéo 15 minutes</h4>
+              <span class="d-sub"
+                >Analyse concrète avec screenshots Copyboost et explications</span
+              >
+            </div>
           </div>
           <div class="deliverable">
             <span class="d-num">[05]</span>
-            <div class="d-body"><h3>Call stratégique 30 minutes</h3><p>On priorise. Ce que tu changes cette semaine, ce que tu testes dans 15 jours, ce que tu laisses tomber.</p></div>
+            <div class="d-body">
+              <h4>Plan d'action priorisé + call 30 min</h4>
+              <span class="d-sub"
+                >Quoi changer maintenant vs plus tard, validé ensemble</span
+              >
+            </div>
           </div>
         </div>
       </section>
@@ -409,19 +741,15 @@ const jsonLd = JSON.stringify({
         <h2>// Comment ça se passe</h2>
         <ol class="steps">
           <li>Tu paies 97€ via Stripe</li>
-          <li>Tu remplis un formulaire court : URL boutique, 3 pages à prioriser, objectif business</li>
-          <li>Tu réserves ton créneau call sur mon agenda</li>
-          <li>72h ouvrées max : tu reçois le Loom + un plan d'action écrit</li>
-          <li>On fait le call 30 min pour valider l'ordre d'exécution</li>
+          <li>
+            Tu envoies ta boutique et tes priorités via un formulaire court
+          </li>
+          <li>Tu reçois ton audit Loom + plan d'action sous 72h</li>
+          <li>
+            On valide ensemble les actions prioritaires sur un call 30 min
+          </li>
         </ol>
         <p>Zéro appel commercial avant paiement. Zéro upsell forcé.</p>
-      </section>
-
-      <section>
-        <h2>// Pourquoi moi</h2>
-        <p>Je suis Samwane. J'ai construit <a class="inline" href="https://copyboost.io" target="_blank" rel="noopener">Copyboost</a> un SaaS d'analyse de copy marketing avec 7 modules : analyse conversion, simulation d'audience, voix de marque, variantes A/B, humanisation IA, multi-formats, traduction.</p>
-        <p>Certifié Google Digital Marketing. J'ai buildé Copyboost en 6 mois avec Claude Code parce que j'auditais déjà de la copy manuellement et voulais systématiser la méthode.</p>
-        <p>Chaque audit tourne dans <strong>mon propre outil</strong>. Tu vois la grille d'analyse, les scores par axe, les biais cognitifs. Pas de l'intuition du diagnostic produit appliqué à ta boutique.</p>
       </section>
 
       <section>
@@ -430,17 +758,16 @@ const jsonLd = JSON.stringify({
           <div class="who-col yes">
             <h4>✓ Oui si</h4>
             <ul>
-              <li>Boutique FR active 3+ mois</li>
-              <li>5k–300k€ de CA mensuel</li>
-              <li>500€+/mois en pub</li>
-              <li>Tu soupçonnes la copy</li>
+              <li>Boutique active depuis 3+ mois</li>
+              <li>5k à 300k€ de CA mensuel</li>
+              <li>Dépense ads active</li>
             </ul>
           </div>
           <div class="who-col no">
             <h4>✕ Non si</h4>
             <ul>
-              <li>Boutique pas encore lancée</li>
-              <li>Moins de 20 visites/jour</li>
+              <li>Pas encore lancé</li>
+              <li>Moins de 20 visites par jour</li>
               <li>Tu cherches du copié-collé</li>
             </ul>
           </div>
@@ -448,10 +775,37 @@ const jsonLd = JSON.stringify({
       </section>
 
       <section>
+        <h2>// Pourquoi moi</h2>
+        <p>
+          Je suis Samwane. J'ai construit <a
+            class="inline"
+            href="https://copyboost.io"
+            target="_blank"
+            rel="noopener">Copyboost</a
+          > un SaaS d'analyse de copy marketing avec 7 modules : analyse conversion,
+          simulation d'audience, voix de marque, variantes A/B, humanisation IA, multi-formats,
+          traduction.
+        </p>
+        <p>
+          Certifié Google Digital Marketing. J'ai buildé Copyboost en 6 mois
+          avec Claude Code parce que j'auditais déjà de la copy manuellement et
+          voulais systématiser la méthode.
+        </p>
+        <p>
+          Chaque audit repose sur une <strong>grille structurée</strong>, pas
+          sur de l'intuition. Tu vois les scores par axe, les biais cognitifs
+          détectés, les quick wins priorisés.
+        </p>
+      </section>
+
+      <section>
         <h2>// La garantie</h2>
         <div class="guarantee">
-          <p><strong>7 jours satisfait ou remboursé, intégralement.</strong></p>
-          <p>Si à la réception du Loom tu trouves que l'audit n'apporte rien d'actionnable, un email suffit. Je rembourse les 97€ sans question.</p>
+          <p><strong>Zéro risque.</strong></p>
+          <p>
+            Si l'audit ne t'apporte rien d'actionnable, remboursement intégral
+            sous 7 jours. Un email suffit, sans question.
+          </p>
         </div>
       </section>
 
@@ -459,19 +813,28 @@ const jsonLd = JSON.stringify({
         <h2>// FAQ</h2>
         <div class="faq-item">
           <p class="faq-q">Tu analyses mon produit ou ma copy ?</p>
-          <p class="faq-a">Ta copy uniquement. L'audit identifie ce que ta copy raconte mal, pas si ton offre est bonne.</p>
+          <p class="faq-a">
+            Ta copy uniquement. L'audit identifie ce que ta copy raconte mal,
+            pas si ton offre est bonne.
+          </p>
         </div>
         <div class="faq-item">
           <p class="faq-q">Ma boutique est en plusieurs langues ?</p>
-          <p class="faq-a">L'audit est FR uniquement. On audite la version française.</p>
+          <p class="faq-a">
+            L'audit est FR uniquement. On audite la version française.
+          </p>
         </div>
         <div class="faq-item">
           <p class="faq-q">Combien de temps ça me prend ?</p>
-          <p class="faq-a">15 minutes pour le formulaire. 30 minutes pour le call. C'est tout.</p>
+          <p class="faq-a">
+            15 minutes pour le formulaire. 30 minutes pour le call. C'est tout.
+          </p>
         </div>
         <div class="faq-item">
           <p class="faq-q">Tu délivres le week-end ?</p>
-          <p class="faq-a">72h en jours ouvrés. Paiement vendredi = livraison mercredi max.</p>
+          <p class="faq-a">
+            72h en jours ouvrés. Paiement vendredi = livraison mercredi max.
+          </p>
         </div>
         <div class="faq-item">
           <p class="faq-q">Je peux payer en plusieurs fois ?</p>
@@ -479,26 +842,58 @@ const jsonLd = JSON.stringify({
         </div>
         <div class="faq-item">
           <p class="faq-q">Et si je veux que tu réécrives tout ?</p>
-          <p class="faq-a">Ce n'est pas le format. Pour de la rédaction complète, contacte-moi directement.</p>
+          <p class="faq-a">
+            Ce n'est pas le format. L'audit diagnostique et montre comment
+            corriger. Pour de la rédaction complète, contacte-moi directement.
+          </p>
         </div>
       </section>
 
       <div class="cta-final">
-        <div class="price">97€</div>
+        <p class="cta-final-headline">
+          Tu peux continuer à optimiser tes ads.<br /><em
+            >Ou corriger ce qui bloque vraiment tes ventes.</em
+          >
+        </p>
+        <div class="price-row">
+          <span class="price">97€</span>
+        </div>
         <p class="price-meta">ONE-SHOT · 72H · GARANTI 7 JOURS</p>
-        <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn">Réserver mon audit maintenant</a>
-        <span class="cta-note">Questions avant d'acheter ? . samwane@copyboost.io</span>
+        <a href={stripeUrl} target="_blank" rel="noopener" class="cta-btn"
+          >Obtenir mon audit maintenant</a
+        >
+        <span class="cta-note"
+          >Questions avant d'acheter ? . samwane@copyboost.io</span
+        >
       </div>
-
     </div>
 
     <footer>
-      <span>builtwithbugs.com</span> · Audit propulsé par <a href="https://copyboost.io" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none;">Copyboost</a>
+      <span>builtwithbugs.com</span> · Audit propulsé par <a
+        href="https://copyboost.io"
+        target="_blank"
+        rel="noopener"
+        style="color: var(--accent); text-decoration: none;">Copyboost</a
+      >
       <div class="footer-links">
-        <a href="https://www.linkedin.com/in/samwane-abdallah-837844119" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://www.reddit.com/user/samwane/" target="_blank" rel="noopener">Reddit</a>
-        <a href="https://x.com/samwanebuild/" target="_blank" rel="noopener">X (Twitter)</a>
-        <a href="https://www.instagram.com/copyboost25/" target="_blank" rel="noopener">Instagram</a>
+        <a
+          href="https://www.linkedin.com/in/samwane-abdallah-837844119"
+          target="_blank"
+          rel="noopener">LinkedIn</a
+        >
+        <a
+          href="https://www.reddit.com/user/samwane/"
+          target="_blank"
+          rel="noopener">Reddit</a
+        >
+        <a href="https://x.com/samwanebuild/" target="_blank" rel="noopener"
+          >X (Twitter)</a
+        >
+        <a
+          href="https://www.instagram.com/copyboost25/"
+          target="_blank"
+          rel="noopener">Instagram</a
+        >
       </div>
     </footer>
   </body>

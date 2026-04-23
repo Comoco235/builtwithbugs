@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -24,7 +25,7 @@ const websiteSchema = JSON.stringify({
 <html lang="fr">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <script type="application/ld+json" set:html={websiteSchema} />
+    <script is:inline type="application/ld+json" set:html={websiteSchema} />
   </head>
   <body>
     <nav>
@@ -81,9 +82,6 @@ const websiteSchema = JSON.stringify({
           <li>
             <article>
               <a href={`/blog/${post.id.replace('.md', '')}/`} class="post-card">
-                {post.data.heroImage && (
-                  <img src={post.data.heroImage.src} alt={post.data.title} class="post-img" />
-                )}
                 <div class="post-content">
                   <time class="post-date" datetime={post.data.pubDate.toISOString()}>
                     {post.data.pubDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}

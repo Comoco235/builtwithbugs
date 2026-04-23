@@ -1,0 +1,109 @@
+---
+// src/layouts/BlogPostLayout.astro
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "image": heroImage ? new URL(heroImage.src, Astro.url.origin).toString() : undefined,
+  "datePublished": pubDate.toISOString(),
+  ...(updatedDate && { "dateModified": updatedDate.toISOString() }),
+  "author": {
+    "@type": "Person",
+    "name": "Samwane ABDALLAH",
+    "url": "https://copyboost.io" // Optionnel, mais recommandé
+  }
+};
+---
+
+<html lang="fr">
+	<head>
+		<BaseHead title={title} description={description} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+		<style>
+			main {
+				width: calc(100% - 2em);
+				max-width: 100%;
+				margin: 0;
+			}
+			.hero-image {
+				width: 100%;
+			}
+			.prose img {
+				display: block;
+				max-width: 100%;
+				height: auto;
+				margin: 2rem auto;
+				border-radius: 12px;
+				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+			}
+			.prose {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 1em;
+				color: rgb(var(--gray-dark));
+			}
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0 0 0.5em 0;
+			}
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray));
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+		</style>
+	</head>
+
+	<body>
+		<main>
+			<article>
+				<header>
+					<div class="prose">
+						<div class="title">
+							<h1>{title}</h1>
+							<div class="date">
+								Publié le {pubDate.toLocaleDateString('fr-fr', { year: 'numeric', month: 'long', day: 'numeric' })}
+								{
+									updatedDate && (
+										<div class="last-updated-on">
+											Dernière mise à jour le {updatedDate.toLocaleDateString('fr-fr', { year: 'numeric', month: 'long', day: 'numeric' })}
+										</div>
+									)
+								}
+							</div>
+							<hr />
+						</div>
+						<slot />
+					</div>
+				</header>
+			</article>
+		</main>
+	</body>
+</html>
+
+<style is:global>
+  /* Cible les images générées par le Markdown à l'intérieur de ton article */
+  article img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem auto;
+    border-radius: 12px; /* Les bords arrondis pour correspondre à ton design */
+  }
+</style>

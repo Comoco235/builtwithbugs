@@ -3,6 +3,7 @@ title: "Comment j'ai configuré mon VPS pour automatiser ma création de contenu
 description: "6h de debug, deux installations en conflit, un modèle Gemini inexistant - voici comment j'ai finalement buildé un pipeline de contenu automatisé sur VPS."
 pubDate: 2026-04-15
 slug: "comment-jai-configure-mon-vps"
+heroImage: "../../assets/blog-placeholder-4.jpg"
 ---
 
 Franchement, j'ai passé une bonne partie de ma journée à batailler avec un truc qui semblait pourtant simple : installer un outil IA sur mon serveur et le connecter à Notion pour automatiser ma création de contenu.
