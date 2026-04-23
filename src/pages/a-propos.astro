@@ -37,6 +37,11 @@ import MainLayout from '../layouts/MainLayout.astro';
 <style>
   h1 {
     margin-bottom: 2rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   h2 {
     margin: 2.5rem 0 1rem;

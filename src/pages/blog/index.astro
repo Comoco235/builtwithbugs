@@ -34,6 +34,15 @@ const posts = (await getCollection('blog')).sort(
     </ul>
 
     <style>
+      h1 {
+        margin-bottom: 0.5rem;
+        font-size: clamp(2rem, 5vw, 3rem);
+        background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
       .section-label {
         font-family: var(--mono);
         font-size: 12px;
