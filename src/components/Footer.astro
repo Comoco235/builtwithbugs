@@ -1,0 +1,79 @@
+---
+const today = new Date();
+---
+
+<footer>
+	<div class="footer-content">
+        <span>builtwithbugs.com</span> · Hacker sa visibilité avec la tech et l'IA
+    </div>
+	<div class="social-links">
+		<a href="https://www.linkedin.com/in/samwane-abdallah-837844119" target="_blank">LinkedIn</a>
+		<a href="https://www.reddit.com/user/samwane/" target="_blank">Reddit</a>
+		<a href="https://x.com/samwanebuild/" target="_blank">X (Twitter)</a>
+		<a href="https://www.instagram.com/copyboost25/" target="_blank">Instagram</a>
+	</div>
+    <div class="legal-links">
+        <a href="/mentions-legales">Mentions Légales</a>
+        <a href="/politique-de-confidentialite">Politique de Confidentialité</a>
+    </div>
+</footer>
+
+<style>
+	footer {
+		padding: 4rem 2rem;
+		text-align: center;
+		color: var(--text3);
+		font-size: 13px;
+		font-family: var(--mono);
+		border-top: 1px solid var(--border);
+		background: var(--bg);
+	}
+	footer span {
+		color: var(--accent);
+		font-weight: 700;
+	}
+    .footer-content {
+        margin-bottom: 1.5rem;
+    }
+	.social-links {
+		display: flex;
+		justify-content: center;
+		gap: 1.5rem;
+		margin-bottom: 2rem;
+	}
+	.social-links a {
+		color: var(--text3);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+	.social-links a:hover {
+		color: var(--accent);
+	}
+    .legal-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    .legal-links a {
+        font-size: 11px;
+        color: var(--text3);
+        text-decoration: none;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+    }
+    .legal-links a:hover {
+        color: var(--accent);
+        opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+        .social-links {
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .legal-links {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    }
+</style>

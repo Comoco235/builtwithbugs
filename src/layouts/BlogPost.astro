@@ -1,0 +1,253 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, h1, description, pubDate, updatedDate, heroImage } = Astro.props;
+
+const articleSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "image": heroImage ? new URL(heroImage.src, Astro.url).toString() : undefined,
+  "datePublished": pubDate.toISOString(),
+  "dateModified": updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": "Samwane"
+  }
+});
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <BaseHead title={title} description={description} />
+    <script is:inline type="application/ld+json" set:html={articleSchema} />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --bg2: #f8f9fa;
+        --surface: #f1f3f5;
+        --border: #e9ecef;
+        --accent: #0088cc;
+        --accent2: #7c3aed;
+        --accent3: #10b981;
+        --text: #212529;
+        --text2: #495057;
+        --text3: #6c757d;
+        --mono: 'JetBrains Mono', monospace;
+        --display: 'Syne', sans-serif;
+        --body: 'DM Sans', sans-serif;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .article-header {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 4rem 2rem 2rem;
+      }
+
+      .article-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(0,212,255,0.08);
+        border: 1px solid rgba(0,212,255,0.2);
+        border-radius: 100px;
+        padding: 6px 16px;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+      }
+
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--text) 0%, var(--text2) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .article-meta {
+        display: flex;
+        gap: 1rem;
+        color: var(--text3);
+        font-family: var(--mono);
+        font-size: 13px;
+        margin-bottom: 2rem;
+      }
+
+      .article-body {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 2rem 6rem;
+      }
+
+      .article-body h1, .article-body h2, .article-body h3 {
+        font-family: var(--display);
+        font-weight: 700;
+        color: var(--text);
+        margin: 2rem 0 1rem;
+        letter-spacing: -0.02em;
+      }
+
+      .article-body h1 { font-size: 2rem; }
+      .article-body h2 { font-size: 1.5rem; color: var(--accent); }
+      .article-body h3 { font-size: 1.2rem; }
+
+      .article-body p {
+        color: var(--text2);
+        margin-bottom: 1.2rem;
+        font-weight: 300;
+      }
+
+      .article-body pre {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-family: var(--mono);
+        font-size: 13px;
+      }
+
+      .article-body code {
+        font-family: var(--mono);
+        font-size: 13px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 2px 8px;
+        color: var(--accent);
+      }
+
+      .article-body pre code {
+        background: none;
+        border: none;
+        padding: 0;
+        color: var(--text);
+      }
+
+      .article-body a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0,212,255,0.3);
+      }
+
+      .article-body strong { color: var(--text); font-weight: 500; }
+
+      .divider {
+        height: 1px;
+        background: linear-gradient(90deg, var(--border), transparent);
+        margin: 2rem 0;
+      }
+
+      nav {
+        background: rgba(255,255,255,0.9);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav a.logo {
+        font-family: var(--mono);
+        font-size: 14px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      nav a.logo span { color: var(--text3); }
+
+      nav .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      nav .nav-links a {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--text3);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      nav .nav-links a:hover { color: var(--accent); }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem;
+        text-align: center;
+        color: var(--text3);
+        font-size: 13px;
+        font-family: var(--mono);
+      }
+
+      footer span { color: var(--accent); }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <a href="/" class="logo">built<span>with</span>bugs<span>.com</span></a>
+      <div class="nav-links">
+  <a href="/">Home</a>
+  <a href="/blog">Blog</a>
+  <a href="/about">About</a>
+  <a href="/audit">Audit</a>
+</div>
+    </nav>
+
+    <main>
+      <article>
+        <header class="article-header">
+          <div class="article-badge">● ARTICLE</div>
+          <h1 class="article-title">{h1 || title}</h1>
+          <div class="article-meta">
+            <span><FormattedDate date={pubDate} /></span>
+            {updatedDate && <span>Mis à jour : <FormattedDate date={updatedDate} /></span>}
+          </div>
+          <div class="divider"></div>
+        </header>
+
+        <div class="article-body">
+          <slot />
+        </div>
+      </article>
+    </main>
+
+    <footer>
+  <span>builtwithbugs.com</span> · Hacker sa visibilité avec la tech et l'IA
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/samwane-abdallah-837844119" target="_blank">LinkedIn</a>
+    <a href="https://www.reddit.com/user/samwane/" target="_blank">Reddit</a>
+    <a href="https://x.com/samwanebuild/" target="_blank">X (Twitter)</a>
+    <a href="https://www.instagram.com/copyboost25/" target="_blank">Instagram</a>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+---
+const { pathname } = Astro.url;
+const isActive = (href: string) => {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+};
+---
+
+<nav>
+  <a href="/" class="logo">built<span>with</span>bugs<span>.com</span></a>
+  <div class="nav-links">
+    <a href="/" class={isActive('/') ? 'active' : ''}>Home</a>
+    <a href="/blog" class={isActive('/blog') ? 'active' : ''}>Blog</a>
+    <a href="/a-propos" class={isActive('/a-propos') ? 'active' : ''}>À propos</a>
+    <a href="/audit" class={isActive('/audit') ? 'active' : ''}>Audit</a>
+  </div>
+</nav>
+
+<style>
+  nav {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  nav a.logo {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  nav a.logo span {
+    color: var(--text3);
+    font-weight: 400;
+  }
+
+  nav .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  nav .nav-links a {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav .nav-links a:hover,
+  nav .nav-links a.active {
+    color: var(--accent);
+  }
+
+  @media (max-width: 600px) {
+    nav {
+      padding: 1rem;
+    }
+    nav .nav-links {
+      gap: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<MainLayout title={`Blog - ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+    <div class="section-header">
+        <h1>Blog - Built With Bugs</h1>
+        <span class="section-label">// TOUS LES ARTICLES</span>
+    </div>
+    <ul class="post-grid">
+        {posts.map((post) => (
+            <li>
+                <article>
+                    <a href={`/blog/${post.id.replace('.md', '')}/`} class="post-card">
+                        <div class="post-content">
+                            <div class="post-date">
+                                <FormattedDate date={post.data.pubDate} />
+                            </div>
+                            <h3 class="post-title">{post.data.title}</h3>
+                            <p class="post-desc">{post.data.description}</p>
+                            <span class="post-cta">Lire l'article →</span>
+                        </div>
+                    </a>
+                </article>
+            </li>
+        ))}
+    </ul>
+
+    <style>
+      h1 {
+        margin-bottom: 0.5rem;
+        font-size: clamp(2rem, 5vw, 3rem);
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .section-label {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        letter-spacing: 0.1em;
+        display: block;
+        margin-bottom: 2rem;
+      }
+
+      .post-grid {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .post-card {
+        display: flex;
+        flex-direction: column;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        text-decoration: none;
+        transition: border-color 0.2s, transform 0.2s;
+      }
+
+      .post-card:hover {
+        border-color: rgba(0,212,255,0.3);
+        transform: translateY(-2px);
+        text-decoration: none;
+      }
+
+      .post-content {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .post-date {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text3);
+        letter-spacing: 0.05em;
+      }
+
+      .post-title {
+        font-family: var(--display);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+      }
+
+      .post-desc {
+        font-size: 14px;
+        color: var(--text2);
+        font-weight: 300;
+        line-height: 1.6;
+      }
+
+      .post-cta {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        letter-spacing: 0.05em;
+      }
+    </style>
+</MainLayout>

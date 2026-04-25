@@ -1,0 +1,50 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout
+  title="À propos"
+  description="Qui est derrière builtwithbugs.com ?"
+>
+  <h1>À propos</h1>
+  <p>
+    Bienvenue sur <strong>builtwithbugs.com</strong> un blog construit en public, bugs inclus.
+  </p>
+
+  <p>
+    Je suis un créateur de contenu qui apprend le développement (Python), la tech et le marketing digital en construisant des projets réels. Mon objectif : hacker ma visibilité avec la tech et l'IA, et partager chaque étape - les succès comme les galères.
+  </p>
+
+  <h2>Ce que tu trouveras ici</h2>
+
+  <p>
+    Des cas pratiques concrets : comment j'utilise un VPS, des APIs IA, des scripts Python et des outils no-code pour automatiser ma création de contenu et booster ma visibilité. Pas de théorie - des projets réels, du code réel, des erreurs réelles.
+  </p>
+
+  <h2>La stack</h2>
+
+  <p>
+    VPS Hetzner · OpenClaw · Gemini 2.5 Flash-Lite · Notion API · Python 3 · Astro · Vercel
+  </p>
+
+  <h2>Contact</h2>
+
+  <p>
+    Tu veux échanger sur un projet ou une collaboration ? Retrouve-moi sur LinkedIn.
+  </p>
+</MainLayout>
+
+<style>
+  h1 {
+    margin-bottom: 2rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  h2 {
+    margin: 2.5rem 0 1rem;
+    font-size: 1.5rem;
+  }
+</style>
