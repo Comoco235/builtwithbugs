@@ -1,1 +1,38 @@
-{"redirects":[{"source":"/audit","destination":"https://copyboost.io/audit-expert","permanent":true}]}
+{
+    "redirects": [
+        {
+            "source": "/audit",
+            "destination": "https://copyboost.io/audit-expert",
+            "permanent": true
+        }
+    ],
+    "headers": [
+        {
+            "source": "/_astro/(.*)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                }
+            ]
+        },
+        {
+            "source": "/_next/static/(.*)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                }
+            ]
+        },
+        {
+            "source": "/(.*\\.(webp|png|jpg|jpeg|svg|avif|woff2|woff|css|js))",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=86400, must-revalidate"
+                }
+            ]
+        }
+    ]
+}

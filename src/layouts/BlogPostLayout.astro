@@ -12,6 +12,10 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 const schemaData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": Astro.url.toString()
+  },
   "headline": title,
   "description": description,
   "image": heroImage ? new URL(heroImage.src, Astro.url.origin).toString() : undefined,
@@ -19,8 +23,9 @@ const schemaData = {
   ...(updatedDate && { "dateModified": updatedDate.toISOString() }),
   "author": {
     "@type": "Person",
+    "@id": "https://www.builtwithbugs.com/#person",
     "name": "Samwane ABDALLAH",
-    "url": "https://builtwithbugs.com"
+    "url": "https://www.builtwithbugs.com/"
   }
 };
 ---

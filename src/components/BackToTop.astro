@@ -3,23 +3,38 @@
 </button>
 
 <script>
-  const backToTop = document.getElementById('back-to-top');
+  let isInitialized = false;
 
-  const toggleVisible = () => {
+  document.addEventListener('astro:page-load', () => {
+    const backToTop = document.getElementById('back-to-top');
+    if (!backToTop) return;
+    
+    // Set up click listener for the new element
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Run initial check
     const scrolled = window.scrollY || window.pageYOffset;
     if (scrolled > 300) {
-      backToTop?.classList.add('visible');
+      backToTop.classList.add('visible');
     } else {
-      backToTop?.classList.remove('visible');
+      backToTop.classList.remove('visible');
     }
-  };
 
-  window.addEventListener('scroll', toggleVisible);
-  // Initial check in case the page is already scrolled
-  toggleVisible();
-
-  backToTop?.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!isInitialized) {
+      isInitialized = true;
+      window.addEventListener('scroll', () => {
+        const btn = document.getElementById('back-to-top');
+        if (!btn) return;
+        const s = window.scrollY || window.pageYOffset;
+        if (s > 300) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
+      });
+    }
   });
 </script>
 

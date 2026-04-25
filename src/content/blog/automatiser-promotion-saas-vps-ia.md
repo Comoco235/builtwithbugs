@@ -9,7 +9,7 @@ heroImage: "../../assets/blog-placeholder-2.jpg"
 <!-- markdownlint-disable MD033 -->
 <img src="/images/builtwithbusg_article.webp" alt="Pipeline automatisation IA et VPS" style="width:100%; border-radius:12px; margin:1.5rem 0;" />
 
-Je venais de lancer Copyboost sans savoir coder et mon infrastructure automatisée de contenu tournait enfin sur mon serveur. La prochaine étape logique ? Relier les deux.
+Je venais de [lancer Copyboost sans savoir coder](/blog/saas-copyboost-sans-coder) et mon infrastructure automatisée de contenu tournait enfin sur mon serveur. Avant d'en arriver là, j'ai beaucoup galéré, tu peux lire [comment j'ai configuré mon VPS au départ](/blog/comment-jai-configure-mon-vps). La prochaine étape logique ? Relier les deux.
 
 Faire connaître un produit est toujours le plus difficile. Plutôt que de rédiger mes posts LinkedIn à la main chaque jour, j'ai décidé de modifier mon pipeline existant pour qu'il gère la promotion de mon SaaS de manière autonome.
 
@@ -63,7 +63,3 @@ Pour le problème de **Notion** qui écrasait mes paragraphes, j'ai compris que 
 Automatiser la promotion d'un SaaS ne veut pas dire confier les clés du camion à une IA aveugle. C'est un travail de co-pilotage. La stack technique (**VPS Hetzner**, **Python**, **Notion**) est juste le tuyau. C'est le contexte (le prompt) qui définit la qualité du message.
 
 Aujourd'hui, mon serveur me propose chaque matin des brouillons pertinents, ancrés dans la réalité de mon quotidien de maker, et bien formatés.
-
----
-
-*D'ailleurs, si tu passes autant de temps à galérer sur l'écriture de tes textes de vente que j'en ai passé à déboguer ce script, tu devrais vraiment analyser ta copy. <a href="https://copyboost.io" target="_blank">Teste Copyboost gratuitement (3 analyses/jour)</a> sur tes propres textes marketing et vois pourquoi ils ne convertissent pas assez.*

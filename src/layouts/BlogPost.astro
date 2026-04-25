@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import BackToTop from '../components/BackToTop.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -10,6 +11,10 @@ const { title, h1, description, pubDate, updatedDate, heroImage } = Astro.props;
 const articleSchema = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": Astro.url.toString()
+  },
   "headline": title,
   "description": description,
   "image": heroImage ? new URL(heroImage.src, Astro.url).toString() : undefined,
@@ -17,7 +22,9 @@ const articleSchema = JSON.stringify({
   "dateModified": updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
   "author": {
     "@type": "Person",
-    "name": "Samwane"
+    "@id": "https://www.builtwithbugs.com/#person",
+    "name": "Samwane ABDALLAH",
+    "url": "https://www.builtwithbugs.com/"
   }
 });
 ---
@@ -218,7 +225,6 @@ const articleSchema = JSON.stringify({
   <a href="/">Home</a>
   <a href="/blog">Blog</a>
   <a href="/about">About</a>
-  <a href="/audit">Audit</a>
 </div>
     </nav>
 
@@ -249,5 +255,6 @@ const articleSchema = JSON.stringify({
     <a href="https://www.instagram.com/copyboost25/" target="_blank">Instagram</a>
   </div>
 </footer>
+    <BackToTop />
   </body>
 </html>
