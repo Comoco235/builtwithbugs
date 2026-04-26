@@ -46,7 +46,7 @@ Sur le papier, 2h de travail. Dans la réalité ? J'ai passé deux jours à debu
 Dès les premiers tests, l'API Gemini me sortait des posts LinkedIn du genre :
 > *"Révolutionnez votre marketing digital dès aujourd'hui avec Copyboost ! Notre outil IA va transformer votre stratégie de contenu !"*
 
-Sur LinkedIn, c'est le meilleur moyen d'être ignoré. L'audience — et notamment les Indie Hackers et les makers — veut de l'authenticité, pas une pub générique. Le problème n'était pas l'API, c'était mon System Prompt : je ne lui avais donné aucun contexte sur le ton attendu.
+Sur LinkedIn, c'est le meilleur moyen d'être ignoré. L'audience  et notamment les Indie Hackers et les makers veut de l'authenticité, pas une pub générique. Le problème n'était pas l'API, c'était mon System Prompt : je ne lui avais donné aucun contexte sur le ton attendu.
 
 ### Bug #2 : Les sauts de ligne qui disparaissent dans Notion
 
@@ -119,8 +119,8 @@ Aujourd'hui, mon serveur me propose chaque matin 3 à 5 brouillons pertinents, a
 
 Si cet article t'a été utile, voici d'autres ressources qui complètent ce sujet :
 
-- 📌 **[Comment j'ai monté mon VPS Hetzner de zéro sans savoir coder](/blog/comment-jai-configure-mon-vps-pour-automatiser-ma-creation-de-contenu)**. Le point de départ de toute cette stack.
-- 📌 **Prompt Engineering pour Makers : les 5 instructions qui changent tout**. Aller plus loin dans l'optimisation des System Prompts.
-- 📌 **Automatiser sa présence LinkedIn avec Python et l'API Notion**. Le détail complet du pipeline de contenu.
+- 📌 **[Comment j'ai monté mon VPS Hetzner de zéro sans savoir coder](/blog/comment-jai-configure-mon-vps-pour-automatiser-ma-creation-de-contenu)** Le point de départ de toute cette stack.
+- 📌 **Prompt Engineering pour Makers : les 5 instructions qui changent tout** Aller plus loin dans l'optimisation des System Prompts.
+- 📌 **Automatiser sa présence LinkedIn avec Python et l'API Notion** Le détail complet du pipeline de contenu.
 
 Tu utilises une stack similaire ou tu as des questions sur un point précis ? Retrouve-moi sur LinkedIn pour qu'on en parle directement.
