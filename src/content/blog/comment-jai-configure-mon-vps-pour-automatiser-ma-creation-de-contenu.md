@@ -3,7 +3,7 @@ title: "Comment j'ai configuré mon VPS pour automatiser ma création de contenu
 description: "Conflit de port, modèle Gemini inexistant, double installation en conflit : comment j'ai finalement monté un pipeline de contenu automatisé sur VPS Hetzner avec Python et Notion."
 pubDate: 2026-04-15
 slug: "comment-jai-configure-mon-vps"
-heroImage: "../../assets/blog-placeholder-4.jpg"
+heroImage: "../../assets/builtwithbugs-article.webp"
 tags: ["VPS", "Hetzner", "Python", "Gemini", "Automation"]
 faq:
   - question: "Quel VPS choisir pour héberger un pipeline Python avec des APIs IA ?"

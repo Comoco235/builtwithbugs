@@ -3,7 +3,7 @@ title: "Comment j'ai automatisé la promotion de mon SaaS depuis mon VPS (Stack 
 description: "VPS Hetzner + Python + API Gemini : comment j'automatise mes posts LinkedIn Build in Public pour Copyboost, les bugs rencontrés et comment je les ai corrigés."
 pubDate: 2026-04-21
 slug: "automatiser-promotion-saas-vps-ia"
-heroImage: "../../assets/blog-placeholder-2.jpg"
+heroImage: "../../assets/builtwithbugs-article.webp"
 tags: ["SaaS", "VPS", "Automatisation", "IA", "Python"]
 faq:
   - question: "Peut-on vraiment automatiser ses posts LinkedIn sans paraître robotique ?"
@@ -19,7 +19,6 @@ faq:
 ---
 
 <!-- markdownlint-disable MD033 -->
-<img src="/images/builtwithbusg_article.webp" alt="Pipeline automatisation IA promotion SaaS VPS Hetzner Python Gemini" style="width:100%; border-radius:12px; margin:1.5rem 0;" />
 
 **TL;DR :** VPS Hetzner + Python + API Gemini = des brouillons LinkedIn "Build in Public" générés chaque matin, envoyés automatiquement dans Notion pour relecture. Deux bugs majeurs à corriger en chemin : une IA trop commerciale corrigée via le System Prompt et des sauts de ligne écrasés dans Notion corrigés avec un script Python de formatage. Voici exactement comment j'ai fait.
 
@@ -124,4 +123,4 @@ Si cet article t'a été utile, voici d'autres ressources qui complètent ce suj
 - 📌 **Prompt Engineering pour Makers : les 5 instructions qui changent tout**. Aller plus loin dans l'optimisation des System Prompts.
 - 📌 **Automatiser sa présence LinkedIn avec Python et l'API Notion**. Le détail complet du pipeline de contenu.
 
-Tu utilises une stack similaire ou tu as des questions sur un point précis ? Dis-le en commentaire — ou retrouve-moi sur LinkedIn pour qu'on en parle directement.
+Tu utilises une stack similaire ou tu as des questions sur un point précis ? Retrouve-moi sur LinkedIn pour qu'on en parle directement.

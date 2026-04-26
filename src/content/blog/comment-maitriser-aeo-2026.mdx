@@ -24,7 +24,6 @@ faq:
 
 > **Réponse directe :** L'AEO (Answer Engine Optimization) consiste à structurer votre contenu pour qu'il soit extrait comme source de confiance par les IA génératives. Concrètement : des balises HTML5 sémantiques (`<article>`, `<main>`), des réponses condensées sous 60 mots juste après chaque titre, et des données structurées JSON-LD précises dans le `<head>`. L'objectif n'est plus seulement d'apparaître dans les résultats Google, mais d'être cité par Perplexity, Gemini ou ChatGPT quand un utilisateur pose une question dans votre domaine.
 
-![Comment maîtriser l'AEO en 2026](../../assets/comment-maitriser-aeo.webp)
 
 En 2026, une part croissante des recherches ne produit plus une liste de liens bleus. Elle produit une réponse. Formulée, synthétisée, sourcée. L'utilisateur pose une question complexe à Perplexity, à la Search Generative Experience de Google, ou directement à ChatGPT, et reçoit un paragraphe qui répond, avec deux ou trois sources citées en bas.
 
@@ -32,7 +31,7 @@ Si votre contenu n'est pas structuré pour être extrait dans ce format, il n'ex
 
 C'est le problème que l'AEO tente de résoudre.
 
----
+
 
 ## Pourquoi l'AEO est devenu une priorité de visibilité en 2026
 
@@ -44,7 +43,7 @@ Ce qui détermine ce choix : la clarté structurelle de votre contenu, sa préci
 
 L'AEO n'est pas une couche supplémentaire à déposer sur une stratégie SEO existante. C'est une façon différente de concevoir l'architecture de l'information depuis le départ.
 
----
+
 
 ## Comment structurer un article pour qu'il soit lisible par une IA
 
@@ -78,7 +77,7 @@ Dans un layout Astro, l'injection ressemble à ceci :
 
 La variable `schemaData` doit être construite dynamiquement depuis vos frontmatter, pas statiquement dans le template. Chaque article a ses propres métadonnées, et les IA le vérifient.
 
----
+
 
 ## Quels outils pour mesurer l'impact de votre stratégie AEO
 
@@ -88,7 +87,7 @@ Des plateformes dédiées au suivi de "AEO ranking" commencent à émerger. Elle
 
 Pour la partie technique, le validateur de données structurées de Google reste la référence pour vérifier que votre JSON-LD est correctement interprété. Un JSON-LD mal formé n'est pas neutre : il peut activement nuire à la confiance que le crawler accorde à votre domaine.
 
----
+
 
 ## La conclusion que les makers ont tendance à ignorer : l'E-E-A-T reste le filtre final
 
@@ -100,12 +99,12 @@ C'est exactement ce que j'ai documenté lors du [lancement de Copyboost](/blog/s
 
 Optimiser pour la structure, c'est le travail technique. Créer pour l'humain, c'est ce qui fait que la structure a quelque chose à extraire.
 
----
+
 
 ## Pour aller plus loin
 
 Trois articles qui complètent directement ce que je décris ici :
 
 - 📌 **[Comment j'ai configuré mon VPS pour automatiser ma création de contenu](/blog/comment-jai-configure-mon-vps)** — la mise en pratique technique d'un pipeline de contenu optimisé pour la régularité.
-- 📌 **Structurer ses données JSON-LD dans un projet Astro** — le détail de l'implémentation technique du schéma Article dans un layout Astro.
+- 📌 **Structurer ses données JSON-LD dans un projet Astro**  le détail de l'implémentation technique du schéma Article dans un layout Astro.
 - 📌 **Build in Public et E-E-A-T : pourquoi documenter ses erreurs améliore votre SEO** — l'angle stratégique sur la relation entre authenticité et confiance algorithmique.
