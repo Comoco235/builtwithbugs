@@ -21,23 +21,25 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 
+const siteUrl = Astro.site?.toString() || 'https://www.builtwithbugs.com/';
+
 const globalSchema = JSON.stringify({
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://www.builtwithbugs.com/#website",
-      "url": "https://www.builtwithbugs.com/",
+      "@id": `${siteUrl}#website`,
+      "url": siteUrl,
       "name": "Built With Bugs",
       "publisher": {
-        "@id": "https://www.builtwithbugs.com/#person"
+        "@id": `${siteUrl}#person`
       }
     },
     {
       "@type": "Person",
-      "@id": "https://www.builtwithbugs.com/#person",
+      "@id": `${siteUrl}#person`,
       "name": "Samwane ABDALLAH",
-      "url": "https://www.builtwithbugs.com/",
+      "url": siteUrl,
       "jobTitle": "Créateur & Développeur",
       "description": "Indie hacker et créateur construisant en public."
     }

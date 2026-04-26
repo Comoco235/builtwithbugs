@@ -5,6 +5,7 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BackToTop from "../components/BackToTop.astro";
+import { Image } from "astro:assets";
 
 type Props = CollectionEntry<"blog">["data"] & {
   headings?: MarkdownHeading[];
@@ -31,7 +32,7 @@ const schemaData = {
   image: heroImage
     ? {
         "@type": "ImageObject",
-        url: new URL(heroImage.src, Astro.url.origin).toString(),
+        url: new URL(heroImage.src, Astro.site).toString(),
         width: heroImage.width,
         height: heroImage.height,
       }
@@ -41,14 +42,14 @@ const schemaData = {
   author: {
     "@type": "Person",
     name: "Samwane ABDALLAH",
-    url: "https://www.builtwithbugs.com/",
+    url: Astro.site?.toString(),
   },
   publisher: {
     "@type": "Organization",
     name: "Built With Bugs",
     logo: {
       "@type": "ImageObject",
-      url: new URL("/favicon.svg", Astro.url.origin).toString(), // Fallback to favicon as logo
+      url: new URL("/favicon.svg", Astro.site).toString(),
     },
   },
 };
@@ -178,7 +179,14 @@ const schemaData = {
         {
           heroImage && (
             <div class="hero-image">
-              <img src={heroImage.src} alt="" />
+              <Image 
+                src={heroImage} 
+                alt={title} 
+                width={1280} 
+                height={720} 
+                loading="eager" 
+                class="hero-img"
+              />
             </div>
           )
         }

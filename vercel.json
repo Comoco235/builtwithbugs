@@ -4,6 +4,11 @@
             "source": "/audit",
             "destination": "https://copyboost.io/audit-expert",
             "permanent": true
+        },
+        {
+            "source": "/about",
+            "destination": "https://www.builtwithbugs.com/a-propos",
+            "permanent": true
         }
     ],
     "headers": [

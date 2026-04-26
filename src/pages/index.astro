@@ -10,25 +10,12 @@ import BackToTop from '../components/BackToTop.astro';
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-
-const websiteSchema = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": SITE_TITLE,
-  "url": Astro.site,
-  "description": SITE_DESCRIPTION,
-  "author": {
-    "@type": "Person",
-    "name": "Samwane"
-  }
-});
 ---
 
 <!doctype html>
 <html lang="fr">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <script is:inline type="application/ld+json" set:html={websiteSchema} />
   </head>
   <body>
     <Header />
