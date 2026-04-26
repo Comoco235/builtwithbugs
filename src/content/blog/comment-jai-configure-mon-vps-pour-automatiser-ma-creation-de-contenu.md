@@ -117,5 +117,5 @@ Un article à venir sur la mise en place de ce scraper.
 Quelques ressources qui complètent ce que je décris ici :
 
 - 📌 **[Comment j'ai automatisé la promotion de mon SaaS depuis mon VPS](/blog/automatiser-promotion-saas-vps-ia)**  la suite logique de cet article, avec le prompt engineering pour un ton authentique.
-- 📌 **Choisir et configurer un VPS pour ses projets side-project**  le guide de départ si tu pars de zéro sur Hetzner.
-- 📌 **Utiliser l'API Notion pour centraliser ses workflows makers** aller plus loin dans l'intégration Notion comme hub de validation.
+- 📌 **[Choisir et configurer un VPS pour ses projets side-project]**  le guide de départ si tu pars de zéro sur Hetzner.
+- 📌 **[Utiliser l'API Notion pour centraliser ses workflows makers]** aller plus loin dans l'intégration Notion comme hub de validation.

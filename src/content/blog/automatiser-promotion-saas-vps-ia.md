@@ -120,7 +120,7 @@ Aujourd'hui, mon serveur me propose chaque matin 3 à 5 brouillons pertinents, a
 Si cet article t'a été utile, voici d'autres ressources qui complètent ce sujet :
 
 - 📌 **[Comment j'ai monté mon VPS Hetzner de zéro sans savoir coder](/blog/comment-jai-configure-mon-vps-pour-automatiser-ma-creation-de-contenu)** Le point de départ de toute cette stack.
-- 📌 **Prompt Engineering pour Makers : les 5 instructions qui changent tout** Aller plus loin dans l'optimisation des System Prompts.
-- 📌 **Automatiser sa présence LinkedIn avec Python et l'API Notion** Le détail complet du pipeline de contenu.
+- 📌 **[Prompt Engineering pour Makers : les 5 instructions qui changent tout]** Aller plus loin dans l'optimisation des System Prompts.
+- 📌 **[Automatiser sa présence LinkedIn avec Python et l'API Notion]** Le détail complet du pipeline de contenu.
 
 Tu utilises une stack similaire ou tu as des questions sur un point précis ? Retrouve-moi sur LinkedIn pour qu'on en parle directement.
