@@ -65,7 +65,7 @@ code {
 }
 
 pre {
-  background: var(--bg2);
+  background: #1e1e1e; /* Consistent dark background for code */
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.5rem;
@@ -77,7 +77,6 @@ pre code {
   background: none;
   border: none;
   padding: 0;
-  color: var(--text);
   font-size: 13px;
 }
 footer {

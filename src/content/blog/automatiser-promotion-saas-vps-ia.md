@@ -1,65 +1,127 @@
 ---
-title: "Comment j'ai automatisé la promotion de mon SaaS depuis mon VPS : la stack 100% IA (Bugs inclus)"
-description: "Découvre comment j'ai relié mon VPS Hetzner, Python et l'API Gemini pour automatiser la promotion LinkedIn de mon SaaS Copyboost, et les bugs que j'ai dû corriger."
+title: "Comment j'ai automatisé la promotion de mon SaaS depuis mon VPS (Stack IA, bugs inclus)"
+description: "VPS Hetzner + Python + API Gemini : comment j'automatise mes posts LinkedIn Build in Public pour Copyboost, les bugs rencontrés et comment je les ai corrigés."
 pubDate: 2026-04-21
 slug: "automatiser-promotion-saas-vps-ia"
 heroImage: "../../assets/blog-placeholder-2.jpg"
+tags: ["SaaS", "VPS", "Automatisation", "IA", "Python"]
+faq:
+  - question: "Peut-on vraiment automatiser ses posts LinkedIn sans paraître robotique ?"
+    answer: "Oui, à condition de soigner le System Prompt de ton modèle IA. L'erreur classique est de demander à l'IA de \"promouvoir ton produit\" sans lui donner de personnalité ni de contraintes de ton. Avec les bonnes instructions ton direct, interdiction de jargon commercial, format \"Build in Public\", le résultat est indiscernable d'un post rédigé manuellement."
+  - question: "Quel est le coût de cette stack d'automatisation ?"
+    answer: "La stack décrite ici est pensée pour être économique : un VPS Hetzner de base coûte entre 4 et 6 € / mois. L'API Gemini dispose d'un généreux tier gratuit (plus que suffisant pour quelques posts par jour). Notion est gratuit pour un usage solo. Le coût total peut donc être proche de zéro selon ton volume."
+  - question: "Faut-il savoir coder pour mettre en place ce type d'automatisation ?"
+    answer: "Pas nécessairement. J'ai démarré ce projet sans background de développeur. Les scripts Python utilisés ici sont simples et peuvent être générés ou adaptés avec l'aide d'un assistant IA (ChatGPT, Gemini, Claude). L'essentiel est de comprendre la logique du pipeline : un script collecte un contexte, l'envoie à une API, formate la réponse, et l'envoie vers un outil de validation."
+  - question: "Quelle est la différence entre automatiser du contenu et du spam ?"
+    answer: "La différence est dans la validation humaine. Ce pipeline ne publie rien automatiquement : chaque brouillon passe par Notion pour relecture. L'humain reste la dernière décision. Automatiser la génération, pas la publication — c'est la règle d'or pour rester authentique."
+  - question: "Peut-on adapter ce pipeline à d'autres réseaux sociaux que LinkedIn ?"
+    answer: "Absolument. La logique du pipeline (VPS + Python + API Gemini + outil de validation) est agnostique au canal. Il suffit d'adapter le System Prompt au format et au ton propre à chaque réseau : plus court et visuel pour X/Twitter, plus long et structuré pour un newsletter, etc."
 ---
 
 <!-- markdownlint-disable MD033 -->
-<img src="/images/builtwithbusg_article.webp" alt="Pipeline automatisation IA et VPS" style="width:100%; border-radius:12px; margin:1.5rem 0;" />
+<img src="/images/builtwithbusg_article.webp" alt="Pipeline automatisation IA promotion SaaS VPS Hetzner Python Gemini" style="width:100%; border-radius:12px; margin:1.5rem 0;" />
 
-Je venais de [lancer Copyboost sans savoir coder](/blog/saas-copyboost-sans-coder) et mon infrastructure automatisée de contenu tournait enfin sur mon serveur. Avant d'en arriver là, j'ai beaucoup galéré, tu peux lire [comment j'ai configuré mon VPS au départ](/blog/comment-jai-configure-mon-vps). La prochaine étape logique ? Relier les deux.
+**TL;DR :** VPS Hetzner + Python + API Gemini = des brouillons LinkedIn "Build in Public" générés chaque matin, envoyés automatiquement dans Notion pour relecture. Deux bugs majeurs à corriger en chemin : une IA trop commerciale corrigée via le System Prompt et des sauts de ligne écrasés dans Notion corrigés avec un script Python de formatage. Voici exactement comment j'ai fait.
 
-Faire connaître un produit est toujours le plus difficile. Plutôt que de rédiger mes posts LinkedIn à la main chaque jour, j'ai décidé de modifier mon pipeline existant pour qu'il gère la promotion de mon SaaS de manière autonome.
+## Le point de départ : promouvoir Copyboost sans y passer mes journées
 
-> **TL;DR (Réponse Directe) :** Pour automatiser la promotion de mon SaaS Copyboost, j'ai modifié mon script **Python** hébergé sur un **VPS Hetzner**. J'utilise l'**API Gemini** pour générer des posts LinkedIn "Build in Public", qui sont ensuite envoyés vers l'API **Notion** pour relecture. Les principaux bugs rencontrés étaient un mon IA trop robotique corrigé via l'optimisation du **System Prompt** et la suppression des sauts de ligne corrigé avec un script de formatage Python.
+J'avais lancé Copyboost sans savoir coder. Mon infrastructure d'automatisation de contenu tournait déjà sur mon VPS. La prochaine étape logique ? Brancher la promotion de mon SaaS dessus.
 
-## Le défi : Faire la promotion de Copyboost en automatique
+Parce que faire connaître un produit, c'est souvent le truc le plus dur et le plus chronophage. Rédiger un post LinkedIn pertinent chaque jour à la main, trouver un angle, formater le texte… ça prend facilement 30 à 45 minutes.
 
-Le plan sur le papier était parfait : demander à l'IA de trouver des angles d'attaque marketing pour Copyboost, écrire un post LinkedIn par jour, et le mettre en attente de publication.
+Mon plan : modifier mon pipeline Python existant pour qu'il génère automatiquement des posts LinkedIn "Build in Public" pour Copyboost, en autonome, chaque matin.
 
-Ma stack technique était déjà prête :
+Ma stack technique était déjà en place :
 
-- **VPS Hetzner** (Ubuntu) pour faire tourner le script 24/7.
-- **Python** pour la logique et les requêtes.
-- **API Gemini** pour la génération de texte.
-- **Notion** comme tableau de bord de validation.
+- **VPS Hetzner (Ubuntu)** : le serveur qui fait tourner tout ça 24/7
+- **Python** : la colle entre les services
+- **API Gemini** : le moteur de génération de texte
+- **Notion** : le tableau de bord de validation avant publication
 
-Sauf que dans la réalité, rien ne s'est passé comme prévu.
+Sur le papier, 2h de travail. Dans la réalité ? J'ai passé deux jours à debugger.
 
-## Le problème concret : Une IA "vendeuse de tapis" et des posts illisibles
+## Les deux bugs qui ont tout cassé (et comment je les ai réglés)
 
-Dès les premiers tests, je me suis heurté à deux gros bugs qui ruinaient complètement ma stratégie.
+### Bug #1 : L'IA en mode "vendeur de tapis"
 
-**1. Le "Robot Vendeur" de l'IA**
-L'API me sortait des posts remplis d'emojis fusée 🚀 et de phrases du type : *"Révolutionnez votre marketing digital dès aujourd'hui avec Copyboost !"*.
-Sur LinkedIn, c'est le meilleur moyen de se faire ignorer. L'audience veut de l'authenticité et de la transparence, pas une publicité générique.
+Dès les premiers tests, l'API Gemini me sortait des posts LinkedIn du genre :
+> *"Révolutionnez votre marketing digital dès aujourd'hui avec Copyboost ! Notre outil IA va transformer votre stratégie de contenu !"*
 
-**2. Le bug des sauts de ligne disparus dans Notion**
-Une fois généré par l'IA, le texte partait vers l'API Notion. Sauf qu'à l'arrivée dans ma base de données, tous les sauts de ligne sautaient (`\n`). Résultat ? Des pavés de texte massifs, totalement illisibles et impossibles à publier tels quels.
+Sur LinkedIn, c'est le meilleur moyen d'être ignoré. L'audience — et notamment les Indie Hackers et les makers — veut de l'authenticité, pas une pub générique. Le problème n'était pas l'API, c'était mon System Prompt : je ne lui avais donné aucun contexte sur le ton attendu.
 
-## La solution technique : Prompt Engineering et nettoyage Python
+### Bug #2 : Les sauts de ligne qui disparaissent dans Notion
 
-Au lieu de tout jeter, j'ai itéré sur mon code pour patcher ces deux problèmes.
+Le texte généré partait vers l'API Notion. Sauf qu'à l'arrivée, tous les `\n` sautaient. Résultat : un pavé de texte massif, illisible, impossible à publier tel quel.
 
-### Ajuster le "System Prompt" pour un ton Maker
+La cause : l'API Notion ne gère pas les blocs de texte brut longs avec des `\n` simples. Il faut transformer chaque paragraphe en un bloc `paragraph` JSON distinct.
 
-Pour casser le côté robotique de l'**API Gemini**, j'ai dû changer sa personnalité à la racine en modifiant le *System Prompt* dans mon code **Python** :
+## La solution technique, étape par étape
 
-- **L'instruction clé :** *"Tu es un Solopreneur Indie Hacker. Tu construis tes projets en public (Build in Public). Ton ton est direct, no-bullshit, sans jargon commercial. Ne vends pas Copyboost directement, raconte plutôt une galère technique ou un apprentissage marketing que le produit permet de résoudre."*
-- **Interdiction d'emojis excessifs :** J'ai forcé l'utilisation d'un seul emoji maximum par post pour garder un aspect humain.
+### Étape 1 : Réécrire le System Prompt pour forcer un ton "maker"
 
-### Corriger le formatage des blocs avec Python
+C'est le levier le plus puissant du prompt engineering : définir précisément l'identité de l'IA avant de lui demander quoi que ce soit.
 
-Pour le problème de **Notion** qui écrasait mes paragraphes, j'ai compris que l'API gère mal les blocs de texte brut trop longs contenant de simples caractères `\n`. J'ai donc ajouté une fonction spécifique dans mon script **Python** avant l'envoi :
+Voici l'instruction clé que j'ai intégrée dans mon script Python :
 
-- Le script découpe la réponse de l'IA bloc par bloc (en splitant sur `\n\n`).
-- Il transforme chaque paragraphe en un bloc `paragraph` distinct formaté en JSON pour l'API Notion.
-- Fini le mur de texte, je récupérais enfin des posts aérés et prêts à être relus.
+```python
+system_prompt = """
+Tu es un Solopreneur Indie Hacker qui construit ses projets en public (Build in Public).
+Ton ton est direct, no-bullshit, sans jargon commercial.
+Ne vends pas Copyboost directement.
+Raconte plutôt une galère technique ou un apprentissage concret que le produit permet de résoudre.
+Utilise un seul emoji maximum par post. Jamais de points d'exclamation excessifs.
+"""
+```
 
-## Ce que cette automatisation m'a appris
+**Résultat immédiat :** les posts sont passés de publicités génériques à des récits authentiques sur le quotidien d'un maker. C'est exactement ce qui performe sur LinkedIn dans la niche Build in Public.
 
-Automatiser la promotion d'un SaaS ne veut pas dire confier les clés du camion à une IA aveugle. C'est un travail de co-pilotage. La stack technique (**VPS Hetzner**, **Python**, **Notion**) est juste le tuyau. C'est le contexte (le prompt) qui définit la qualité du message.
+> **À retenir :** La qualité du contenu généré par une IA est presque entièrement déterminée par la qualité de son contexte de départ. Le modèle n'est que l'exécutant.
 
-Aujourd'hui, mon serveur me propose chaque matin des brouillons pertinents, ancrés dans la réalité de mon quotidien de maker, et bien formatés.
+### Étape 2 : Corriger le formatage Notion avec Python
+
+Pour régler le problème des sauts de ligne, j'ai ajouté une fonction de formatage dans mon script, avant l'envoi vers l'API Notion :
+
+```python
+def format_for_notion(text):
+    paragraphs = text.split("\n\n")
+    blocks = []
+    for para in paragraphs:
+        if para.strip():
+            blocks.append({
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "rich_text": [{
+                        "type": "text",
+                        "text": {"content": para.strip()}
+                    }]
+                }
+            })
+    return blocks
+```
+
+Ce que fait ce script :
+
+1. Découpe la réponse de l'IA paragraphe par paragraphe (split sur `\n\n`)
+2. Transforme chaque paragraphe en un bloc `paragraph` JSON compatible avec l'API Notion
+3. Envoie une liste de blocs propres et aérés, prêts à relire
+
+Fini le mur de texte. Je récupère maintenant des posts structurés directement dans ma base Notion.
+
+## Ce que cette automatisation m'a vraiment appris
+
+L'automatisation de la promotion d'un SaaS, ce n'est pas "mettre une IA aux commandes et partir en vacances". C'est du co-pilotage.
+
+La stack technique (VPS, Python, Notion) est juste le tuyau. Ce qui définit la qualité du message, c'est le contexte que tu donnes à l'IA : le prompt, les contraintes, le ton. Et ça, ça demande de l'itération.
+
+Aujourd'hui, mon serveur me propose chaque matin 3 à 5 brouillons pertinents, ancrés dans mon quotidien de maker, bien formatés et prêts à relire dans Notion. Je valide, j'ajuste si besoin, je publie. Ce qui me prenait 30 à 45 minutes prend maintenant 5 minutes.
+
+## Aller plus loin : ressources et maillage
+
+Si cet article t'a été utile, voici d'autres ressources qui complètent ce sujet :
+
+- 📌 **[Comment j'ai monté mon VPS Hetzner de zéro sans savoir coder](/blog/comment-jai-configure-mon-vps-pour-automatiser-ma-creation-de-contenu)**. Le point de départ de toute cette stack.
+- 📌 **Prompt Engineering pour Makers : les 5 instructions qui changent tout**. Aller plus loin dans l'optimisation des System Prompts.
+- 📌 **Automatiser sa présence LinkedIn avec Python et l'API Notion**. Le détail complet du pipeline de contenu.
+
+Tu utilises une stack similaire ou tu as des questions sur un point précis ? Dis-le en commentaire — ou retrouve-moi sur LinkedIn pour qu'on en parle directement.

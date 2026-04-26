@@ -1,13 +1,23 @@
 ---
+import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BackToTop from "../components/BackToTop.astro";
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = CollectionEntry<"blog">["data"] & {
+  headings?: MarkdownHeading[];
+};
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+const { title, description, pubDate, updatedDate, heroImage, faq, headings } = Astro.props;
+
+const toc = headings?.filter((h: MarkdownHeading) => h.depth === 2);
 
 const schemaData = {
   "@context": "https://schema.org",
@@ -19,27 +29,61 @@ const schemaData = {
   headline: title,
   description: description,
   image: heroImage
-    ? new URL(heroImage.src, Astro.url.origin).toString()
+    ? {
+        "@type": "ImageObject",
+        url: new URL(heroImage.src, Astro.url.origin).toString(),
+        width: heroImage.width,
+        height: heroImage.height,
+      }
     : undefined,
   datePublished: pubDate.toISOString(),
   ...(updatedDate && { dateModified: updatedDate.toISOString() }),
   author: {
     "@type": "Person",
-    "@id": "https://www.builtwithbugs.com/#person",
     name: "Samwane ABDALLAH",
     url: "https://www.builtwithbugs.com/",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Built With Bugs",
+    logo: {
+      "@type": "ImageObject",
+      url: new URL("/favicon.svg", Astro.url.origin).toString(), // Fallback to favicon as logo
+    },
   },
 };
 ---
 
 <html lang="fr">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead 
+      title={title} 
+      description={description} 
+      image={heroImage?.src} 
+    />
     <script
       is:inline
       type="application/ld+json"
       set:html={JSON.stringify(schemaData)}
     />
+    {faq && faq.length > 0 && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": faq.map((item: FaqItem) => ({
+            "@type": "Question",
+            "name": item.question,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": item.answer
+            }
+          }))
+        })}
+      />
+    )}
     <style>
       main {
         max-width: 860px;
@@ -78,6 +122,19 @@ const schemaData = {
       .last-updated-on {
         font-style: italic;
         margin-top: 0.5rem;
+      }
+      .hero-image {
+        width: 100%;
+        margin-bottom: 3rem;
+      }
+      .hero-image img {
+        display: block;
+        margin: 0 auto;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--border);
+        width: 100%;
+        height: auto;
       }
 
       @media (max-width: 600px) {
@@ -118,9 +175,48 @@ const schemaData = {
             </div>
           </div>
         </header>
+        {
+          heroImage && (
+            <div class="hero-image">
+              <img src={heroImage.src} alt="" />
+            </div>
+          )
+        }
+        {toc && toc.length > 0 && (
+          <nav class="toc">
+            <p class="toc-title">Sommaire</p>
+            <ul>
+              {toc.map((heading: MarkdownHeading) => (
+                <li class={`depth-${heading.depth}`}>
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+
         <div class="prose">
           <slot />
         </div>
+
+        {faq && faq.length > 0 && (
+          <div class="faq-section">
+            <h2>Foire Aux Questions</h2>
+            <div class="faq-list">
+              {faq.map((item: FaqItem) => (
+                <details class="faq-item">
+                  <summary>
+                    <span class="faq-question">{item.question}</span>
+                    <span class="faq-icon">+</span>
+                  </summary>
+                  <div class="faq-answer">
+                    <p>{item.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        )}
       </article>
     </main>
     <Footer />
@@ -147,5 +243,149 @@ const schemaData = {
     margin-bottom: 1.5rem;
     font-size: 1.1rem;
     line-height: 1.7;
+  }
+
+  /* FAQ Styles */
+  .faq-section {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .faq-item[open] {
+    border-color: var(--accent);
+  }
+
+  .faq-item summary {
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: var(--text);
+    transition: color 0.2s;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary:hover {
+    color: var(--accent);
+  }
+
+  .faq-question {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .faq-icon {
+    font-family: var(--mono);
+    color: var(--accent);
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    padding: 0 1.5rem 1.5rem;
+    color: var(--text2);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .faq-answer p {
+    margin: 0;
+  }
+
+  /* TOC Styles */
+  .toc {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+    max-width: 100%;
+    width: fit-content;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .toc-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.25rem;
+    font-weight: 800;
+  }
+
+  .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .toc li a {
+    font-size: 14px;
+    color: var(--text2);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    line-height: 1.4;
+    display: block;
+    font-weight: 500;
+  }
+
+  .toc li a:hover {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .toc li.depth-3 {
+    display: none; /* We only want H2 as per instructions */
+  }
+
+  .toc li.depth-3 a {
+    font-size: 13px;
+    color: var(--text3);
+  }
+
+  @media (max-width: 600px) {
+    .toc {
+      padding: 1rem;
+    }
   }
 </style>

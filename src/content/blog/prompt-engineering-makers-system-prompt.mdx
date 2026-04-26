@@ -1,0 +1,207 @@
+---
+title: "Le prompt engineering pour makers : cinq instructions qui changent tout"
+description: "Cinq instructions de System Prompt qui changent radicalement la qualité du contenu généré par une IA. Guide pratique pour makers qui veulent un ton humain, pas une brochure."
+pubDate: 2026-04-28
+author: "Samwane ABDALLAH"
+slug: "prompt-engineering-makers-system-prompt"
+heroImage: "../../assets/prompt-engineering-makers.webp"
+tags: ["Prompt Engineering", "IA", "Automatisation", "Makers"]
+categories: ["Stack Technique"]
+readingTime: "7 min"
+faq:
+  - question: "Qu'est-ce qu'un System Prompt et en quoi est-il différent d'un prompt ordinaire ?"
+    answer: "Un prompt ordinaire est la requête que tu envoies au modèle pour chaque tâche. Le System Prompt est une instruction permanente qui s'applique avant chaque requête, dans toute la session. Il définit le rôle, le ton, les contraintes et le format que le modèle doit respecter systématiquement, sans que tu aies besoin de les répéter à chaque fois. Dans l'API Gemini comme dans l'API OpenAI, il est passé dans un paramètre séparé du message utilisateur."
+  - question: "Peut-on utiliser le même System Prompt sur différents modèles IA ?"
+    answer: "Oui, dans les grandes lignes. Les instructions en langage naturel (identité, ton, interdictions, format) sont comprises par tous les grands modèles actuels. En revanche, certaines formulations fonctionnent mieux sur certains modèles. Gemini réagit très bien aux listes d'interdictions explicites. Claude est particulièrement sensible aux instructions de rôle détaillées. GPT-4 gère bien les formats de sortie structurés. Il est raisonnable de commencer avec le même prompt sur plusieurs modèles et d'affiner les différences ensuite."
+  - question: "Comment savoir si mon System Prompt fonctionne bien ?"
+    answer: "Le test le plus direct : prendre dix sorties consécutives sur des sujets variés et compter le nombre de fois où tu dois corriger ou reformuler manuellement avant de pouvoir utiliser le contenu. Un bon System Prompt doit réduire ce taux à moins de deux ou trois interventions sur dix. Si tu corriges systématiquement le ton, le format ou les affirmations inventées, le prompt a besoin d'une itération sur ces points précis."
+  - question: "Faut-il réécrire le System Prompt pour chaque nouveau sujet ?"
+    answer: "No. C'est justement l'intérêt d'une architecture modulaire : un prompt de base stable, auquel tu ajoutes des blocs contextuels courts selon la plateforme ou le type de contenu. Ce qui change d'un sujet à l'autre, c'est le contexte que tu fournis dans le message utilisateur — les notes, les faits, les chiffres. Le System Prompt reste stable et définit le cadre permanent."
+  - question: "Les instructions de System Prompt fonctionnent-elles aussi pour du contenu long comme des articles de blog ?"
+    answer: "Oui, mais la structure du pipeline doit s'adapter. Pour un article de 1000 à 1500 mots, la génération en une seule requête produit rarement quelque chose d'utilisable directement. La méthode plus fiable est de générer section par section, en réinjectant le System Prompt et le plan à chaque requête, et en construisant l'article par accumulation de blocs validés. Ça prend plus de temps à mettre en place mais le résultat est significativement plus contrôlable."
+---
+
+{/* markdownlint-disable MD033 */}
+
+> **TL;DR :** La qualité de ce qu'une IA produit dépend presque entièrement du contexte qu'on lui donne avant de lui poser la moindre question. Ces cinq instructions de System Prompt — identité précise, interdiction des formules commerciales, format de sortie imposé, ancrage dans le réel, périmètre d'invention limité — sont celles qui ont transformé mes pipelines de contenu automatisé d'une machine à brochures en quelque chose d'utilisable.
+
+J'ai passé des semaines à me demander pourquoi mes posts générés par l'API Gemini sonnaient faux. Le modèle n'était pas en cause. La stack n'était pas en cause. Le problème était dans ce que je lui donnais comme point de départ : rien, ou presque.
+
+Un System Prompt vide ou générique, c'est comme demander à quelqu'un de rédiger un texte pour toi sans lui dire qui tu es, à qui tu t'adresses, ce que tu veux éviter, ni dans quel format tu veux le résultat. Tu obtiens quelque chose de moyen, de lisse, de sans aspérités. Exactement ce qui ne performe pas sur LinkedIn ou dans un blog de maker.
+
+Ce que j'ai appris à la dure, en débugguant des centaines de sorties d'API : le modèle est l'exécutant. C'est toi qui diriges. Et diriger bien, ça s'apprend.
+
+
+
+## Pourquoi le modèle IA n'est jamais le problème
+
+Quand un contenu généré par une IA sonne creux, l'instinct est de changer de modèle. Passer de Gemini à GPT-4, de GPT-4 à Claude. Parfois ça aide, le plus souvent non.
+
+La réalité, c'est que tous les grands modèles actuels sont capables de produire du contenu de qualité dans pratiquement n'importe quel registre. Ce qui les différencie dans la pratique, c'est la précision des instructions qu'on lui donne.
+
+Un modèle sans contexte opère avec ses biais par défaut. Pour un LLM entraîné sur des milliards de textes du web, le registre par défaut est celui du contenu marketing générique, de la dissertation académique ou du post LinkedIn optimiste et impersonnel. Exactement ce qu'une audience de makers fuit.
+
+Le System Prompt est l'outil qui permet de sortir du registre par défaut avant même que la première requête soit envoyée. C'est une instruction permanente, qui s'applique à tout ce que le modèle va produire dans la session. Bien écrit, il transforme le comportement du modèle de manière radicale.
+
+Mal écrit, ou absent, il te laisse avec un vendeur de tapis numérique.
+
+
+
+## Les cinq instructions de System Prompt qui font la différence
+
+Ces cinq blocs sont ceux que j'ai distillés après des dizaines d'itérations sur mes pipelines de contenu. Ils ne sont pas magiques. Ils sont le résultat d'une méthode simple : identifier exactement ce qui cloche dans les sorties, formuler une instruction qui corrige ce point précis, tester, recommencer.
+
+### Donner une identité précise au modèle
+
+L'instruction la plus impactante est aussi la plus simple à écrire et la plus souvent bâclée.
+
+La plupart des System Prompts commencent par "Tu es un expert en marketing" ou "Tu es un assistant rédactionnel". Ces formulations sont trop larges pour être utiles. Le modèle n'a pas de personnalité à ancrer, pas de vécu à mobiliser, pas de position à défendre.
+
+L'identité utile, c'est celle qui est suffisamment précise pour contraindre le registre et le point de vue. Pas "expert en marketing" mais "solopreneur qui a lancé son premier SaaS sans background technique et qui documente le processus en public". Pas "assistant rédactionnel" mais "maker qui a passé six mois à débugger des webhooks Stripe et qui préfère partager ses erreurs plutôt que ses succès".
+
+En pratique, dans un script Python connecté à l'API Gemini :
+
+```python
+system_prompt = """
+Tu es un solopreneur indie hacker.
+Tu construis tes projets en public depuis 18 mois.
+Tu as lancé Copyboost, un outil d'analyse de textes marketing par IA,
+sans background technique, en utilisant l'IA comme co-développeur.
+Tu écris depuis cette expérience concrète, pas depuis des généralités.
+"""
+```
+
+La différence dans les sorties est immédiate. Le modèle arrête d'écrire "en tant qu'expert" et commence à écrire depuis un point de vue situé.
+
+### Interdire les formulations commerciales
+
+Cette instruction est contre-intuitive quand on automatise la promotion d'un produit. L'instinct est de demander à l'IA de "mettre en valeur les bénéfices" ou de "convaincre le lecteur". C'est exactement ce qui produit les posts que tout le monde fait défiler sans lire.
+
+L'interdiction explicite fonctionne mieux que l'injonction positive. Pas "écris de manière authentique" mais "n'utilise jamais les formulations suivantes". Le modèle est beaucoup plus précis quand on lui dit ce qu'il ne doit pas faire.
+
+```python
+system_prompt += """
+Interdictions absolues :
+- Ne commence jamais par une question rhétorique du type \"Vous demandez-vous comment...\"
+- N'utilise jamais les mots : révolutionnaire, innovant, game-changer, disruptif, transformer.
+- Ne termine jamais par un appel à l'action explicite du type \"Essayez maintenant\".
+- N'utilise pas plus d'un emoji par post. Zéro si le sujet est technique.
+- Ne fais jamais de liste à puces pour un post LinkedIn de moins de 300 mots.
+"""
+```
+
+Ce bloc d'interdictions peut s'allonger au fil des itérations. Chaque fois qu'une sortie contient quelque chose qui ne convient pas, tu ajoutes une interdiction. C'est de l'ingénierie de prompt par accumulation de contraintes négatives, et c'est la méthode la plus fiable que j'ai trouvée.
+
+### Forcer le format de sortie attendu
+
+Un modèle sans instruction de format va improviser. Parfois ça donne quelque chose d'utilisable, le plus souvent non. Sur LinkedIn, un post qui commence par trois lignes d'introduction avant d'arriver au sujet est ignoré. Sur un blog de maker, un paragraphe de 400 mots sans respiration perd le lecteur.
+
+L'instruction de format doit être prescriptive, pas suggestive.
+
+```python
+system_prompt += """
+Format pour les posts LinkedIn :
+- La première ligne doit poser un problème ou une observation en une seule phrase.
+  Elle doit fonctionner comme accroche sans contexte préalable.
+- Les deux premiers paragraphes font 2 à 3 lignes maximum chacun.
+- Le post total fait entre 150 et 250 mots.
+- S'il y a une liste, elle ne dépasse pas 4 éléments.
+- La dernière ligne est une conclusion ou une question ouverte, jamais un CTA commercial.
+"""
+```
+
+Pour un blog, les instructions de format changent : longueur de paragraphes, présence de sous-titres, utilisation des blocs de code, longueur des sections. L'idée reste la même : le format est prescrit, pas laissé à l'appréciation du modèle.
+
+### Ancrer le contenu dans une réalité concrète
+
+C'est l'instruction qui fait la plus grande différence entre un contenu que les gens partagent et un contenu qu'ils ignorent. Les IA ont tendance à généraliser par défaut. \"Automatiser ses tâches permet de gagner du temps\" au lieu de \"j'ai passé 6h à débugger une erreur de port sur mon VPS avant que le script tourne enfin\".
+
+La généralisation est confortable parce qu'elle est vraie dans tous les cas. Mais elle ne résonne avec personne en particulier. Le détail concret, lui, résonne avec exactement les personnes qui ont vécu la même chose.
+
+```python
+system_prompt += """
+Ancrage dans le réel :
+- Cite toujours un outil, une technologie ou une plateforme spécifique.
+  Pas \"un outil d'automatisation\" mais \"mon script Python sur le VPS Hetzner\".
+- Si le sujet implique une durée, cite-la. \"J'ai passé deux jours\" vaut mieux que \"cela prend du temps\".
+- Si le sujet implique un coût, cite-le. \"Moins de 25€ par mois\" vaut mieux que \"un coût raisonnable\".
+- Les comparaisons avant/après avec des chiffres sont toujours préférables aux affirmations vagues.
+"""
+```
+
+Cette instruction ne force pas le modèle à inventer des chiffres. Elle le force à structurer sa sortie autour de la spécificité plutôt que de la généralité. Quand tu alimentes le prompt avec un contexte réel (les notes sur ta semaine, le bug que tu viens de corriger), le modèle utilise ce matériau. Sans cette instruction, il le dilue dans des généralités.
+
+### Limiter ce que l'IA peut inventer
+
+C'est l'instruction de sécurité. Une IA sans contrainte sur ce qu'elle peut affirmer va produire des chiffres plausibles mais faux, des références inventées, des études qui n'existent pas. Dans un contexte de Build in Public ou de contenu technique, c'est catastrophique pour la crédibilité.
+
+```python
+system_prompt += """
+Périmètre d'invention :
+- Tu peux reformuler et structurer le contexte que je te fournis.
+- Tu peux proposer des angles d'attaque et des formulations.
+- Tu ne peux pas citer de statistiques que je n'ai pas fournies.
+- Tu ne peux pas mentionner d'études, de recherches ou de sources sans que je te les aie données.
+- Si tu manques d'information pour une affirmation précise, tu proposes plusieurs options
+  en signalant explicitement qu'il faut vérifier.
+"""
+```
+
+Cette instruction change aussi la façon dont tu utilises le pipeline : tu alimentes le modèle avec du contexte réel (tes notes, tes chiffres, les faits de ta semaine), et lui se charge de la mise en forme. Ce n'est plus une machine à inventer du contenu, c'est un éditeur qui structure ce que tu lui donnes.
+
+
+
+## Comment tester et itérer un System Prompt sur un vrai pipeline
+
+Un System Prompt ne se finalise pas en une session. Il s'affine au fil des sorties, par accumulation de contraintes et d'exemples.
+
+La méthode que j'applique sur mon pipeline Python/Gemini/Notion :
+
+Chaque fois qu'une sortie contient quelque chose qui ne convient pas, je l'identifie précisément. Pas \"c'est trop commercial\" mais \"le modèle a utilisé le mot 'révolutionnaire' dans le deuxième paragraphe\". Cette précision me permet d'ajouter une interdiction ciblée plutôt qu'une reformulation floue de l'instruction générale.
+
+Je garde un fichier `system_prompt_changelog.md` à côté de mon script. Chaque modification est datée avec la sortie qui l'a motivée. Ça permet de voir l'évolution, d'identifier les patterns récurrents, et de ne pas réintroduire une contrainte que j'avais déjà testé et abandonné.
+
+```python
+def build_system_prompt(context: dict) -> str:
+    base = load_prompt_file(\"system_prompt_v4.txt\")
+    
+    if context.get(\"platform\") == \"linkedin\":
+        base += load_prompt_file(\"format_linkedin.txt\")
+    elif context.get(\"platform\") == \"blog\":
+        base += load_prompt_file(\"format_blog.txt\")
+    
+    if context.get(\"topic_type\") == \"debug\":
+        base += \"\nPriorise le récit chronologique du problème avant la solution.\"
+    elif context.get(\"topic_type\") == \"launch\":
+        base += \"\nÉvite absolument le registre de l'annonce. Parle du processus, pas du résultat.\"
+    
+    return base
+```
+
+Cette architecture modulaire — un prompt de base + des blocs de format spécifiques + des ajouts contextuels — est plus maintenable qu'un seul prompt monolithique de 800 mots. Elle permet aussi de tester les blocs indépendamment.
+
+
+
+## Exemples de sorties avant et après sur des cas réels
+
+Ces deux exemples viennent de mon pipeline réel, avec le même sujet de départ : \"J'ai automatisé la génération de posts LinkedIn pour Copyboost via l'API Gemini.\"
+
+**Sans System Prompt structuré :**
+
+\"Vous cherchez à optimiser votre présence sur LinkedIn grâce à l'intelligence artificielle ? Copyboost, l'outil révolutionnaire d'analyse de textes marketing, intègre désormais une fonctionnalité d'automatisation de contenu propulsée par l'API Gemini. Gagnez du temps, améliorez votre visibilité et développez votre audience professionnelle dès aujourd'hui !\"
+
+**Avec les cinq instructions :**
+
+\"J'ai passé deux jours à faire en sorte que l'API Gemini arrête de me sortir des posts avec des emojis fusée. Le problème n'était pas le modèle. C'était mon System Prompt, qui lui donnait zéro contrainte sur le ton. Voici ce que j'ai changé et pourquoi ça a marché.\"
+
+Le deuxième post a un problème à résoudre, un délai concret, une cause identifiée et une promesse de solution. Il peut être publié tel quel. Le premier ne peut pas.
+
+
+
+## Pour aller plus loin
+
+Ces techniques s'appliquent directement aux pipelines décrits dans d'autres articles du blog :
+
+- 📌 **[Comment j'ai automatisé la promotion de mon SaaS depuis mon VPS](/blog/automatiser-promotion-saas-vps-ia)** — le pipeline complet où ces instructions de prompt ont été testées en production.
+- 📌 **[Comment j'ai configuré mon VPS pour automatiser ma création de contenu](/blog/comment-jai-configure-mon-vps)** — la stack technique sur laquelle ces scripts Python tournent.
+- 📌 **[Comment maîtriser l'AEO en 2026](/blog/comment-maitriser-aeo-2026)** — pourquoi le contenu généré avec ces instructions performe mieux dans les moteurs de réponse.
