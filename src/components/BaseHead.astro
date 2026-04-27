@@ -14,32 +14,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image = '/images/og-default.png', ogType = 'website' } = Astro.props;
 
-const siteUrl = Astro.site?.toString() || 'https://www.builtwithbugs.com/';
 const ogImageAbsolute = new URL(image, Astro.site).toString();
 
-const globalSchema = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": `${siteUrl}#website`,
-      "url": siteUrl,
-      "name": "Built With Bugs",
-      "description": "Hacker sa visibilité avec la tech et l'IA. Dev, marketing digital et automatisation construits en public.",
-      "publisher": {
-        "@id": `${siteUrl}#person`
-      }
-    },
-    {
-      "@type": "Person",
-      "@id": `${siteUrl}#person`,
-      "name": "Samwane ABDALLAH",
-      "url": siteUrl,
-      "jobTitle": "Créateur & Développeur",
-      "description": "Indie hacker et créateur construisant en public."
-    }
-  ]
-});
 ---
 
 <!-- Global Metadata -->
@@ -49,8 +25,8 @@ const globalSchema = JSON.stringify({
 <meta name="generator" content={Astro.generator} />
 
 <!-- Font Preloads -->
-<link rel="preload" href="/fonts/Syne/Syne-VariableFont_wght.ttf" as="font" type="font/truetype" crossorigin />
-<link rel="preload" href="/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf" as="font" type="font/truetype" crossorigin />
+<link rel="preload" href="/fonts/Syne/Syne-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf" as="font" type="font/ttf" crossorigin />
 
 <ClientRouter />
 
@@ -84,5 +60,3 @@ const globalSchema = JSON.stringify({
 <!-- RSS Feed -->
 <link rel="alternate" type="application/rss+xml" title="Built With Bugs — RSS" href="/rss.xml" />
 
-<!-- Schema.org Global -->
-<script is:inline type="application/ld+json" set:html={globalSchema} />

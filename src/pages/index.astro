@@ -12,22 +12,49 @@ const posts = (await getCollection('blog')).sort(
 const PAGE_TITLE = 'BuiltWithBugs — Automatisation IA, Build in Public & Python';
 const PAGE_DESC  = 'Automatisation IA, build in public et Python pour indie makers francophones. VPS Hetzner, prompt engineering, marketing digital — chaque bug est une leçon.';
 
-const siteUrl = Astro.site?.toString() || 'https://www.builtwithbugs.com/';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://www.builtwithbugs.com';
+
 const homeSchema = JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": `${siteUrl}#website`,
-  "name": "Built With Bugs",
-  "url": siteUrl,
-  "description": PAGE_DESC,
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": `${siteUrl}blog?q={search_term_string}`
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      "url": `${siteUrl}/`,
+      "name": "Built With Bugs",
+      "description": "Automatisation IA, build in public et Python pour indie makers francophones.",
+      "inLanguage": "fr-FR",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `${siteUrl}/blog?q={search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      }
     },
-    "query-input": "required name=search_term_string"
-  }
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      "name": "Samwane ABDALLAH",
+      "url": `${siteUrl}/`,
+      "jobTitle": "Indie Hacker & D\u00e9veloppeur",
+      "sameAs": [
+        "https://x.com/samwanebuild",
+        "https://www.linkedin.com/in/samwane-abdallah-837844119"
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "name": "Derniers articles \u2014 Built With Bugs",
+      "url": `${siteUrl}/`,
+      "itemListElement": posts.map((post, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "url": `${siteUrl}/blog/${post.id}/`
+      }))
+    }
+  ]
 });
 ---
 
