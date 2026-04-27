@@ -16,10 +16,7 @@
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/vercel": "^10.0.5",
-    "@fontsource/dm-sans": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
-    "@fontsource/jetbrains-mono": "^5.2.8",
-    "@fontsource/syne": "^5.2.7",
     "astro": "^6.1.6",
     "rehype-external-links": "^3.0.0",
     "sharp": "^0.34.3"
