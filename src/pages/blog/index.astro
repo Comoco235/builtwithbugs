@@ -58,18 +58,16 @@ function getReadingTime(content: string) {
                             </div>
                             <h3 class="post-title">{post.data.title}</h3>
                             <p class="post-desc">{post.data.description}</p>
-                            
-                            {post.data.tags && post.data.tags.length > 0 && (
-                                <div class="post-tags">
-                                    {post.data.tags.map(tag => (
-                                        <a href={`/blog/tag/${tagToSlug(tag)}/`} class="tag-badge">{tag}</a>
-                                    ))}
-                                </div>
-                            )}
-
                             <span class="post-cta">Lire l'article →</span>
                         </div>
                     </a>
+                    {post.data.tags && post.data.tags.length > 0 && (
+                        <div class="post-tags">
+                            {post.data.tags.map(tag => (
+                                <a href={`/blog/tag/${tagToSlug(tag)}/`} class="tag-badge">{tag}</a>
+                            ))}
+                        </div>
+                    )}
                 </article>
             </li>
         )})}
@@ -157,7 +155,8 @@ function getReadingTime(content: string) {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
-        margin-bottom: 0.5rem;
+        padding: 0.75rem 1.5rem 1rem;
+        margin-top: -0.25rem;
       }
 
       .tag-badge {

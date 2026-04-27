@@ -15,6 +15,7 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
+			heroImageAlt: z.string().optional(),
 			author: z.string().default('Samwane ABDALLAH'),
 			tags: z.array(z.string()).optional(),
 			categories: z.array(z.string()).optional(),
