@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); blog=d.get\\('blog',{}\\); [print\\(k\\) for k in blog.keys\\(\\)]\")",
+      "Bash(node *)",
+      "PowerShell(node -e \"const d = JSON.parse\\(require\\('fs'\\).readFileSync\\('C:/Users/sl2s/Desktop/builwithbugs/.astro/data-store.json','utf8'\\)\\); const keys=Object.keys\\(d\\); console.log\\('keys:',keys.slice\\(0,5\\)\\); const first=d[keys[0]]; if\\(first\\){const sub=Object.keys\\(first\\); console.log\\('sub:',sub.slice\\(0,10\\)\\); if\\(first[sub[0]]\\)console.log\\('entry:',JSON.stringify\\(first[sub[0]]\\).slice\\(0,300\\)\\);}\")",
+      "Bash(npx astro *)",
+      "Bash(grep -v \"//.*\\\\[\")",
+      "Bash(grep -rn \"\\\\[[^\\\\]]\\\\+\\\\]\\\\\\( *\\\\\\)$\\\\|\\\\[[^\\\\]]\\\\+\\\\][^\\(]\" /c/Users/sl2s/Desktop/builwithbugs/src/content/blog/)",
+      "Bash(npm install *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(npm uninstall *)",
+      "Bash(git commit -m 'chore : suppression des packages @fontsource \\(remplacés par fonts locales\\) *)"
+    ]
+  }
+}

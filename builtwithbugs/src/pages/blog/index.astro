@@ -1,0 +1,185 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <nav>
+      <a href="/" class="logo">built<span>with</span>bugs<span>.com</span></a>
+      <div class="nav-links">
+  <a href="/">Home</a>
+  <a href="/blog">Blog</a>
+  <a href="/audit" target="_blank" rel="noopener">Audit</a>
+  <a href="/about">About</a>
+</div>
+    </nav>
+
+    <main>
+      <div class="section-header">
+        <span class="section-label">// TOUS LES ARTICLES</span>
+      </div>
+      <ul class="post-grid">
+        {posts.map((post) => (
+          <li>
+            <a href={`/blog/${post.id.replace('.md', '')}/`} class="post-card">
+              <div class="post-content">
+                <div class="post-date">
+                  <FormattedDate date={post.data.pubDate} />
+                </div>
+                <h2 class="post-title">{post.data.title}</h2>
+                <p class="post-desc">{post.data.description}</p>
+                <span class="post-cta">Lire l'article →</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </main>
+
+    <footer>
+  <span>builtwithbugs.com</span> · Hacker sa visibilité avec la tech et l'IA
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/samwane-abdallah-837844119" target="_blank">LinkedIn</a>
+    <a href="https://www.reddit.com/user/samwane/" target="_blank">Reddit</a>
+  </div>
+</footer>
+
+    <style>
+      nav {
+        background: rgba(10,13,20,0.9);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav a.logo {
+        font-family: var(--mono);
+        font-size: 14px;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      nav a.logo span { color: var(--text3); }
+
+      nav .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      nav .nav-links a {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--text3);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      nav .nav-links a:hover { color: var(--accent); }
+
+      main {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 4rem 2rem 6rem;
+      }
+
+      .section-label {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        letter-spacing: 0.1em;
+        display: block;
+        margin-bottom: 2rem;
+      }
+
+      .post-grid {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .post-card {
+        display: flex;
+        flex-direction: column;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        text-decoration: none;
+        transition: border-color 0.2s, transform 0.2s;
+      }
+
+      .post-card:hover {
+        border-color: rgba(0,212,255,0.3);
+        transform: translateY(-2px);
+        text-decoration: none;
+      }
+
+      .post-content {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .post-date {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text3);
+        letter-spacing: 0.05em;
+      }
+
+      .post-title {
+        font-family: var(--display);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+      }
+
+      .post-desc {
+        font-size: 14px;
+        color: var(--text2);
+        font-weight: 300;
+        line-height: 1.6;
+      }
+
+      .post-cta {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        letter-spacing: 0.05em;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem;
+        text-align: center;
+        color: var(--text3);
+        font-size: 13px;
+        font-family: var(--mono);
+      }
+
+      footer span { color: var(--accent); }
+    </style>
+  </body>
+</html>

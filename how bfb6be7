@@ -1,0 +1,618 @@
+[33mcommit f40a3fa0d0816a5982a713775bd6c88ee9f2c208[m
+Author: Comoco235 <samwaneab@gmail.com>
+Date:   Mon Apr 27 02:47:42 2026 +0200
+
+    feat : fonts locales, pages tags, 404, SEO/AEO & perf
+    
+    - Fonts locales via variable TTF (Syne, DM Sans, JetBrains Mono) avec @font-face + font-display:swap, suppression des imports @fontsource, preload sur les fonts critiques
+    - Page 404 brandée avec liens accueil/blog et 3 derniers articles
+    - Pages de tags dynamiques /blog/tag/[slug]/ avec CollectionPage + BreadcrumbList schema
+    - output:'static', Shiki github-dark, rehype-external-links (noopener auto), prefetch hover
+    - SEO homepage : titre, description, aria-label H1, SearchAction schema, tag badges en liens
+    - BaseHead : OG image /images/og-default.png, Twitter @samwanebuild, RSS link alternate
+    - BlogPostLayout : BreadcrumbList, dateModified, isPartOf, url dans BlogPosting schema
+    - vercel.json : headers sécurité + cache immutable /_astro, s-maxage HTML
+    - Correction maillage interne : liens 404 réparés, crochets orphelins supprimés
+    - RSS trié par date, champs explicites
+    - robots.txt : sitemap URL corrigée (www)
+    - AUDIT_REPORT.md : documentation complète des 4 passes
+    
+    Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+
+[1mdiff --git a/AUDIT_REPORT.md b/AUDIT_REPORT.md[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b6e8ed1[m
+[1m--- /dev/null[m
+[1m+++ b/AUDIT_REPORT.md[m
+[36m@@ -0,0 +1,336 @@[m
+[32m+[m[32m# AUDIT REPORT — Built With Bugs[m
+[32m+[m[32m**Date :** 27 avril 2026[m[41m  [m
+[32m+[m[32m**Outil :** Astro 6.1.6 — Vercel — TypeScript strict[m
+[32m+[m
+[32m+[m[32m---[m
+[32m+[m
+[32m+[m[32m## PASSE 3 — OPTIMISATION SEO PAGE D'ACCUEIL (27 avril 2026)[m
+[32m+[m
+[32m+[m[32m**Fichier modifié :** `src/pages/index.astro` uniquement.[m
+[32m+[m
+[32m+[m[32m### 1. Balises meta[m
+[32m+[m
+[32m+[m[32m| Balise | Avant | Après |[m
+[32m+[m[32m|---|---|---|[m
+[32m+[m[32m| `<title>` | `Built With Bugs` (15 chars) | `BuiltWithBugs — Automatisation IA, Build in Public & Python` (59 chars) |[m
+[32m+[m[32m| `meta description` | `Hacker sa visibilité avec la tech et l'IA. Dev, marketing digital...` | `Automatisation IA, build in public et Python pour indie makers francophones. VPS Hetzner, prompt engineering, marketing digital — chaque bug est une leçon.` (155 chars) |[m
+[32m+[m
+[32m+[m[32m**Note sur le titre :** La consigne demandait `"...Build in Public & Dev Python"` (63 chars). `BaseHead.astro` tronque les titres > 60 chars avec `substring(0, 57) + "..."`, ce qui aurait produit un titre cassé dans le `<title>` tag. Le mot `Dev` a été retiré pour tenir en 59 chars et conserver l'intégralité des mots-clés prioritaires sans troncature. Pour utiliser 63 chars, supprimer la logique de troncature dans `BaseHead.astro` ligne 65.[m
+[32m+[m
+[32m+[m[32m**Mots-clés présents dans les meta :**[m
+[32m+[m[32m- Primaires : `automatisation IA` ✓ · `build in public` ✓ · `Python` ✓ · `VPS Hetzner` ✓[m
+[32m+[m[32m- Secondaires : `marketing digital` ✓ · `prompt engineering` ✓ · `indie maker francophone` ✓[m
+[32m+[m
+[32m+[m[32m### 2. Hero section — sous-titre enrichi[m
+[32m+[m
+[32m+[m[32m| Avant | Après |[m
+[32m+[m[32m|---|---|[m
+[32m+[m[32m| `Dev, marketing digital et automatisation, construits en public | bugs inclus. Chaque article est un projet réel, chaque erreur est du contenu.` | `Automatisation IA, Python et marketing digital construits en public — chaque projet est un article, chaque bug est une leçon.` |[m
+[32m+[m
+[32m+[m[32m**aria-label ajouté sur `<h1>` :** `"Hacker sa visibilité avec la tech et l'IA — automatisation IA, build in public et Python pour makers francophones"` — le texte visible reste inchangé, l'attribut ajoute le contexte sémantique pour les moteurs et les lecteurs d'écran sans modifier le rendu visuel.[m
+[32m+[m
+[32m+[m[32m### 3. Badges de catégories → vrais liens[m
+[32m+[m
+[32m+[m[32mLes quatre badges `<span class="tag">` ont été transformés en `<a class="tag">` suivis par Google :[m
+[32m+[m
+[32m+[m[32m| Badge | Href |[m
+[32m+[m[32m|---|---|[m
+[32m+[m[32m| 🐍 Python | `/blog?tag=python` |[m
+[32m+[m[32m| 🤖 IA & LLM | `/blog?tag=ia` |[m
+[32m+[m[32m| 📈 Marketing | `/blog?tag=marketing` |[m
+[32m+[m[32m| 🖥️ VPS & Dev | `/blog?tag=vps` |[m
+[32m+[m
+[32m+[m[32mStyle préservé : `text-decoration: none` ajouté sur `.tag`, état `:hover` avec couleur accent. Aucun changement visuel en état normal.[m
+[32m+[m
+[32m+[m[32m### 4. H2 section articles[m
+[32m+[m
+[32m+[m[32mAjouté dans le DOM (visible, stylisé discrètement en `var(--text3)`, `font-weight: 400`) :[m
+[32m+[m[32m```html[m
+[32m+[m[32m<h2 class="section-h2">Derniers articles sur l'automatisation et le build in public</h2>[m
+[32m+[m[32m```[m
+[32m+[m[32mCe H2 précède le label `// DERNIERS ARTICLES` existant. Il apporte le signal sémantique H2 sans modifier l'apparence perçue de la section.[m
+[32m+[m
+[32m+[m[32m### 5. Schema JSON-LD WebSite avec SearchAction[m
+[32m+[m
+[32m+[m[32mAjouté directement dans le `<head>` de `index.astro` (uniquement sur la page d'accueil) :[m
+[32m+[m
+[32m+[m[32m```json[m
+[32m+[m[32m{[m
+[32m+[m[32m  "@context": "https://schema.org",[m
+[32m+[m[32m  "@type": "WebSite",[m
+[32m+[m[32m  "@id": "https://www.builtwithbugs.com/#website",[m
+[32m+[m[32m  "name": "Built With Bugs",[m
+[32m+[m[32m  "url": "https://www.builtwithbugs.com/",[m
+[32m+[m[32m  "description": "...",[m
+[32m+[m[32m  "potentialAction": {[m
+[32m+[m[32m    "@type": "SearchAction",[m
+[32m+[m[32m    "target": {[m
+[32m+[m[32m      "@type": "EntryPoint",[m
+[32m+[m[32m      "urlTemplate": "https://www.builtwithbugs.com/blog?q={search_term_string}"[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "query-input": "required name=search_term_string"[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32m**Note :** `BaseHead.astro` injecte déjà un `WebSite` schema dans le `@graph` global sur toutes les pages. Sur la page d'accueil, il y a donc deux schemas `WebSite`. Google les fusionne par `@id`. La version avec `SearchAction` enrichit la version de base — pas de conflit. Pour consolider en un seul schema, déplacer le `SearchAction` dans le `globalSchema` de `BaseHead.astro` conditionné par `Astro.url.pathname === '/'`.[m
+[32m+[m
+[32m+[m[32m### Nettoyage supplémentaire[m
+[32m+[m
+[32m+[m[32m- `post.id.replace('.md', '')` → `post.id` (l'id Astro 5 Content Layer ne contient pas l'extension, le `.replace()` était une no-op)[m
+[32m+[m[32m- Indentation CSS normalisée (`.post-card`, `.post-content` avaient une indentation incohérente)[m
+[32m+[m
+[32m+[m[32m---[m
+[32m+[m
+[32m+[m[32m## PASSE 2 — NETTOYAGE EXHAUSTIF DU MAILLAGE INTERNE (27 avril 2026)[m
+[32m+[m
+[32m+[m[32m### Méthode d'audit[m
+[32m+[m[32m- Extraction de tous les slugs existants dans `src/content/blog/`[m
+[32m+[m[32m- Extraction de tous les liens internes `[text](url)` dans les 5 fichiers MD/MDX[m
+[32m+[m[32m- Comparaison des URLs `/blog/X` avec les slugs réels générés par Astro[m
+[32m+[m[32m- Recherche des motifs `[text]` sans URL `(...)` pouvant s'afficher avec des crochets visibles[m
+[32m+[m
+[32m+[m[32m### Résultat de l'audit des liens `[text](url)`[m
+[32m+[m
+[32m+[m[32mTous les liens internes `[text](url)` sont **valides**. Les 5 URLs `/blog/` utilisées dans le contenu correspondent exactement aux 5 articles existants :[m
+[32m+[m
+[32m+[m[32m| URL interne utilisée | Article cible |[m
+[32m+[m[32m|---|---|[m
+[32m+[m[32m| `/blog/automatiser-promotion-saas-vps-ia` | `automatiser-promotion-saas-vps-ia.md` ✓ |[m
+[32m+[m[32m| `/blog/comment-jai-configure-mon-vps` | `comment-jai-configure-mon-vps-pour-automatiser-ma-creation-de-contenu.md` ✓ |[m
+[32m+[m[32m| `/blog/comment-maitriser-aeo-2026` | `comment-maitriser-aeo-2026.mdx` ✓ |[m
+[32m+[m[32m| `/blog/prompt-engineering-makers-system-prompt` | `prompt-engineering-makers-system-prompt.mdx` ✓ |[m
+[32m+[m[32m| `/blog/saas-copyboost-sans-coder` | `saas-copyboost-sans-coder.mdx` ✓ |[m
+[32m+[m
+[32m+[m[32m### Crochets orphelins corrigés (affichage cassé sans être des liens)[m
+[32m+[m
+[32m+[m[32mDans `comment-jai-configure-mon-vps-pour-automatiser-ma-creation-de-contenu.md`, deux motifs `**[Titre]**` sans URL `(...)` rendaient des crochets littéraux visibles dans la page (`[Choisir et configurer un VPS...]`). Ce n'est pas techniquement un lien, mais l'affichage est cassé.[m
+[32m+[m
+[32m+[m[32m| Avant | Après |[m
+[32m+[m[32m|---|---|[m
+[32m+[m[32m| `**[Choisir et configurer un VPS pour ses projets side-project]**` | `**Choisir et configurer un VPS pour ses projets side-project** — (article à venir)` |[m
+[32m+[m[32m| `**[Utiliser l'API Notion pour centraliser ses workflows makers]**` | `**Utiliser l'API Notion pour centraliser ses workflows makers** — (article à venir)` |[m
+[32m+[m
+[32m+[m[32m### État final du maillage interne[m
+[32m+[m
+[32m+[m[32m```[m
+[32m+[m[32msrc/content/blog/automatiser-promotion-saas-vps-ia.md[m
+[32m+[m[32m  → /blog/comment-jai-configure-mon-vps              ✓ existe[m
+[32m+[m[32m  → /blog/prompt-engineering-makers-system-prompt    ✓ existe[m
+[32m+[m
+[32m+[m[32msrc/content/blog/comment-jai-configure-mon-vps-pour-automatiser-ma-creation-de-contenu.md[m
+[32m+[m[32m  → /blog/automatiser-promotion-saas-vps-ia          ✓ existe[m
+[32m+[m[32m  (2 ressources sans lien clairement marquées "article à venir")[m
+[32m+[m
+[32m+[m[32msrc/content/blog/comment-maitriser-aeo-2026.mdx[m
+[32m+[m[32m  → /blog/saas-copyboost-sans-coder                  ✓ existe[m
+[32m+[m[32m  → /blog/comment-jai-configure-mon-vps              ✓ existe[m
+[32m+[m[32m  (2 ressources sans lien en texte gras simple)[m
+[32m+[m
+[32m+[m[32msrc/content/blog/saas-copyboost-sans-coder.mdx[m
+[32m+[m[32m  → /blog/comment-jai-configure-mon-vps              ✓ existe (×2)[m
+[32m+[m[32m  → /blog/comment-maitriser-aeo-2026                 ✓ existe (×2)[m
+[32m+[m[32m  → https://copyboost.io                             lien externe ✓[m
+[32m+[m[32m  (1 ressource sans lien en texte gras simple)[m
+[32m+[m
+[32m+[m[32msrc/content/blog/prompt-engineering-makers-system-prompt.mdx[m
+[32m+[m[32m  → /blog/automatiser-promotion-saas-vps-ia          ✓ existe[m
+[32m+[m[32m  → /blog/comment-jai-configure-mon-vps              ✓ existe[m
+[32m+[m[32m  → /blog/comment-maitriser-aeo-2026                 ✓ existe[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32m**Aucun lien 404 ne subsiste dans le contenu du blog.**[m
+[32m+[m
+[32m+[m[32m---[m
+[32m+[m
+[32m+[m[32m## MISSION 1 — ERREURS CORRIGÉES[m
+[32m+[m
+[32m+[m[32m### TypeScript / Qualité de code[m
+[32m+[m[32m| Fichier | Problème | Correction |[m
+[32m+[m[32m|---|---|---|[m
+[32m+[m[32m| `src/components/Footer.astro` | Variable `today` déclarée mais jamais utilisée | Supprimée |[m
+[32m+[m[32m| `src/pages/index.astro` | Import `Image` inutilisé depuis `astro:assets` | Import supprimé |[m
+[32m+[m
+[32m+[m[32m**Résultat final :** `0 errors · 0 warnings · 0 hints`[m
+[32m+[m
+[32m+[m[32m### Variables d'environnement manquantes[m
+[32m+[m[32mAucune variable `.env` critique manquante détectée. Le fichier `.env` existe.[m[41m  [m
+[32m+[m[32mLe blog est entièrement statique (pas de secrets côté serveur requis à la génération).[m
+[32m+[m
+[32m+[m[32m---[m
+[32m+[m
+[32m+[m[32m## MISSION 2 — LIENS 404 CORRIGÉS[m
+[32m+[m
+[32m+[m[32m| Article source | Ancienne URL (404) | Nouvelle URL (valide) |[m
+[32m+[m[32m|---|---|---|[m
+[32m+[m[32m| `automatiser-promotion-saas-vps-ia.md` | `/blog/comment-jai-configure-mon-vps-pour-automatiser-ma-creation-de-contenu` | `/blog/comment-jai-configure-mon-vps` |[m
+[32m+[m[32m| `automatiser-promotion-saas-vps-ia.md` | Texte seul sans lien (Prompt Engineering) | `/blog/prompt-engineering-makers-system-prompt` |[m
+[32m+[m
+[32m+[m[32m### Liens sans URL répertoriés (articles inexistants — à écrire)[m
+[32m+[m[32mCes textes en gras sans lien pointent vers des articles non encore publiés :[m
+[32m+[m[32m- `automatiser-promotion-saas-vps-ia.md` → "Automatiser sa présence LinkedIn avec Python et l'API Notion"[m
+[32m+[m[32m- `comment-jai-configure-mon-vps.md` → "Choisir et configurer un VPS pour ses projets side-project"[m
+[32m+[m[32m- `comment-jai-configure-mon-vps.md` → "Utiliser l'API Notion pour centraliser ses workflows makers"[m
+[32m+[m[32m- `comment-maitriser-aeo-2026.mdx` → "Structurer ses données JSON-LD dans un projet Astro"[m
+[32m+[m[32m- `comment-maitriser-aeo-2026.mdx` → "Build in Public et E-E-A-T : pourquoi documenter ses erreurs améliore votre SEO"[m
+[32m+[m[32m- `saas-copyboost-sans-coder.mdx` → "Stack No-Code et Low-Code pour lancer un SaaS en solo"[m
+[32m+[m
+[32m+[m[32m---[m
+[32m+[m
+[32m+[m[32m## MISSION 3 — SEO & AEO[m
+[32m+[m
+[32m+[m[32m### SEO technique[m
+[32m+[m[32m| Élément | Avant | Après |[m
+[32m+[m[32m|---|---|---|[m
+[32m+[m[32m| `og:type` | Toujours `"website"` | `"article"` sur les articles, `"website"` ailleurs |[m
+[32m+[m[32m| `og:url` | `Astro.url` (query strings inclus) | `canonicalURL` (URL canonique propre) |[m
+[32m+[m[32m| `og:site_name` | Absent | Ajouté : `"Built With Bugs"` |[m
+[32m+[m[32m| `og:locale` | Absent | Ajouté : `"fr_FR"` |[m
+[32m+[m[32m| `og:image:width/height` | Absent | Ajouté : `1280 × 720` |[m
+[32m+[m[32m| Image OG par défaut | `/blog-placeholder-1.jpg` (fichier inexistant → 404) | `/favicon.svg` |[m
+[32m+[m[32m| `robots.txt` sitemap | `builtwithbugs.com` (sans www) | `www.builtwithbugs.com` |[m
+[32m+[m[32m| Title page À propos | `"À propos"` (trop court) | `"À propos — Samwane ABDALLAH, Indie Hacker & Built With Bugs"` |[m
+[32m+[m[32m| Description page À propos | `"Qui est derrière builtwithbugs.com ?"` (14 chars) | Description complète avec mots-clés (130+ chars) |[m
+[32m+[m
+[32m+[m[32m### Données structurées (JSON-LD) ajoutées par page[m
+[32m+[m
+[32m+[m[32m| Page | Schema ajouté |[m
+[32m+[m[32m|---|---|[m
+[32m+[m[32m| Toutes les pages (`BaseHead`) | `WebSite` + `Person` (existant, description enrichie) |[m
+[32m+[m[32m| Articles blog (`BlogPostLayout`) | `BlogPosting` (existant) + `BreadcrumbList` (nouveau) |[m
+[32m+[m[32m| Articles blog avec FAQ | `FAQPage` (existant, inchangé) |[m
+[32m+[m[32m| `/blog/` (liste) | `CollectionPage` + `BreadcrumbList` (nouveau) |[m
+[32m+[m[32m| `/a-propos` | `AboutPage` + `BreadcrumbList` (nouveau) |[m
+[32m+[m
+[32m+[m[32m**Amélioration BlogPosting :**[m
+[32m+[m[32m- Ajout du champ `url` (lien direct vers l'article)[m
+[32m+[m[32m- Ajout de `dateModified` avec fallback sur `pubDate`[m
+[32m+[m[32m- Ajout de `isPartOf` (référence au Blog parent)[m
+[32m+[m[32m- Liaison `author` avec `@id` vers le `Person` global[m
+[32m+[m
+[32m+[m[32m### AEO (Answer Engine Optimization)[m
+[32m+[m[32m- Structure déjà bonne : introductions directes en `> **TL;DR**` sur chaque article[m
+[32m+[m[32m- Titres H2 formulés comme questions sur les articles VPS et AEO ✓[m
+[32m+[m[32m- `FAQPage` schema sur les 5 articles publiés ✓[m
+[32m+[m[32m- Meta descriptions respectant 150–160 chars sur les articles (vérifiées dans le frontmatter)[m
+[32m+[m
+[32m+[m[32m---[m
+[32m+[m
+[32m+[m[32m## MISSION 4 — PERFORMANCE & CACHE[m
+[32m+[m
+[32m+[m[32m### Images[m
+[32m+[m[32m| Fichier | Avant | Après |[m
+[32m+[m[32m|---|---|---|[m
+[32m+[m[32m| `saas-copyboost-sans-coder.mdx` | `<img src="/images/copyboost-score.webp">` (non optimisé, public/) | `<Image src={copyboostScore}>` (src/assets/, optimisé Astro) |[m
+[32m+[m[32m| `saas-copyboost-sans-coder.mdx` | `<img src="/images/copyboost-analyse.webp">` (non optimisé, public/) | `<Image src={copyboostAnalyse}>` (src/assets/, optimisé Astro) |[m
+[32m+[m
+[32m+[m[32mLes hero images utilisent déjà le composant `<Image>` avec `loading="eager"` ✓[m[41m  [m
+[32m+[m[32mLes images non hero dans le MDX utilisent maintenant `loading="lazy"` ✓[m
+[32m+[m
+[32m+[m[32m### Headers Vercel (`vercel.json`)[m
+[32m+[m[32m**Problèmes corrigés :**[m
+[32m+[m[32m- Conflit entre la règle `/_astro/(.*)` (immutable) et la règle regex `/(.*).(js|css)` → la règle regex écrasait l'immutable[m
+[32m+[m[32m- Absence de headers de cache pour les pages HTML[m
+[32m+[m[32m- Absence de headers de sécurité[m
+[32m+[m
+[32m+[m[32m**Headers maintenant en place :**[m
+[32m+[m
+[32m+[m[32m| Ressource | Cache-Control |[m
+[32m+[m[32m|---|---|[m
+[32m+[m[32m| `/_astro/*` (assets hashés) | `public, max-age=31536000, immutable` |[m
+[32m+[m[32m| `/images/*` (images publiques) | `public, max-age=31536000, immutable` |[m
+[32m+[m[32m| Fonts `.woff2/.woff` | `public, max-age=31536000, immutable` |[m
+[32m+[m[32m| Images non hashées | `public, max-age=86400, must-revalidate` |[m
+[32m+[m[32m| JS/CSS non hashés | `public, max-age=86400, must-revalidate` |[m
+[32m+[m[32m| Pages `.html` | `public, s-maxage=3600, stale-while-revalidate=86400` |[m
+[32m+[m[32m| Sitemap + RSS | `public, s-maxage=3600, stale-while-revalidate=86400` |[m
+[32m+[m
+[32m+[m[32m**Headers de sécurité ajoutés (toutes les pages) :**[m
+[32m+[m[32m- `X-Content-Type-Options: nosniff`[m
+[32m+[m[32m- `X-Frame-Options: SAMEORIGIN`[m
+[32m+[m[32m- `X-XSS-Protection: 1; mode=block`[m
+[32m+[m[32m- `Referrer-Policy: strict-origin-when-cross-origin`[m
+[32m+[m[32m- `Permissions-Policy: camera=(), microphone=(), geolocation=()`[m
+[32m+[m
+[32m+[m[32m### Fonts[m
+[32m+[m[32mLes fonts DM Sans, Syne et JetBrains Mono sont chargées via `@fontsource` qui inclut automatiquement `font-display: swap` ✓[m[41m  [m
+[32m+[m[32m**Reste à faire manuellement :** ajouter des `<link rel="preload">` pour les woff2 critiques (voir ci-dessous).[m
+[32m+[m
+[32m+[m[32m---[m
+[32m+[m
+[32m+[m[32m## PASSE 4 — AMÉLIORATIONS TECHNIQUES (27 avril 2026)[m
+[32m+[m
+[32m+[m[32m### Fichiers créés / modifiés[m
+[32m+[m
+[32m+[m[32m| Fichier | Action | Détail |[m
+[32m+[m[32m|---|---|---|[m
+[32m+[m[32m| `astro.config.mjs` | Modifié | `output: 'static'`, Shiki `theme: 'github-dark'`, `rehype-external-links`, `prefetch.defaultStrategy: 'hover'` |[m
+[32m+[m[32m| `src/pages/404.astro` | Créé | Page 404 brandée avec gradient, liens vers accueil/blog, 3 derniers articles |[m
+[32m+[m[32m| `src/pages/blog/tag/[tag].astro` | Créé | Pages de tag dynamiques avec `getStaticPaths()`, `CollectionPage` + `BreadcrumbList` schema |[m
+[32m+[m[32m| `src/pages/blog/index.astro` | Modifié | Tag badges `<span>` → `<a href="/blog/tag/X/">`, `tagToSlug()`, `post.id.replace('.md','')` → `post.id` |[m
+[32m+[m[32m| `src/pages/index.astro` | Modifié | Tag badges `<span>` → `<a href="/blog/tag/X/">` (URLs de vraies pages) |[m
+[32m+[m[32m| `src/components/BaseHead.astro` | Modifié | Image OG défaut `/images/og-default.png`, tags Twitter `@samwanebuild`, RSS `<link rel="alternate">` |[m
+[32m+[m[32m| `src/components/Footer.astro` | Modifié | `rel="noopener noreferrer"` sur les 4 liens sociaux |[m
+[32m+[m[32m| `src/pages/rss.xml.js` | Modifié | Tri par date, champs explicites (plus de spread `...post.data`) |[m
+[32m+[m
+[32m+[m[32m### Syntaxe highlighting (Shiki)[m
+[32m+[m
+[32m+[m[32mRemplacement de l'absense de config highlighting par Shiki `github-dark` dans `astro.config.mjs` :[m
+[32m+[m[32m```js[m
+[32m+[m[32mmarkdown: {[m
+[32m+[m[32m  shikiConfig: { theme: 'github-dark' },[m
+[32m+[m[32m}[m
+[32m+[m[32m```[m
+[32m+[m[32mTous les blocs ` ```code``` ` dans les articles MD/MDX bénéficient maintenant de la coloration syntaxique.[m
+[32m+[m
+[32m+[m[32m### Liens externes sécurisés (`rehype-external-links`)[m
+[32m+[m
+[32m+[m[32mPlugin configuré dans `astro.config.mjs` pour ajouter automatiquement `rel="noopener noreferrer" target="_blank"` sur tous les liens absolus (https/http) dans les fichiers Markdown/MDX. Les liens internes (`/blog/...`) ne sont pas affectés.[m
+[32m+[m
+[32m+[m[32m### Stratégie de préchargement[m
+[32m+[m
+[32m+[m[32m`prefetchAll: true` → `prefetch: { defaultStrategy: 'hover' }` : préchargement uniquement au survol, évite de charger toutes les pages en background au chargement.[m
+[32m+[m
+[32m+[m[32m### Pages de tags[m
+[32m+[m
+[32m+[m[32mURL pattern : `/blog/tag/[slug]/` où `slug = tag.toLowerCase().replace(/\s+/g, '-')`.[m[41m  [m
+[32m+[m[32mBadges de tags sur `/blog/` et `/blog/tag/[tag]` sont des liens cliquables.[m[41m  [m
+[32m+[m[32mTag actif sur la page de tag reçoit la classe `.active` pour différenciation visuelle.[m
+[32m+[m
+[32m+[m[32m### Résultat `astro check`[m
+[32m+[m
+[32m+[m[32m```[m
+[32m+[m[32mResult (20 files): 0 errors · 0 warnings · 0 hints[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32m---[m
+[32m+[m
+[32m+[m[32m## CE QUI RESTE À FAIRE MANUELLEMENT[m
+[32m+[m
+[32m+[m[32m### Priorité haute[m
+[32m+[m[32m1. **Image OG par défaut** : `BaseHead.astro` utilise `/images/og-default.png` ✓. S'assurer que le fichier `public/images/og-default.png` existe bien en 1280×720px.[m
+[32m+[m
+[32m+[m[32m2. **Préchargement des fonts critiques** : Ajouter dans `BaseHead.astro` après les imports CSS :[m
+[32m+[m[32m   ```html[m
+[32m+[m[32m   <link rel="preload" href="/_astro/dm-sans-latin-400-normal.[hash].woff2" as="font" type="font/woff2" crossorigin />[m
+[32m+[m[32m   <link rel="preload" href="/_astro/syne-latin-700-normal.[hash].woff2" as="font" type="font/woff2" crossorigin />[m
+[32m+[m[32m   ```[m
+[32m+[m[32m   Note : le hash change à chaque build — utiliser un plugin Astro ou injecter dynamiquement.[m
+[32m+[m
+[32m+[m[32m3. **Nouveaux articles manquants** : 6 liens internes pointent vers des articles inexistants (listés en Mission 2). Chaque article manquant est une opportunité de contenu.[m
+[32m+[m
+[32m+[m[32m### Priorité moyenne[m
+[32m+[m[32m4. **Image OG spécifique par article** : Les articles utilisent la `heroImage` comme OG image, ce qui est correct. Mais la `heroImage` est servie depuis `/_astro/[hash].webp` — vérifier que les dimensions 1200×630 (ratio 1.91:1 idéal pour OG) sont respectées dans les fichiers source.[m
+[32m+[m
+[32m+[m[32m5. **`twitter:site` et `twitter:creator`** : Tags Twitter `@samwanebuild` déjà ajoutés dans `BaseHead.astro` ✓.[m
+[32m+[m
+[32m+[m[32m6. **Sitemap dynamique** : `@astrojs/sitemap` est configuré et génère `sitemap-index.xml` ✓. Vérifier dans Google Search Console que le sitemap est bien soumis.[m
+[32m+[m
+[32m+[m[32m7. **hreflang** : Le blog est uniquement en français → pas de hreflang nécessaire.[m
+[32m+[m
+[32m+[m[32m### Priorité basse[m
+[32m+[m[32m8. **Google Search Console** : Soumettre le sitemap `https://www.builtwithbugs.com/sitemap-index.xml` et valider les résultats enrichis avec l'outil de test Google.[m
+[32m+[m
+[32m+[m[32m9. **Variables d'environnement Vercel** : Vérifier que toutes les variables du `.env` local sont bien configurées dans le tableau de bord Vercel (Settings → Environment Variables).[m
+[32m+[m
+[32m+[m[32m10. **`PageLayout.astro`** : Ce layout (utilisé par les pages MD) n'a pas de Header/Footer ni de BackToTop — à vérifier si les pages `mentions-legales.md` et `politique-de-confidentialite.md` utilisent `MainLayout` ou `PageLayout`.[m
+[1mdiff --git a/astro.config.mjs b/astro.config.mjs[m
+[1mindex a320d10..2938fc5 100644[m
+[1m--- a/astro.config.mjs[m
+[1m+++ b/astro.config.mjs[m
+[36m@@ -3,17 +3,28 @@[m
+ import mdx from '@astrojs/mdx';[m
+ import sitemap from '@astrojs/sitemap';[m
+ import { defineConfig } from 'astro/config';[m
+[32m+[m[32mimport rehypeExternalLinks from 'rehype-external-links';[m
+ [m
+ import vercel from '@astrojs/vercel';[m
+ [m
+ // https://astro.build/config[m
+ export default defineConfig({[m
+   site: 'https://www.builtwithbugs.com',[m
+[32m+[m[32m  output: 'static',[m
+[32m+[m
+   integrations: [mdx(), sitemap()],[m
+ [m
+[32m+[m[32m  markdown: {[m
+[32m+[m[32m    shikiConfig: {[m
+[32m+[m[32m      theme: 'github-dark',[m
+[32m+[m[32m    },[m
+[32m+[m[32m    rehypePlugins: [[m
+[32m+[m[32m      [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],[m
+[32m+[m[32m    ],[m
+[32m+[m[32m  },[m
+[32m+[m
+   prefetch: {[m
+[31m-    prefetchAll: true,[m
+[31m-    defaultStrategy: 'viewport'[m
+[32m+[m[32m    defaultStrategy: 'hover',[m
+   },[m
+ [m
+   adapter: vercel({[m
+[36m@@ -21,6 +32,6 @@[m [mexport default defineConfig({[m
+     imagesConfig: {[m
+       sizes: [320, 640, 1280],[m
+       domains: [],[m
+[31m-    }[m
+[32m+[m[32m    },[m
+   }),[m
+[31m-});[m
+\ No newline at end of file[m
+[32m+[m[32m});[m
+[1mdiff --git a/package-lock.json b/package-lock.json[m
+[1mindex 996d59c..707997e 100644[m
+[1m--- a/package-lock.json[m
+[1m+++ b/package-lock.json[m
+[36m@@ -17,6 +17,7 @@[m
+         "@fontsource/jetbrains-mono": "^5.2.8",[m
+         "@fontsource/syne": "^5.2.7",[m
+         "astro": "^6.1.6",[m
+[32m+[m[32m        "rehype-external-links": "^3.0.0",[m
+         "sharp": "^0.34.3"[m
+       },[m
+       "devDependencies": {[m
+[36m@@ -3812,6 +3813,18 @@[m
+         "url": "https://github.com/sponsors/brc-dd"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/is-absolute-url": {[m
+[32m+[m[32m      "version": "4.0.1",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/is-absolute-url/-/is-absolute-url-4.0.1.tgz",[m
+[32m+[m[32m      "integrity": "sha512-/51/TKE88Lmm7Gc4/8btclNXWS+g50wXhYJq8HWIBAGUBnoAdRu1aXeh364t/O7wXDAcTJDP8PNuNKWUDWie+A==",[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "engines": {[m
+[32m+[m[32m        "node": "^12.20.0 || ^14.13.1 || >=16.0.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "funding": {[m
+[32m+[m[32m        "url": "https://github.com/sponsors/sindresorhus"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/is-alphabetical": {[m
+       "version": "2.0.1",[m
+       "resolved": "https://registry.npmjs.org/is-alphabetical/-/is-alphabetical-2.0.1.tgz",[m
+[36m@@ -5647,6 +5660,24 @@[m
+         "url": "https://opencollective.com/unified"[m
+       }[m
+     },[m
+[32m+[m[32m    "node_modules/rehype-external-links": {[m
+[32m+[m[32m      "version": "3.0.0",[m
+[32m+[m[32m      "resolved": "https://registry.npmjs.org/rehype-external-links/-/rehype-external-links-3.0.0.tgz",[m
+[32m+[m[32m      "integrity": "sha512-yp+e5N9V3C6bwBeAC4n796kc86M4gJCdlVhiMTxIrJG5UHDMh+PJANf9heqORJbt1nrCbDwIlAZKjANIaVBbvw==",[m
+[32m+[m[32m      "license": "MIT",[m
+[32m+[m[32m      "dependencies": {[m
+[32m+[m[32m        "@types/hast": "^3.0.0",[m
+[32m+[m[32m        "@ungap/structured-clone": "^1.0.0",[m
+[32m+[m[32m        "hast-util-is-element": "^3.0.0",[m
+[32m+[m[32m        "is-absolute-url": "^4.0.0",[m
+[32m+[m[32m        "space-separated-tokens": "^2.0.0",[m
+[32m+[m[32m        "unist-util-visit": "^5.0.0"[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "funding": {[m
+[32m+[m[32m        "type": "opencollective",[m
+[32m+[m[32m        "url": "https://opencollective.com/unified"[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+     "node_modules/rehype-parse": {[m
+       "version": "9.0.1",[m
+       "resolved": "https://registry.npmjs.org/rehype-parse/-/rehype-parse-9.0.1.tgz",[m
+[1mdiff --git a/package.json b/package.json[m
+[1mindex 5a01903..977c178 100644[m
+[1m--- a/package.json[m
+[1m+++ b/package.json[m
+[36m@@ -21,6 +21,7 @@[m
+     "@fontsource/jetbrains-mono": "^5.2.8",[m
+     "@fontsource/syne": "^5.2.7",[m
+     "astro": "^6.1.6",[m
+[32m+[m[32m    "rehype-external-links": "^3.0.0",[m
+     "sharp": "^0.34.3"[m
+   },[m
+   "devDependencies": {[m
+[1mdiff --git a/public/fonts/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf b/public/fonts/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b57690a[m
+Binary files /dev/null and b/public/fonts/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf differ
+[1mdiff --git a/public/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf b/public/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf[m
+[1mnew file mode 100644[m
+[1mindex 0000000..94c9e1c[m
+Binary files /dev/null and b/public/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf differ
+[1mdiff --git a/public/fonts/DM_Sans/OFL.txt b/public/fonts/DM_Sans/OFL.txt[m
+[1mnew file mode 100644[m
+[1mindex 0000000..bd7058f[m
+[1m--- /dev/null[m
+[1m+++ b/public/fonts/DM_Sans/OFL.txt[m
+[36m@@ -0,0 +1,93 @@[m
+[32m+[m[32mCopyright 2014 The DM Sans Project Authors (https://github.com/googlefonts/dm-fonts)[m
+[32m+[m
+[32m+[m[32mThis Font Software is licensed under the SIL Open Font License, Version 1.1.[m
+[32m+[m[32mThis license is copied below, and is also available with a FAQ at:[m
+[32m+[m[32mhttps://openfontlicense.org[m
+[32m+[m
+[32m+[m
+[32m+[m[32m-----------------------------------------------------------[m
+[32m+[m[32mSIL OPEN FONT LICENSE Version 1.1 - 26 February 2007[m
+[32m+[m[32m-----------------------------------------------------------[m
+[32m+[m
+[32m+[m[32mPREAMBLE[m
+[32m+[m[32mThe goals of the Open Font License (OFL) are to stimulate worldwide[m
+[32m+[m[32mdevelopment of collaborative font projects, to support the font creation[m
+[32m+[m[32mefforts of academic and linguistic communities, and to provide a free and[m
+[32m+[m[32mopen framework in which fonts may be shared and improved in partnership[m
+[32m+[m[32mwith others.[m
+[32m+[m
+[32m+[m[32mThe OFL allows the licensed fonts to be used, studied, modified and[m
+[32m+[m[32mredistributed freely as long as they are not sold by themselves. The[m
+[32m+[m[32mfonts, including any derivative works, can be bundled, embedded,[m[41m [m
+[32m+[m[32mredistributed and/or sold with any software provided that any reserved[m
+[32m+[m[32mnames are not used by derivative works. The fonts and derivatives,[m
+[32m+[m[32mhowever, cannot be released under any other type of license. The[m
+[32m+[m[32mrequirement for fonts to remain under this license does not apply[m
+[32m+[m[32mto any document created using the fonts or their derivatives.[m
+[32m+[m
+[32m+[m[32mDEFINITIONS[m
+[32m+[m[32m"Font Software" refers to the set of files released by the Copyright[m
+[32m+[m[32mHolder(s) under this license and clearly marked as such. This may[m
+[32m+[m[32minclude source files, build scripts and documentation.[m
+[32m+[m
+[32m+[m[32m"Reserved Font Name" refers to any names specified as such after the[m
+[32m+[m[32mcopyright statement(s).[m
+[32m+[m
+[32m+[m[32m"Original Version" refers to the collection of Font Software components as[m
+[32m+[m[32mdistributed by the Copyright Holder(s).[m
+[32m+[m
+[32m+[m[32m"Modified Version" refers to any derivative made by adding to, deleting,[m
+[32m+[m[32mor substituting -- in part or in whole -- any of the components of the[m
+[32m+[m[32mOriginal Version, by changing formats or by porting the Font Software to a[m
+[32m+[m[32mnew environment.[m
+[32m+[m
+[32m+[m[32m"Author" refers to any designer, engineer, programmer, technical[m
+[32m+[m[32mwriter or other person who contributed to the Font Software.[m
+[32m+[m
+[32m+[m[32mPERMISSION & CONDITIONS[m
+[32m+[m[32mPermission is hereby granted, free of charge, to any person obtaining[m
+[32m+[m[32ma copy of the Font Software, to use, study, copy, merge, embed, modify,[m
+[32m+[m[32mredistribute, and sell modified and unmodified copies of the Font[m
+[32m+[m[32mSoftware, subject to the following conditions:[m
+[32m+[m
+[32m+[m[32m1) Neither the Font Software nor any of its individual components,[m
+[32m+[m[32min Original or Modified Versions, may be sold by itself.[m
+[32m+[m
+[32m+[m[32m2) Original or Modified Versions of the Font Software may be bundled,[m
+[32m+[m[32mredistributed and/or sold with any software, provided that each copy[m
+[32m+[m[32mcontains the above copyright notice and this license. These can be[m
+[32m+[m[32mincluded either as stand-alone text files, human-readable headers or[m
+[32m+[m[32min the appropriate machine-readable metadata fields within text or[m
+[32m+[m[32mbinary files as long as those fields can be easily viewed by the user.[m
+[32m+[m
+[32m+[m[32m3) No Modified Version of the Font Software may use the Reserved Font[m
+[32m+[m[32mName(s) unless explicit written permission is granted by the corresponding[m
+[32m+[m[32mCopyright Holder. This restriction only applies to the primary font name as[m
+[32m+[m[32mpresented to the users.[m
+[32m+[m
+[32m+[m[32m4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font[m
+[32m+[m[32mSoftware shall not be used to promote, endorse or advertise any[m
+[32m+[m[32mModified Version, except to acknowledge the contribution(s) of the[m
+[32m+[m[32mCopyright Holder(s) and the Author(s) or with their explicit written[m
+[32m+[m[32mpermission.[m
+[32m+[m
+[32m+[m[32m5) The Font Software, modified or unmodified, in part or in whole,[m
+[32m+[m[32mmust be distributed entirely under this license, and must not be[m
+[32m+[m[32mdistributed under any other license. The requirement for fonts to[m
+[32m+[m[32mremain under this license does not apply to any document created[m
+[32m+[m[32musing the Font Software.[m
+[32m+[m
+[32m+[m[32mTERMINATION[m
+[32m+[m[32mThis license becomes null and void if any of the above conditions are[m
+[32m+[m[32mnot met.[m
+[32m+[m
+[32m+[m[32mDISCLAIMER[m
+[32m+[m[32mTHE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,[m
+[32m+[m[32mEXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF[m
+[32m+[m[32mMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT[m
+[32m+[m[32mOF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE[m
+[32m+[m[32mCOPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,[m
+[32m+[m[32mINCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL[m
+[32m+[m[32mDAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING[m
+[32m+[m[32mFROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM[m
+[32m+[m[32mOTHER DEALINGS IN THE FONT SOFTWARE.[m
+[1mdiff --git a/public/fonts/DM_Sans/README.txt b/public/fonts/DM_Sans/README.txt[m
+[1mnew file mode 100644[m
+[1mindex 0000000..0bbd082[m
+[1m--- /dev/null[m
+[1m+++ b/public/fonts/DM_Sans/README.txt[m
+[36m@@ -0,0 +1,136 @@[m
+[32m+[m[32mDM Sans Variable Font[m
+[32m+[m[32m=====================[m
+[32m+[m
+[32m+[m[32mThis download contains DM Sans as both variable fonts and static fonts.[m
+[32m+[m
+[32m+[m[32mDM Sans is a variable font with these axes:[m
+[32m+[m[32m  opsz[m
+[32m+[m[32m  wght[m
+[32m+[m
+[32m+[m[32mThis means all the styles are contained in these files:[m
+[32m+[m[32m  DMSans-VariableFont_opsz,wght.ttf[m
+[32m+[m[32m  DMSans-Italic-VariableFont_opsz,wght.ttf[m
+[32m+[m
+[32m+[m[32mIf your app fully supports variable fonts, you can now pick intermediate styles[m
+[32m+[m[32mthat aren’t available as static fonts. Not all apps support variable fonts, and[m
+[32m+[m[32min those cases you can use the static font files for DM Sans:[m
+[32m+[m[32m  static/DMSans-Thin.ttf[m
+[32m+[m[32m  static/DMSans-ExtraLight.ttf[m
+[32m+[m[32m  static/DMSans-Light.ttf[m
+[32m+[m[32m  static/DMSans-Regular.ttf[m
+[32m+[m[32m  static/DMSans-Medium.ttf[m
+[32m+[m[32m  static/DMSans-SemiBold.ttf[m
+[32m+[m[32m  static/DMSans-Bold.ttf[m
+[32m+[m[32m  static/DMSans-ExtraBold.ttf[m
+[32m+[m[32m  static/DMSans-Black.ttf[m
+[32m+[m[32m  static/DMSans_18pt-Thin.ttf[m
+[32m+[m[32m  static/DMSans_18pt-ExtraLight.ttf[m
+[32m+[m[32m  static/DMSans_18pt-Light.ttf[m
+[32m+[m[32m  static/DMSans
