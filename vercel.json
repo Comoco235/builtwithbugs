@@ -41,7 +41,7 @@
             ]
         },
         {
-            "source": "/(.*)\\.(?:woff2|woff|ttf|otf)",
+            "source": "/fonts/(.*)",
             "headers": [
                 {
                     "key": "Cache-Control",
@@ -50,25 +50,39 @@
             ]
         },
         {
-            "source": "/(.*)\\.(?:ico|png|jpg|jpeg|svg|avif|webp)",
-            "headers": [
-                {
-                    "key": "Cache-Control",
-                    "value": "public, max-age=86400, must-revalidate"
-                }
-            ]
+            "source": "/(.*).ico",
+            "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }]
         },
         {
-            "source": "/((?!_astro).*)\\.(?:js|css)",
-            "headers": [
-                {
-                    "key": "Cache-Control",
-                    "value": "public, max-age=86400, must-revalidate"
-                }
-            ]
+            "source": "/(.*).png",
+            "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }]
         },
         {
-            "source": "/(.*)\\.html",
+            "source": "/(.*).jpg",
+            "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }]
+        },
+        {
+            "source": "/(.*).jpeg",
+            "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }]
+        },
+        {
+            "source": "/(.*).svg",
+            "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }]
+        },
+        {
+            "source": "/(.*).webp",
+            "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }]
+        },
+        {
+            "source": "/(.*).js",
+            "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }]
+        },
+        {
+            "source": "/(.*).css",
+            "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }]
+        },
+        {
+            "source": "/(.*).html",
             "headers": [
                 {
                     "key": "Cache-Control",
@@ -77,7 +91,7 @@
             ]
         },
         {
-            "source": "/sitemap(.*)\\.xml",
+            "source": "/sitemap(.*).xml",
             "headers": [
                 {
                     "key": "Cache-Control",
