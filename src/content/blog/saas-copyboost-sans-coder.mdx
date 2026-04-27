@@ -18,6 +18,10 @@ faq:
     answer: "Oui, de loin. Le développement a une fin : les fonctionnalités sont soit implémentées, soit elles ne le sont pas. La distribution n'a pas de fin et ne se résout pas par l'itération technique. Trouver les personnes qui ont le problème que vous résolvez, les atteindre, les convaincre d'essayer, et les garder : c'est un travail continu qui ne ressemble pas au travail de construction du produit."
 ---
 
+import { Image } from 'astro:assets';
+import copyboostScore from '../../assets/copyboost-score.webp';
+import copyboostAnalyse from '../../assets/copyboost-analyse.webp';
+
 {/* markdownlint-disable MD033 */}
 
 > **TL;DR :** J'ai développé et lancé Copyboost, un outil d'analyse de textes marketing par IA, en 6 mois sans écrire une seule ligne de code moi-même. Stack : Vercel, Supabase, API IA, tout ça pour moins de 25€ par mois de coûts fixes. L'IA a joué le rôle de co-développeur. Le vrai défi n'était pas la technique. C'était la distribution.
@@ -62,7 +66,7 @@ Chaque bug était frustrant. Chaque bug apprenait quelque chose.
 
 ## Ce que Copyboost analyse concrètement
 
-<img src="/images/copyboost-score.webp" alt="Copyboost score analyse framework persuasif copywriting" style="width:100%; border-radius:12px; margin:1.5rem 0;" />
+<Image src={copyboostScore} alt="Copyboost score analyse framework persuasif copywriting" width={1280} height={720} loading="lazy" style="width:100%; border-radius:12px; margin:1.5rem 0;" />
 
 Copyboost analyse n'importe quel texte marketing en dix secondes. Pas un "c'est bien" ou "c'est nul". Un diagnostic structuré :
 
@@ -82,7 +86,7 @@ C'est là que j'ai compris que ça marchait vraiment.
 
 ## Ce que les tests sur de vrais textes ont confirmé
 
-<img src="/images/copyboost-analyse.webp" alt="Copyboost analyse avant après texte marketing conversion" style="width:100%; border-radius:12px; margin:1.5rem 0;" />
+<Image src={copyboostAnalyse} alt="Copyboost analyse avant après texte marketing conversion" width={1280} height={720} loading="lazy" style="width:100%; border-radius:12px; margin:1.5rem 0;" />
 
 Quand j'ai commencé à tester Copyboost sur de vrais textes, des emails de prospection, des fiches produit e-commerce, des accroches LinkedIn, les diagnostics n'étaient pas génériques. Ils étaient précis.
 

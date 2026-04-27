@@ -1,8 +1,6 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BackToTop from '../components/BackToTop.astro';
@@ -10,12 +8,34 @@ import BackToTop from '../components/BackToTop.astro';
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const PAGE_TITLE = 'BuiltWithBugs — Automatisation IA, Build in Public & Python';
+const PAGE_DESC  = 'Automatisation IA, build in public et Python pour indie makers francophones. VPS Hetzner, prompt engineering, marketing digital — chaque bug est une leçon.';
+
+const siteUrl = Astro.site?.toString() || 'https://www.builtwithbugs.com/';
+const homeSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}#website`,
+  "name": "Built With Bugs",
+  "url": siteUrl,
+  "description": PAGE_DESC,
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${siteUrl}blog?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+});
 ---
 
 <!doctype html>
 <html lang="fr">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={PAGE_TITLE} description={PAGE_DESC} />
+    <script is:inline type="application/ld+json" set:html={homeSchema} />
   </head>
   <body>
     <Header />
@@ -25,34 +45,33 @@ const posts = (await getCollection('blog')).sort(
       <div class="hero-grid"></div>
       <div class="hero-content">
         <div class="hero-badge">● BUILD IN PUBLIC</div>
-        <h1>
+        <h1 aria-label="Hacker sa visibilité avec la tech et l'IA — automatisation IA, build in public et Python pour makers francophones">
           Hacker sa visibilité<br>
           <span class="gradient">avec la tech et l'IA</span>
         </h1>
         <p class="hero-sub">
-          Dev, marketing digital et automatisation, construits en public | bugs inclus.
-          Chaque article est un projet réel, chaque erreur est du contenu.
+          Automatisation IA, Python et marketing digital construits en public —
+          chaque projet est un article, chaque bug est une leçon.
         </p>
         <div class="hero-tags">
-          <span class="tag">🐍 Python</span>
-          <span class="tag">🤖 IA & LLM</span>
-          <span class="tag">📈 Marketing</span>
-          <span class="tag">🖥️ VPS & Dev</span>
+          <a href="/blog/tag/python/" class="tag">🐍 Python</a>
+          <a href="/blog/tag/ia/" class="tag">🤖 IA & LLM</a>
+          <a href="/blog/tag/marketing/" class="tag">📈 Marketing</a>
+          <a href="/blog/tag/vps/" class="tag">🖥️ VPS & Dev</a>
         </div>
       </div>
     </header>
 
     <main>
-
-
       <div class="section-header" style="margin-top: 4rem;">
+        <h2 class="section-h2">Derniers articles sur l'automatisation et le build in public</h2>
         <span class="section-label">// DERNIERS ARTICLES</span>
       </div>
       <ul class="post-grid">
         {posts.map((post) => (
           <li>
             <article>
-              <a href={`/blog/${post.id.replace('.md', '')}/`} class="post-card">
+              <a href={`/blog/${post.id}/`} class="post-card">
                 <div class="post-content">
                   <time class="post-date" datetime={post.data.pubDate.toISOString()}>
                     {post.data.pubDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -162,6 +181,12 @@ const posts = (await getCollection('blog')).sort(
         font-size: 13px;
         color: var(--text2);
         font-family: var(--mono);
+        text-decoration: none;
+      }
+
+      .tag:hover {
+        border-color: rgba(0,212,255,0.3);
+        color: var(--accent);
       }
 
       main {
@@ -170,7 +195,14 @@ const posts = (await getCollection('blog')).sort(
         padding: 4rem 2rem 6rem;
       }
 
-
+      .section-h2 {
+        font-family: var(--display);
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--text3);
+        letter-spacing: -0.01em;
+        margin-bottom: 0.25rem;
+      }
 
       .section-label {
         font-family: var(--mono);
@@ -189,15 +221,15 @@ const posts = (await getCollection('blog')).sort(
       }
 
       .post-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  text-decoration: none;
-  transition: border-color 0.2s, transform 0.2s;
-}
+        display: flex;
+        flex-direction: column;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        text-decoration: none;
+        transition: border-color 0.2s, transform 0.2s;
+      }
 
       .post-card:hover {
         border-color: rgba(0,212,255,0.3);
@@ -212,12 +244,12 @@ const posts = (await getCollection('blog')).sort(
       }
 
       .post-content {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
-}
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex: 1;
+      }
 
       .post-date {
         font-family: var(--mono);
@@ -249,8 +281,6 @@ const posts = (await getCollection('blog')).sort(
         color: var(--accent);
         letter-spacing: 0.05em;
       }
-
-
 
       @media (max-width: 600px) {
         .post-card { grid-template-columns: 1fr; }

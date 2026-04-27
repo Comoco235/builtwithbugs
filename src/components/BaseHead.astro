@@ -1,27 +1,21 @@
 ---
 // src/components/BaseHead.astro
 import '../styles/global.css';
-import '@fontsource/syne/800.css';
-import '@fontsource/syne/700.css';
-import '@fontsource/syne/400.css';
-import '@fontsource/dm-sans/400.css';
-import '@fontsource/dm-sans/500.css';
-import '@fontsource/dm-sans/300.css';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/700.css';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
 	title: string;
 	description: string;
 	image?: string;
+	ogType?: 'website' | 'article';
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
+const { title, description, image = '/images/og-default.png', ogType = 'website' } = Astro.props;
 
 const siteUrl = Astro.site?.toString() || 'https://www.builtwithbugs.com/';
+const ogImageAbsolute = new URL(image, Astro.site).toString();
 
 const globalSchema = JSON.stringify({
   "@context": "https://schema.org",
@@ -31,6 +25,7 @@ const globalSchema = JSON.stringify({
       "@id": `${siteUrl}#website`,
       "url": siteUrl,
       "name": "Built With Bugs",
+      "description": "Hacker sa visibilité avec la tech et l'IA. Dev, marketing digital et automatisation construits en public.",
       "publisher": {
         "@id": `${siteUrl}#person`
       }
@@ -53,6 +48,10 @@ const globalSchema = JSON.stringify({
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 
+<!-- Font Preloads -->
+<link rel="preload" href="/fonts/Syne/Syne-VariableFont_wght.ttf" as="font" type="font/truetype" crossorigin />
+<link rel="preload" href="/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf" as="font" type="font/truetype" crossorigin />
+
 <ClientRouter />
 
 <!-- Canonical URL -->
@@ -64,18 +63,26 @@ const globalSchema = JSON.stringify({
 <meta name="description" content={description.length > 155 ? description.substring(0, 152) + '...' : description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content="Built With Bugs" />
+<meta property="og:locale" content="fr_FR" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:image" content={ogImageAbsolute} />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="720" />
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@samwanebuild" />
+<meta name="twitter:creator" content="@samwanebuild" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageAbsolute} />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="Built With Bugs — RSS" href="/rss.xml" />
 
 <!-- Schema.org Global -->
 <script is:inline type="application/ld+json" set:html={globalSchema} />

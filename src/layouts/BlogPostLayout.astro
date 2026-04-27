@@ -20,13 +20,17 @@ const { title, description, pubDate, updatedDate, heroImage, faq, headings } = A
 
 const toc = headings?.filter((h: MarkdownHeading) => h.depth === 2);
 
+const siteUrl = Astro.site?.toString() || 'https://www.builtwithbugs.com/';
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
 const schemaData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": Astro.url.toString(),
+    "@id": pageUrl,
   },
+  url: pageUrl,
   headline: title,
   description: description,
   image: heroImage
@@ -38,11 +42,12 @@ const schemaData = {
       }
     : undefined,
   datePublished: pubDate.toISOString(),
-  ...(updatedDate && { dateModified: updatedDate.toISOString() }),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
   author: {
     "@type": "Person",
+    "@id": `${siteUrl}#person`,
     name: "Samwane ABDALLAH",
-    url: Astro.site?.toString(),
+    url: siteUrl,
   },
   publisher: {
     "@type": "Organization",
@@ -52,20 +57,41 @@ const schemaData = {
       url: new URL("/favicon.svg", Astro.site).toString(),
     },
   },
+  isPartOf: {
+    "@type": "Blog",
+    "@id": `${siteUrl}blog/`,
+    name: "Built With Bugs Blog",
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: siteUrl },
+    { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}blog/` },
+    { "@type": "ListItem", position: 3, name: title, item: pageUrl },
+  ],
 };
 ---
 
 <html lang="fr">
   <head>
-    <BaseHead 
-      title={title} 
-      description={description} 
-      image={heroImage?.src} 
+    <BaseHead
+      title={title}
+      description={description}
+      image={heroImage?.src}
+      ogType="article"
     />
     <script
       is:inline
       type="application/ld+json"
       set:html={JSON.stringify(schemaData)}
+    />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(breadcrumbSchema)}
     />
     {faq && faq.length > 0 && (
       <script

@@ -1,11 +1,29 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+
+const siteUrl = Astro.site?.toString() || 'https://www.builtwithbugs.com/';
+const aboutSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  url: `${siteUrl}a-propos/`,
+  name: "À propos de Built With Bugs — Samwane ABDALLAH",
+  isPartOf: { "@id": `${siteUrl}#website` },
+  about: { "@id": `${siteUrl}#person` },
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "À propos", item: `${siteUrl}a-propos/` },
+    ],
+  },
+});
 ---
 
 <MainLayout
-  title="À propos"
-  description="Qui est derrière builtwithbugs.com ?"
+  title="À propos — Samwane ABDALLAH, Indie Hacker & Built With Bugs"
+  description="Indie hacker qui construit en public : VPS, Python, IA et marketing digital. Découvrez qui est derrière builtwithbugs.com."
 >
+  <script is:inline type="application/ld+json" set:html={aboutSchema} />
   <h1>À propos</h1>
   <p>
     Bienvenue sur <strong>builtwithbugs.com</strong> un blog construit en public, bugs inclus.
