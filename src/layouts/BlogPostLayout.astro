@@ -35,6 +35,9 @@ const pageSchema = JSON.stringify({
       "inLanguage": "fr-FR",
       "datePublished": pubDate.toISOString(),
       "dateModified": (updatedDate ?? pubDate).toISOString(),
+      "keywords": Astro.props.tags?.join(', ') || '',
+      "articleSection": "Tech & Automatisation",
+      "timeRequired": "PT5M",
       ...(heroImage ? {
         "image": {
           "@type": "ImageObject",
@@ -81,6 +84,8 @@ const pageSchema = JSON.stringify({
       description={description}
       image={heroImage?.src}
       ogType="article"
+      pubDate={pubDate}
+      tags={Astro.props.tags}
     />
     <script
       is:inline

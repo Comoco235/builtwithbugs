@@ -3,7 +3,7 @@ title: "Comment j'ai configuré mon VPS pour automatiser ma création de contenu
 description: "Conflit de port, modèle Gemini inexistant, double installation en conflit : comment j'ai finalement monté un pipeline de contenu automatisé sur VPS Hetzner avec Python et Notion."
 pubDate: 2026-04-15
 slug: "comment-jai-configure-mon-vps"
-heroImage: "../../assets/builtwithbugs-article.webp"
+heroImage: "./assets/Comment-j-ai configure-mon-VPS.webp"
 tags: ["VPS", "Hetzner", "Python", "Gemini", "Automation"]
 faq:
   - question: "Quel VPS choisir pour héberger un pipeline Python avec des APIs IA ?"
@@ -117,5 +117,5 @@ Un article à venir sur la mise en place de ce scraper.
 Quelques ressources qui complètent ce que je décris ici :
 
 - 📌 **[Comment j'ai automatisé la promotion de mon SaaS depuis mon VPS](/blog/automatiser-promotion-saas-vps-ia)**  la suite logique de cet article, avec le prompt engineering pour un ton authentique.
-- 📌 **Choisir et configurer un VPS pour ses projets side-project** — le guide de départ si tu pars de zéro sur Hetzner (article à venir).
-- 📌 **Utiliser l'API Notion pour centraliser ses workflows makers** — aller plus loin dans l'intégration Notion comme hub de validation (article à venir).
+- 📌 **Choisir et configurer un VPS pour ses projets side-project**  le guide de départ si tu pars de zéro sur Hetzner.
+- 📌 **Utiliser l'API Notion pour centraliser ses workflows makers** aller plus loin dans l'intégration Notion comme hub de validation.

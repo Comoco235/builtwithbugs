@@ -1,6 +1,7 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BackToTop from '../components/BackToTop.astro';
@@ -95,10 +96,24 @@ const homeSchema = JSON.stringify({
         <span class="section-label">// DERNIERS ARTICLES</span>
       </div>
       <ul class="post-grid">
-        {posts.map((post) => (
+        {posts.map((post, index) => (
           <li>
             <article>
-              <a href={`/blog/${post.id}/`} class="post-card">
+              <a href={`/blog/${post.id}/`} class="post-card" data-astro-prefetch="viewport">
+                {post.data.heroImage && (
+                  <div class="post-image">
+                    <Image 
+                      src={post.data.heroImage} 
+                      alt={post.data.heroImageAlt || post.data.title} 
+                      width={400} 
+                      height={225}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      fetchpriority={index === 0 ? "high" : "auto"}
+                      decoding="async"
+                      class="post-img"
+                    />
+                  </div>
+                )}
                 <div class="post-content">
                   <time class="post-date" datetime={post.data.pubDate.toISOString()}>
                     {post.data.pubDate.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -248,33 +263,54 @@ const homeSchema = JSON.stringify({
       }
 
       .post-card {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 380px 1fr;
         background: var(--bg2);
         border: 1px solid var(--border);
-        border-radius: 16px;
+        border-radius: 20px;
         overflow: hidden;
         text-decoration: none;
-        transition: border-color 0.2s, transform 0.2s;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       }
 
       .post-card:hover {
-        border-color: rgba(0,212,255,0.3);
-        transform: translateY(-2px);
+        border-color: var(--accent);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         text-decoration: none;
+      }
+
+      .post-image {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-right: 1px solid var(--border);
+        background: #ffffff;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .post-img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+      }
+
+      .post-card:hover .post-img {
+        transform: scale(1.05);
       }
 
       .post-content {
-        padding: 1.5rem;
+        padding: 2rem;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        justify-content: center;
+        gap: 0.75rem;
         flex: 1;
       }
 
@@ -287,11 +323,11 @@ const homeSchema = JSON.stringify({
 
       .post-title {
         font-family: var(--display);
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         font-weight: 700;
         color: var(--text);
         letter-spacing: -0.02em;
-        line-height: 1.3;
+        line-height: 1.2;
       }
 
       .post-desc {
@@ -309,10 +345,16 @@ const homeSchema = JSON.stringify({
         letter-spacing: 0.05em;
       }
 
-      @media (max-width: 600px) {
-        .post-card { grid-template-columns: 1fr; }
-        .post-img { height: 180px; }
-        .post-content { padding: 1rem; }
+      @media (max-width: 768px) {
+        .post-card { 
+          grid-template-columns: 1fr; 
+        }
+        .post-image {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+          height: 200px;
+        }
+        .post-content { padding: 1.25rem; }
       }
     </style>
   </body>
